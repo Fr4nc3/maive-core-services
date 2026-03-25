@@ -1,0 +1,47 @@
+from app.domain.entities.telemetry import TelemetryEvent
+from app.domain.interfaces.telemetry_repository import TelemetryRepository
+from app.application.dtos.telemetry_dtos import (
+    CreateTelemetryDTO,
+    TelemetryResponseDTO,
+)
+
+
+class IngestTelemetryUseCase:
+    def __init__(self, repository: TelemetryRepository) -> None:
+        self._repo = repository
+
+    async def execute(self, dto: CreateTelemetryDTO) -> TelemetryResponseDTO:
+        event = TelemetryEvent(
+            session_id=dto.session_id,
+            student_id=dto.student_id,
+            event_type=dto.event_type,
+            duration_ms=dto.duration_ms,
+            position=dto.position,
+            payload=dto.payload,
+        )
+        created = await self._repo.create(event)
+        return _to_response(created)
+
+
+class ListSessionTelemetryUseCase:
+    def __init__(self, repository: TelemetryRepository) -> None:
+        self._repo = repository
+
+    async def execute(
+        self, session_id: str, limit: int = 500
+    ) -> list[TelemetryResponseDTO]:
+        events = await self._repo.list_by_session(session_id, limit=limit)
+        return [_to_response(e) for e in events]
+
+
+def _to_response(e: TelemetryEvent) -> TelemetryResponseDTO:
+    return TelemetryResponseDTO(
+        id=e.id,
+        session_id=e.session_id,
+        student_id=e.student_id,
+        event_type=e.event_type,
+        timestamp=e.timestamp.isoformat(),
+        duration_ms=e.duration_ms,
+        position=e.position,
+        payload=e.payload,
+    )

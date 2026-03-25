@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: Install dependencies",
+      "type": "shell",
+      "command": "uv sync",
+      "options": { "cwd": "${workspaceFolder}/src/backend" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Run linter",
+      "type": "shell",
+      "command": "uv run ruff check .",
+      "options": { "cwd": "${workspaceFolder}/src/backend" },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Run tests",
+      "type": "shell",
+      "command": "uv run pytest -v",
+      "options": { "cwd": "${workspaceFolder}/src/backend" },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Install dependencies",
+      "type": "shell",
+      "command": "npm install",
+      "options": { "cwd": "${workspaceFolder}/src/frontend" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Build",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/src/frontend" },
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
