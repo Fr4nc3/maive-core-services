@@ -1,0 +1,16 @@
+from abc import ABC, abstractmethod
+
+from app.domain.entities.arcs_survey import ARCSSurveyResponse
+
+
+class ARCSSurveyRepository(ABC):
+    """Port for ARCS survey response persistence."""
+
+    @abstractmethod
+    async def create(self, response: ARCSSurveyResponse) -> ARCSSurveyResponse: ...
+
+    @abstractmethod
+    async def list_by_session(self, session_id: str) -> list[ARCSSurveyResponse]: ...
+
+    @abstractmethod
+    async def list_by_student(self, student_id: str) -> list[ARCSSurveyResponse]: ...

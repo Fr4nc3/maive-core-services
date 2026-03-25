@@ -51,23 +51,23 @@ This document defines the architecture for the **backend API** and **frontend da
 | Telemetry    | VR behavioral data (time on task, hints, errors)    |
 | AgentAction  | AI agent decisions (adaptations, scaffolding)       |
 
-## API Endpoints (v1)
+## API Endpoints
 
 | Method | Path                         | Description                    |
 |--------|------------------------------|--------------------------------|
-| POST   | /api/v1/students             | Create student                 |
-| GET    | /api/v1/students/{id}        | Get student                    |
-| GET    | /api/v1/students             | List students                  |
-| POST   | /api/v1/sessions             | Start VR session               |
-| PATCH  | /api/v1/sessions/{id}        | Update/end session             |
-| GET    | /api/v1/sessions/{id}        | Get session details            |
-| POST   | /api/v1/assessments          | Submit assessment              |
-| GET    | /api/v1/assessments/{id}     | Get assessment results         |
-| POST   | /api/v1/telemetry            | Ingest telemetry event         |
-| GET    | /api/v1/telemetry/{session}  | Get session telemetry          |
-| POST   | /api/v1/agents/adapt         | Request AI adaptation          |
-| GET    | /api/v1/agents/actions/{id}  | Get agent action log           |
-| GET    | /api/v1/health               | Health check                   |
+| POST   | /api/students                | Create student                 |
+| GET    | /api/students/{id}           | Get student                    |
+| GET    | /api/students                | List students                  |
+| POST   | /api/sessions                | Start VR session               |
+| PATCH  | /api/sessions/{id}           | Update/end session             |
+| GET    | /api/sessions/{id}           | Get session details            |
+| POST   | /api/assessments             | Submit assessment              |
+| GET    | /api/assessments/{id}        | Get assessment results         |
+| POST   | /api/telemetry               | Ingest telemetry event         |
+| GET    | /api/telemetry/{session}     | Get session telemetry          |
+| POST   | /api/agents/adapt            | Request AI adaptation          |
+| GET    | /api/agents/actions/{id}     | Get agent action log           |
+| GET    | /api/health                  | Health check                   |
 
 ## Cosmos DB Design
 

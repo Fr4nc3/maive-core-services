@@ -9,20 +9,12 @@ class CreateStudentUseCase:
 
     async def execute(self, dto: CreateStudentDTO) -> StudentResponseDTO:
         student = Student(
-            email=dto.email,
-            display_name=dto.display_name,
+            spatial_id=dto.spatial_id,
             group=dto.group,
             metadata=dto.metadata,
         )
         created = await self._repo.create(student)
-        return StudentResponseDTO(
-            id=created.id,
-            email=created.email,
-            display_name=created.display_name,
-            group=created.group,
-            created_at=created.created_at.isoformat(),
-            metadata=created.metadata,
-        )
+        return _to_response(created)
 
 
 class GetStudentUseCase:
@@ -33,14 +25,7 @@ class GetStudentUseCase:
         student = await self._repo.get_by_id(student_id)
         if not student:
             return None
-        return StudentResponseDTO(
-            id=student.id,
-            email=student.email,
-            display_name=student.display_name,
-            group=student.group,
-            created_at=student.created_at.isoformat(),
-            metadata=student.metadata,
-        )
+        return _to_response(student)
 
 
 class ListStudentsUseCase:
@@ -51,14 +36,14 @@ class ListStudentsUseCase:
         self, limit: int = 50, offset: int = 0
     ) -> list[StudentResponseDTO]:
         students = await self._repo.list_all(limit=limit, offset=offset)
-        return [
-            StudentResponseDTO(
-                id=s.id,
-                email=s.email,
-                display_name=s.display_name,
-                group=s.group,
-                created_at=s.created_at.isoformat(),
-                metadata=s.metadata,
-            )
-            for s in students
-        ]
+        return [_to_response(s) for s in students]
+
+
+def _to_response(s: Student) -> StudentResponseDTO:
+    return StudentResponseDTO(
+        id=s.id,
+        spatial_id=s.spatial_id,
+        group=s.group,
+        created_at=s.created_at.isoformat(),
+        metadata=s.metadata,
+    )

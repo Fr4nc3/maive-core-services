@@ -13,35 +13,35 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
 export const api = {
   // Students
-  listStudents: () => request<Student[]>("/api/v1/students"),
-  getStudent: (id: string) => request<Student>(`/api/v1/students/${id}`),
+  listStudents: () => request<Student[]>("/api/students"),
+  getStudent: (id: string) => request<Student>(`/api/students/${id}`),
   createStudent: (data: CreateStudentPayload) =>
-    request<Student>("/api/v1/students", {
+    request<Student>("/api/students", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   // Sessions
-  listSessions: () => request<Session[]>("/api/v1/sessions"),
-  getSession: (id: string) => request<Session>(`/api/v1/sessions/${id}`),
+  listSessions: () => request<Session[]>("/api/sessions"),
+  getSession: (id: string) => request<Session>(`/api/sessions/${id}`),
   createSession: (data: CreateSessionPayload) =>
-    request<Session>("/api/v1/sessions", {
+    request<Session>("/api/sessions", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   // Assessments
   getAssessment: (id: string) =>
-    request<Assessment>(`/api/v1/assessments/${id}`),
+    request<Assessment>(`/api/assessments/${id}`),
   createAssessment: (data: CreateAssessmentPayload) =>
-    request<Assessment>("/api/v1/assessments", {
+    request<Assessment>("/api/assessments", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
   // Telemetry
   getSessionTelemetry: (sessionId: string) =>
-    request<TelemetryEvent[]>(`/api/v1/telemetry/${sessionId}`),
+    request<TelemetryEvent[]>(`/api/telemetry/${sessionId}`),
 
   // Health
   health: () => request<{ status: string }>("/health"),
@@ -50,16 +50,14 @@ export const api = {
 // ---- Types ----
 export interface Student {
   id: string;
-  email: string;
-  display_name: string;
+  spatial_id: string;
   group: string;
   created_at: string;
   metadata: Record<string, unknown>;
 }
 
 export interface CreateStudentPayload {
-  email: string;
-  display_name: string;
+  spatial_id: string;
   group?: string;
 }
 
@@ -105,6 +103,9 @@ export interface TelemetryEvent {
   event_type: string;
   timestamp: string;
   duration_ms: number | null;
-  position: Record<string, unknown>;
+  section: string;
+  content: string;
+  help_text: string;
+  bot_type: string;
   payload: Record<string, unknown>;
 }

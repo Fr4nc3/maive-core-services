@@ -14,5 +14,7 @@ class Assessment(BaseModel):
     max_score: float = 100.0
     normalized_gain: float | None = None
     responses: list[dict] = Field(default_factory=list)
+    rater_scores: list[dict] = Field(default_factory=list)  # [{rater_id, score, notes}]
+    rubric_threshold: float | None = None  # success threshold for classifier label
     submitted_at: datetime = Field(default_factory=datetime.utcnow)
     metadata: dict = Field(default_factory=dict)

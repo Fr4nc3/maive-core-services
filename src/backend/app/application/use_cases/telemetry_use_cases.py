@@ -16,7 +16,10 @@ class IngestTelemetryUseCase:
             student_id=dto.student_id,
             event_type=dto.event_type,
             duration_ms=dto.duration_ms,
-            position=dto.position,
+            section=dto.section,
+            content=dto.content,
+            help_text=dto.help_text,
+            bot_type=dto.bot_type,
             payload=dto.payload,
         )
         created = await self._repo.create(event)
@@ -42,6 +45,9 @@ def _to_response(e: TelemetryEvent) -> TelemetryResponseDTO:
         event_type=e.event_type,
         timestamp=e.timestamp.isoformat(),
         duration_ms=e.duration_ms,
-        position=e.position,
+        section=e.section,
+        content=e.content,
+        help_text=e.help_text,
+        bot_type=e.bot_type,
         payload=e.payload,
     )

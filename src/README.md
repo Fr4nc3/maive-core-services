@@ -61,7 +61,7 @@ src/backend/
 │   ├── infrastructure/       # Cosmos DB repos, AI agent
 │   │   ├── persistence/cosmos_db/
 │   │   └── agents/
-│   └── api/v1/routes/        # FastAPI route handlers
+│   └── api/routes/           # FastAPI route handlers
 
 src/frontend/
 ├── src/

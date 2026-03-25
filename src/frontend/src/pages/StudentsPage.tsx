@@ -29,8 +29,7 @@ function StudentsPage() {
       >
         <thead>
           <tr style={{ borderBottom: "2px solid #e2e8f0", textAlign: "left" }}>
-            <th style={{ padding: "0.5rem" }}>Name</th>
-            <th style={{ padding: "0.5rem" }}>Email</th>
+            <th style={{ padding: "0.5rem" }}>Spatial ID</th>
             <th style={{ padding: "0.5rem" }}>Group</th>
             <th style={{ padding: "0.5rem" }}>Created</th>
           </tr>
@@ -38,8 +37,7 @@ function StudentsPage() {
         <tbody>
           {students.map((s) => (
             <tr key={s.id} style={{ borderBottom: "1px solid #e2e8f0" }}>
-              <td style={{ padding: "0.5rem" }}>{s.display_name}</td>
-              <td style={{ padding: "0.5rem" }}>{s.email}</td>
+              <td style={{ padding: "0.5rem" }}>{s.spatial_id}</td>
               <td style={{ padding: "0.5rem" }}>{s.group || "—"}</td>
               <td style={{ padding: "0.5rem" }}>
                 {new Date(s.created_at).toLocaleDateString()}
@@ -48,7 +46,7 @@ function StudentsPage() {
           ))}
           {students.length === 0 && (
             <tr>
-              <td colSpan={4} style={{ padding: "1rem", color: "#94a3b8" }}>
+              <td colSpan={3} style={{ padding: "1rem", color: "#94a3b8" }}>
                 No students found.
               </td>
             </tr>
