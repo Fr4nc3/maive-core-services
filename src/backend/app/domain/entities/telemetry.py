@@ -42,6 +42,9 @@ class TelemetryEventType(str, Enum):
     MODULE_ENTERED = "MODULE_ENTERED"
     MODULE_EXITED = "MODULE_EXITED"
 
+    # Idle Detection
+    IDLE_DETECTED = "IDLE_DETECTED"  # No interaction for a threshold period (e.g. >60s)
+
 
 class TelemetryEvent(BaseModel):
     """Domain entity for VR behavioral telemetry data."""

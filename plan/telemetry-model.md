@@ -105,6 +105,9 @@ SESSION_PAUSED           # Student paused VR session
 SESSION_RESUMED          # Student resumed VR session
 MODULE_ENTERED           # Student entered a new learning module
 MODULE_EXITED            # Student exited a learning module
+
+# ── Idle Detection ──
+IDLE_DETECTED            # No user interaction for a threshold period (e.g. >60s)
 ```
 
 #### TelemetryEvent Fields
@@ -145,6 +148,8 @@ Users are assigned one of two bot types:
 | `AGENT_PROMPT_FOLLOWED` | `{agent_action_id, follow_action, time_to_respond_ms}` |
 | `MODULE_ENTERED` | `{module_id, module_name}` |
 | `MODULE_EXITED` | `{module_id, time_in_module_ms}` |
+| `IDLE_DETECTED` | `{idle_duration_ms, last_action_type, task_id, section}` |
+| `SURVEY_COMPLETED` | `{survey_type, survey_id, completion_time_ms}` |
 
 ---
 
@@ -257,6 +262,8 @@ These are **not stored as raw events** but computed from the telemetry stream fo
 | Metric | Computation | RQ |
 |--------|------------|----|
 | `persistence_score` | `total_retries / total_errors` (0 if no errors) | RQ2, RQ3 |
+| `idle_time_total_ms` | Sum of `IDLE_DETECTED.idle_duration_ms` per session | RQ2, RQ3 |
+| `idle_count` | Count of `IDLE_DETECTED` events per session | RQ2, RQ3 |
 | `help_rate` | `total_help_requested / session_duration_minutes` | RQ2, RQ3 |
 | `help_follow_rate` | `HELP_FOLLOWED / HELP_DELIVERED` | RQ2 |
 | `help_by_section` | Count of `HELP_REQUESTED` grouped by `section` | RQ2 |
@@ -276,6 +283,8 @@ These features feed the scikit-learn RandomForestClassifier:
 ```python
 feature_vector = {
     "time_on_task_ms": int,          # Total active time
+    "idle_time_total_ms": int,       # Cumulative idle time (RQ2 engagement, RQ3 classifier)
+    "idle_count": int,               # Number of idle periods detected
     "help_frequency": float,          # Help requests per minute
     "help_follow_rate": float,        # % of help suggestions acted upon
     "bot_type": str,                  # "hardcoded" or "ai"
