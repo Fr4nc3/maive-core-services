@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rotate : MonoBehaviour
+public class APICallHandler : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -10,9 +10,9 @@ public class rotate : MonoBehaviour
         
     }
 
-    public float rotateSpeed = 50f;
+    // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+        
     }
 }
