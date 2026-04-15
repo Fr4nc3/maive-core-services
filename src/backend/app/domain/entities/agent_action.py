@@ -1,6 +1,7 @@
-from datetime import datetime
-from pydantic import BaseModel, Field
 import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
 class AgentAction(BaseModel):
@@ -13,9 +14,13 @@ class AgentAction(BaseModel):
     agent_role: str = ""  # "conceptual" | "procedural"
     bot_type: str = ""  # "hardcoded" | "ai" — hardcoded-data bot or AI-optimized bot
     task_id: str | None = None
-    section: str = ""  # planet or area where action occurred
+    planet: str = ""  # e.g. "mars", "jupiter"
+    section: str = ""  # area within the planet where action occurred
     content: str = ""  # content topic the action relates to
     trigger_reason: str = ""  # what behavioral threshold triggered this
+    difficulty_from: str = ""  # previous difficulty level before adjustment
+    difficulty_to: str = ""  # new difficulty level after adjustment
+    confidence: float = 0.0  # agent confidence in this action
     description: str = ""
     parameters: dict = Field(default_factory=dict)
     student_response: str | None = None  # how student reacted to the prompt

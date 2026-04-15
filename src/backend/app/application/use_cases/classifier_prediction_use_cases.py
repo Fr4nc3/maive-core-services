@@ -1,10 +1,10 @@
+from app.application.dtos.classifier_prediction_dtos import (
+    ClassifierPredictionResponseDTO,
+    CreateClassifierPredictionDTO,
+)
 from app.domain.entities.classifier_prediction import ClassifierPrediction
 from app.domain.interfaces.classifier_prediction_repository import (
     ClassifierPredictionRepository,
-)
-from app.application.dtos.classifier_prediction_dtos import (
-    CreateClassifierPredictionDTO,
-    ClassifierPredictionResponseDTO,
 )
 
 

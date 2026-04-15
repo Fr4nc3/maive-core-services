@@ -1,0 +1,41 @@
+from pydantic import BaseModel
+
+
+class CreateAgentActionDTO(BaseModel):
+    session_id: str
+    student_id: str
+    action_type: str = ""
+    agent_role: str = ""
+    bot_type: str = ""
+    task_id: str | None = None
+    planet: str = ""
+    section: str = ""
+    content: str = ""
+    trigger_reason: str = ""
+    difficulty_from: str = ""
+    difficulty_to: str = ""
+    confidence: float = 0.0
+    description: str = ""
+    parameters: dict = {}
+    student_response: str | None = None
+
+
+class AgentActionResponseDTO(BaseModel):
+    id: str
+    session_id: str
+    student_id: str
+    action_type: str
+    agent_role: str
+    bot_type: str
+    task_id: str | None
+    planet: str
+    section: str
+    content: str
+    trigger_reason: str
+    difficulty_from: str
+    difficulty_to: str
+    confidence: float
+    description: str
+    parameters: dict
+    student_response: str | None
+    triggered_at: str

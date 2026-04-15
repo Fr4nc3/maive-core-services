@@ -1,6 +1,7 @@
-from datetime import datetime
-from pydantic import BaseModel, Field
 import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
 class ARCSSurveyResponse(BaseModel):
@@ -15,7 +16,9 @@ class ARCSSurveyResponse(BaseModel):
     confidence_score: float = 0.0
     satisfaction_score: float = 0.0
     composite_score: float = 0.0
-    item_responses: list[dict] = Field(default_factory=list)  # [{item_id, dimension, value, response_time_ms}]
+    item_responses: list[dict] = Field(
+        default_factory=list,
+    )  # [{item_id, dimension, value, response_time_ms}]
     completion_time_ms: int = 0
     submitted_at: datetime = Field(default_factory=datetime.utcnow)
     metadata: dict = Field(default_factory=dict)

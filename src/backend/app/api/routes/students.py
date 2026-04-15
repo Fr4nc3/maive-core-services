@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.student_dtos import CreateStudentDTO, StudentResponseDTO
 from app.application.use_cases.student_use_cases import (

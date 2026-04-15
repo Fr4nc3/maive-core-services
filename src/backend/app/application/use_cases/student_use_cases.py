@@ -1,6 +1,6 @@
+from app.application.dtos.student_dtos import CreateStudentDTO, StudentResponseDTO
 from app.domain.entities.student import Student
 from app.domain.interfaces.student_repository import StudentRepository
-from app.application.dtos.student_dtos import CreateStudentDTO, StudentResponseDTO
 
 
 class CreateStudentUseCase:

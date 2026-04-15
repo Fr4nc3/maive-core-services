@@ -6,8 +6,9 @@ class CreateTelemetryDTO(BaseModel):
     student_id: str
     event_type: str = ""
     duration_ms: int | None = None
-    section: str = ""  # planet or area
-    content: str = ""  # content topic
+    planet: str = ""
+    section: str = ""
+    content: str = ""
     help_text: str = ""  # help content shown
     bot_type: str = ""  # "hardcoded" | "ai"
     payload: dict = {}
@@ -20,6 +21,7 @@ class TelemetryResponseDTO(BaseModel):
     event_type: str
     timestamp: str
     duration_ms: int | None
+    planet: str
     section: str
     content: str
     help_text: str

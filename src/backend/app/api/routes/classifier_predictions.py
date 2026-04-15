@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.classifier_prediction_dtos import (
-    CreateClassifierPredictionDTO,
     ClassifierPredictionResponseDTO,
+    CreateClassifierPredictionDTO,
 )
 from app.application.use_cases.classifier_prediction_use_cases import (
     CreateClassifierPredictionUseCase,

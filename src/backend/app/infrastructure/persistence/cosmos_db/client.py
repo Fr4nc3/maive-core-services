@@ -1,6 +1,7 @@
 import logging
 
 from azure.cosmos import CosmosClient
+
 from app.config import settings
 
 logger = logging.getLogger(__name__)

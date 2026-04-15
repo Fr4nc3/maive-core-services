@@ -1,26 +1,27 @@
-from azure.cosmos import CosmosClient
-
 from app.domain.entities.qualitative_feedback import QualitativeFeedback
 from app.domain.interfaces.qualitative_feedback_repository import (
     QualitativeFeedbackRepository,
 )
+from app.infrastructure.persistence.cosmos_db.base_repository import (
+    BaseCosmosRepository,
+)
 
 
-class CosmosQualitativeFeedbackRepository(QualitativeFeedbackRepository):
+class CosmosQualitativeFeedbackRepository(
+    BaseCosmosRepository, QualitativeFeedbackRepository
+):
     CONTAINER_NAME = "qualitative_feedback"
 
-    def __init__(self, client: CosmosClient, database_name: str) -> None:
-        db = client.get_database_client(database_name)
-        self._container = db.get_container_client(self.CONTAINER_NAME)
-
     async def create(self, feedback: QualitativeFeedback) -> QualitativeFeedback:
-        body = feedback.model_dump()
-        body["submitted_at"] = body["submitted_at"].isoformat()
+        body = self._serialize_datetimes(feedback.model_dump(), ("submitted_at",))
         self._container.create_item(body=body)
         return feedback
 
     async def list_by_session(self, session_id: str) -> list[QualitativeFeedback]:
-        query = "SELECT * FROM c WHERE c.session_id = @sid ORDER BY c.submitted_at ASC"
+        query = (
+            "SELECT * FROM c WHERE c.session_id = @sid"
+            " ORDER BY c.submitted_at ASC"
+        )
         parameters = [{"name": "@sid", "value": session_id}]
         items = list(
             self._container.query_items(

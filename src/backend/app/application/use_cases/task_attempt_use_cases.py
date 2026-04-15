@@ -1,10 +1,10 @@
-from app.domain.entities.task_attempt import TaskAttempt
-from app.domain.interfaces.task_attempt_repository import TaskAttemptRepository
 from app.application.dtos.task_attempt_dtos import (
     CreateTaskAttemptDTO,
-    UpdateTaskAttemptDTO,
     TaskAttemptResponseDTO,
+    UpdateTaskAttemptDTO,
 )
+from app.domain.entities.task_attempt import TaskAttempt
+from app.domain.interfaces.task_attempt_repository import TaskAttemptRepository
 
 
 class CreateTaskAttemptUseCase:
@@ -18,6 +18,9 @@ class CreateTaskAttemptUseCase:
             task_id=dto.task_id,
             task_name=dto.task_name,
             task_type=dto.task_type,
+            planet=dto.planet,
+            section=dto.section,
+            difficulty_level=dto.difficulty_level,
             total_steps=dto.total_steps,
         )
         created = await self._repo.create(attempt)
@@ -58,6 +61,9 @@ def _to_response(a: TaskAttempt) -> TaskAttemptResponseDTO:
         task_id=a.task_id,
         task_name=a.task_name,
         task_type=a.task_type,
+        planet=a.planet,
+        section=a.section,
+        difficulty_level=a.difficulty_level,
         started_at=a.started_at.isoformat(),
         completed_at=a.completed_at.isoformat() if a.completed_at else None,
         status=a.status,

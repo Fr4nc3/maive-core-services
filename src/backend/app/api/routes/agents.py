@@ -1,12 +1,18 @@
 from fastapi import APIRouter
+from pydantic import BaseModel
 
-from app.infrastructure.agents.adaptive_agent import AdaptiveAgent
+from app.dependencies import get_coordination_agent
 
 router = APIRouter()
 
 
+class AdaptRequest(BaseModel):
+    session_id: str
+    help_query: str | None = None
+
+
 @router.post("/adapt")
-async def request_adaptation(session_id: str):
-    agent = AdaptiveAgent()
-    result = await agent.evaluate_session(session_id)
-    return result
+async def request_adaptation(body: AdaptRequest):
+    """Run the multi-agent adaptive pipeline (optionally with a help query)."""
+    agent = get_coordination_agent()
+    return await agent.evaluate_session(body.session_id, body.help_query)

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.assessment_dtos import (
-    CreateAssessmentDTO,
     AssessmentResponseDTO,
+    CreateAssessmentDTO,
 )
 from app.application.use_cases.assessment_use_cases import (
     CreateAssessmentUseCase,

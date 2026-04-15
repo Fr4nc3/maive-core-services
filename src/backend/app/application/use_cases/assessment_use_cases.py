@@ -1,9 +1,9 @@
+from app.application.dtos.assessment_dtos import (
+    AssessmentResponseDTO,
+    CreateAssessmentDTO,
+)
 from app.domain.entities.assessment import Assessment
 from app.domain.interfaces.assessment_repository import AssessmentRepository
-from app.application.dtos.assessment_dtos import (
-    CreateAssessmentDTO,
-    AssessmentResponseDTO,
-)
 
 
 class CreateAssessmentUseCase:

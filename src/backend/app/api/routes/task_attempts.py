@@ -2,13 +2,13 @@ from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.task_attempt_dtos import (
     CreateTaskAttemptDTO,
-    UpdateTaskAttemptDTO,
     TaskAttemptResponseDTO,
+    UpdateTaskAttemptDTO,
 )
 from app.application.use_cases.task_attempt_use_cases import (
     CreateTaskAttemptUseCase,
-    UpdateTaskAttemptUseCase,
     ListSessionTaskAttemptsUseCase,
+    UpdateTaskAttemptUseCase,
 )
 from app.dependencies import get_task_attempt_repository
 

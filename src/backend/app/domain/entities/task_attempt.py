@@ -1,6 +1,7 @@
-from datetime import datetime
-from pydantic import BaseModel, Field
 import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
 class TaskAttempt(BaseModel):
@@ -12,6 +13,9 @@ class TaskAttempt(BaseModel):
     task_id: str
     task_name: str = ""
     task_type: str = ""  # "orbital_trajectory" | "stellar_classification" | "gravitational_sim"
+    planet: str = ""
+    section: str = ""
+    difficulty_level: str = ""  # difficulty when task was attempted
     started_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: datetime | None = None
     status: str = "in_progress"  # "in_progress" | "completed" | "abandoned"
@@ -26,5 +30,7 @@ class TaskAttempt(BaseModel):
     score: float | None = None
     success: bool | None = None
     rater_scores: list[dict] = Field(default_factory=list)  # [{rater_id, score}]
-    step_details: list[dict] = Field(default_factory=list)  # [{step_index, time_ms, errors, hints, result}]
+    step_details: list[dict] = Field(
+        default_factory=list,
+    )  # [{step_index, time_ms, errors, hints, result}]
     metadata: dict = Field(default_factory=dict)

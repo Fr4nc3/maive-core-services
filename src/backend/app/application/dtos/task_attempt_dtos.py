@@ -7,6 +7,9 @@ class CreateTaskAttemptDTO(BaseModel):
     task_id: str
     task_name: str = ""
     task_type: str = ""
+    planet: str = ""
+    section: str = ""
+    difficulty_level: str = ""
     total_steps: int = 0
 
 
@@ -32,6 +35,9 @@ class TaskAttemptResponseDTO(BaseModel):
     task_id: str
     task_name: str
     task_type: str
+    planet: str
+    section: str
+    difficulty_level: str
     started_at: str
     completed_at: str | None
     status: str

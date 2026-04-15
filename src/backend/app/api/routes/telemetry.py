@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from app.application.dtos.telemetry_dtos import (
     CreateTelemetryDTO,

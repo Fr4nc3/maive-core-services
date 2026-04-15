@@ -1,9 +1,9 @@
+from app.application.dtos.arcs_survey_dtos import (
+    ARCSSurveyResponseDTO,
+    CreateARCSSurveyDTO,
+)
 from app.domain.entities.arcs_survey import ARCSSurveyResponse
 from app.domain.interfaces.arcs_survey_repository import ARCSSurveyRepository
-from app.application.dtos.arcs_survey_dtos import (
-    CreateARCSSurveyDTO,
-    ARCSSurveyResponseDTO,
-)
 
 
 class SubmitARCSSurveyUseCase:

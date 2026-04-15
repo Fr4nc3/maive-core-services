@@ -1,7 +1,8 @@
+import uuid
 from datetime import datetime
 from enum import Enum
+
 from pydantic import BaseModel, Field
-import uuid
 
 
 class TelemetryEventType(str, Enum):
@@ -55,7 +56,8 @@ class TelemetryEvent(BaseModel):
     event_type: str = ""  # value from TelemetryEventType
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     duration_ms: int | None = None
-    section: str = ""  # planet or area, e.g. "mars", "jupiter", "solar-system"
+    planet: str = ""  # e.g. "mars", "jupiter", "solar-system"
+    section: str = ""  # area within the planet, e.g. "crater_lab", "orbit_deck"
     content: str = ""  # content topic, e.g. "orbital-mechanics", "atmosphere"
     help_text: str = ""  # the help content shown to the user
     bot_type: str = ""  # "hardcoded" | "ai" — which bot provided the help

@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from app.domain.entities.session import Session
-from app.domain.interfaces.session_repository import SessionRepository
 from app.application.dtos.session_dtos import (
     CreateSessionDTO,
-    UpdateSessionDTO,
     SessionResponseDTO,
+    UpdateSessionDTO,
 )
+from app.domain.entities.session import Session
+from app.domain.interfaces.session_repository import SessionRepository
 
 
 class CreateSessionUseCase:
@@ -16,7 +16,9 @@ class CreateSessionUseCase:
     async def execute(self, dto: CreateSessionDTO) -> SessionResponseDTO:
         session = Session(
             student_id=dto.student_id,
+            platform=dto.platform,
             condition=dto.condition,
+            difficulty_level=dto.difficulty_level,
             metadata=dto.metadata,
         )
         created = await self._repo.create(session)
@@ -48,6 +50,8 @@ class UpdateSessionUseCase:
             session.status = dto.status
             if dto.status == "completed":
                 session.ended_at = datetime.utcnow()
+        if dto.difficulty_level is not None:
+            session.difficulty_level = dto.difficulty_level
         if dto.metadata is not None:
             session.metadata.update(dto.metadata)
         updated = await self._repo.update(session)
@@ -58,7 +62,9 @@ def _to_response(s: Session) -> SessionResponseDTO:
     return SessionResponseDTO(
         id=s.id,
         student_id=s.student_id,
+        platform=s.platform,
         condition=s.condition,
+        difficulty_level=s.difficulty_level,
         started_at=s.started_at.isoformat(),
         ended_at=s.ended_at.isoformat() if s.ended_at else None,
         status=s.status,

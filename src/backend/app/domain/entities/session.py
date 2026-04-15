@@ -1,6 +1,7 @@
-from datetime import datetime
-from pydantic import BaseModel, Field
 import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
 class Session(BaseModel):
@@ -8,9 +9,11 @@ class Session(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     student_id: str
+    platform: str = ""  # "spatial.io" | "vrchat" | "sinespace" | "web"
     condition: str = ""  # "maive" | "non-adaptive-vr"
     module_id: str = ""
     vr_device: str = ""  # "quest" | "pcvr" | "desktop"
+    difficulty_level: str = ""  # current adaptive difficulty, e.g. "easy" | "medium" | "hard"
     started_at: datetime = Field(default_factory=datetime.utcnow)
     ended_at: datetime | None = None
     status: str = "active"  # "active" | "completed" | "abandoned"

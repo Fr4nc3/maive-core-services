@@ -1,9 +1,9 @@
-from app.domain.entities.telemetry import TelemetryEvent
-from app.domain.interfaces.telemetry_repository import TelemetryRepository
 from app.application.dtos.telemetry_dtos import (
     CreateTelemetryDTO,
     TelemetryResponseDTO,
 )
+from app.domain.entities.telemetry import TelemetryEvent
+from app.domain.interfaces.telemetry_repository import TelemetryRepository
 
 
 class IngestTelemetryUseCase:
@@ -16,6 +16,7 @@ class IngestTelemetryUseCase:
             student_id=dto.student_id,
             event_type=dto.event_type,
             duration_ms=dto.duration_ms,
+            planet=dto.planet,
             section=dto.section,
             content=dto.content,
             help_text=dto.help_text,
@@ -45,6 +46,7 @@ def _to_response(e: TelemetryEvent) -> TelemetryResponseDTO:
         event_type=e.event_type,
         timestamp=e.timestamp.isoformat(),
         duration_ms=e.duration_ms,
+        planet=e.planet,
         section=e.section,
         content=e.content,
         help_text=e.help_text,

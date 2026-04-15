@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.session_dtos import (
     CreateSessionDTO,
-    UpdateSessionDTO,
     SessionResponseDTO,
+    UpdateSessionDTO,
 )
 from app.application.use_cases.session_use_cases import (
     CreateSessionUseCase,
