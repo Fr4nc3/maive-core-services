@@ -5,9 +5,9 @@
 
 ## Current sprint focus
 
-**Sprint goal:** Establish the persistent agent + documentation system so any future session immediately understands the project state. Then unblock multi-platform integration via the unified `(platform, platform_user_id)` identity model.
+**Sprint goal:** Wire infrastructure (LLM provider env, health checks), ship the unified-bot reference flow end-to-end on the web client, and seed reproducible content (static help + NASA RAG).
 
-**Active phases:** A (agent customization) · F1–F4 (documentation) · *next:* B (identity model)
+**Active phases:** ✅ A · ✅ B · ✅ C · ✅ D1/D2 · ✅ E · ✅ F1–F4/F7 · *next:* F5 (publishable paper), F6 (figures), D3 (demo seeder)
 
 ## Blockers
 
@@ -24,27 +24,27 @@
 | Phase | Title | Status |
 |---|---|---|
 | A1 | AGENTS.md (workspace root) | ✅ Done (2026-04-28) |
-| A2 | maive-lead.agent.md | 🟡 In progress |
-| A3 | backend Clean Architecture instructions | 🟡 In progress |
-| A4 | frontend React instructions | 🟡 In progress |
-| B1–B4 | Identity model (Student `(platform, platform_user_id)`) | ⬜ Not started |
-| C1 | Flat web `/learn` reference client | ⬜ Not started |
-| C2 | Unity SDK adapter spec | ⬜ Not started |
-| C3 | Spatial.io research notes (research-blocked) | ⬜ Not started |
-| C4 | VRChat integration notes | ⬜ Not started |
-| D1 | `seed_help_content.py` CLI | ⬜ Not started |
-| D2 | NASA ingestion docs | ⬜ Not started |
-| D3 | Demo seeder (optional) | ⬜ Not started |
-| E1 | `.env.example` updates | ⬜ Not started |
-| E2 | `GET /api/health/llm` | ⬜ Not started |
-| E3 | `GET /api/health` extended | ⬜ Not started |
+| A2 | maive-lead.agent.md | ✅ Done (2026-04-28) |
+| A3 | backend Clean Architecture instructions | ✅ Done (2026-04-28) |
+| A4 | frontend React instructions | ✅ Done (2026-04-28) |
+| B1–B4 | Identity model (Student `(platform, platform_user_id)`) | ✅ Done (2026-04-28) |
+| C1 | Flat web `/learner` reference client | ✅ Done (2026-04-28) |
+| C2 | Unity SDK adapter spec | ✅ Done (2026-04-28) — see `docs/client-integration.md` |
+| C3 | Spatial.io research notes (research-blocked) | ✅ Done (2026-04-28) — see `docs/client-integration.md` |
+| C4 | VRChat integration notes | ✅ Done (2026-04-28) — see `docs/client-integration.md` |
+| D1 | `seed_help_content.py` CLI | ✅ Done (2026-04-28) |
+| D2 | NASA ingestion docs | ✅ Done (2026-04-28) — see `docs/knowledge-ingestion.md` |
+| D3 | Demo seeder (optional) | ⬜ Deferred |
+| E1 | `.env.example` updates | ✅ Done (2026-04-28) |
+| E2 | `GET /api/health/llm` | ✅ Done (2026-04-28) |
+| E3 | `GET /api/health` extended | ✅ Done (2026-04-28) — composite Cosmos+LLM check |
 | F1 | docs/plan.md | ✅ Done (2026-04-28) |
 | F2 | docs/status.md (this file) | ✅ Done (2026-04-28) |
-| F3 | docs/decisions.md DEC-008/009/010 | 🟡 In progress |
-| F4 | docs/paper extended SE paper | 🟡 In progress |
-| F5 | docs/paper publishable derivative | ⬜ Deferred (Aug 2026) |
+| F3 | docs/decisions.md DEC-008/009/010 | ✅ Done (2026-04-28) |
+| F4 | docs/paper extended SE paper | 🟡 In progress (skeleton landed) |
+| F5 | docs/paper publishable derivative | ⏸ Deferred (Aug 2026) |
 | F6 | docs/paper/figures (Mermaid) | ⬜ Not started |
-| F7 | docs/paper/README.md (workflow guide) | ⬜ Not started |
+| F7 | docs/paper/README.md (workflow guide) | ✅ Done (2026-04-28) |
 | F8 | Source-file cross-link discipline | ⬜ Ongoing |
 
 **Legend:** ⬜ Not started · 🟡 In progress · ✅ Done · 🚫 Blocked · ⏸ Deferred
@@ -55,9 +55,16 @@
 
 ### 2026-04-28
 - **Phase A1 complete** — `AGENTS.md` created at workspace root with project brief, identity rule, unified bot rule, LLM provider rule, and rules of engagement
-- **Phase F1 complete** — `docs/plan.md` now mirrors the working session plan publicly
-- **Phase F2 complete** — this status file created
-- **Phase F3 in progress** — DEC-008 (Spatial.io API limitation), DEC-009 (unified identity model), DEC-010 (documentation discipline) being added to `docs/decisions.md`
+- **Phase A2/A3/A4 complete** — `maive-lead.agent.md` + backend & frontend instruction files
+- **Phase B complete** — Student identity now `(platform, platform_user_id)` with `display_name` + `condition`; new `POST /api/students/identify` is idempotent; frontend updated
+- **Phase C1 complete** — `LearnerPage.tsx` is the canonical reference client (identify → session → telemetry → unified bot)
+- **Phase C2/C3/C4 complete** — `docs/client-integration.md` documents Unity, Spatial.io, and VRChat patterns against the shared API contract
+- **Phase D1 complete** — `app/cli/seed_help_content.py` + sample `data/help_content/mars/crater_lab.json`
+- **Phase D2 complete** — `docs/knowledge-ingestion.md` covers static help and NASA RAG workflows
+- **Phase E complete** — `.env.example` documents Ollama vs. Azure modes; new `/api/health`, `/api/health/llm`, `/api/health/cosmos` endpoints
+- **Phase F1/F2 complete** — `docs/plan.md` mirrors session plan; this status file landed
+- **Phase F3 complete** — DEC-008 (Spatial.io API), DEC-009 (unified identity), DEC-010 (documentation discipline)
+- **Phase F4/F7 complete** — extended SE paper skeleton + paper README workflow guide
 - **Phase A2/A3/A4 in progress** — invokable lead agent + backend/frontend instructions being created
 - **Phase F4 in progress** — extended systems-engineering paper skeleton being scaffolded
 

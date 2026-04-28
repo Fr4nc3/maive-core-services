@@ -33,6 +33,11 @@ function Layout() {
               Assessments
             </Link>
           </li>
+          <li style={{ marginBottom: "0.75rem" }}>
+            <Link to="/learner" style={{ color: "#cbd5e1" }}>
+              Learner (web)
+            </Link>
+          </li>
         </ul>
       </nav>
       <main style={{ flex: 1, padding: "2rem" }}>

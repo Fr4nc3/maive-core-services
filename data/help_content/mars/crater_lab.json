@@ -1,0 +1,38 @@
+[
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "easy",
+    "help_type": "fact",
+    "title": "Mars has a thin atmosphere",
+    "body_text": "Mars's atmosphere is about 1% as dense as Earth's and is mostly carbon dioxide (~95%). This is why liquid water cannot remain stable on the surface today.",
+    "display_order": 10,
+    "tags": ["atmosphere", "co2", "intro"],
+    "is_active": true
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "geology",
+    "difficulty_level": "medium",
+    "help_type": "hint",
+    "title": "Look for layered rocks",
+    "body_text": "Layered (sedimentary) rocks inside craters often record past water activity. Try sampling the lowest visible layer first — it is typically the oldest.",
+    "display_order": 20,
+    "tags": ["geology", "sampling"],
+    "is_active": true
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "orbital_mechanics",
+    "difficulty_level": "hard",
+    "help_type": "explanation",
+    "title": "Why Mars's seasons are uneven",
+    "body_text": "Mars has an eccentric orbit (e ≈ 0.0934). Because it moves faster near perihelion, southern summer is short and intense while northern summer is long and mild.",
+    "display_order": 30,
+    "tags": ["orbit", "seasons", "kepler"],
+    "is_active": true
+  }
+]

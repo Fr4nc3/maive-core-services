@@ -20,6 +20,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify(data),
     }),
+  identifyStudent: (data: IdentifyStudentPayload) =>
+    request<Student>("/api/students/identify", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
 
   // Sessions
   listSessions: () => request<Session[]>("/api/sessions"),
@@ -42,9 +47,25 @@ export const api = {
   // Telemetry
   getSessionTelemetry: (sessionId: string) =>
     request<TelemetryEvent[]>(`/api/telemetry/${sessionId}`),
+  logTelemetry: (data: LogTelemetryPayload) =>
+    request<TelemetryEvent>("/api/telemetry", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  // Bot (unified — routes by session.condition)
+  askBot: (data: AskBotPayload) =>
+    request<BotResponse>("/api/bot/ask", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
 
   // Health
   health: () => request<{ status: string }>("/health"),
+  healthDetailed: () =>
+    request<{ status: string; cosmos: { ok: boolean }; llm: { ok: boolean; provider: string; model: string } }>(
+      "/api/health"
+    ),
 };
 
 // ---- Types ----
@@ -110,4 +131,37 @@ export interface TelemetryEvent {
   help_text: string;
   bot_type: string;
   payload: Record<string, unknown>;
+}
+
+export interface IdentifyStudentPayload {
+  platform: string;
+  platform_user_id: string;
+  display_name?: string;
+  condition?: string;
+}
+
+export interface LogTelemetryPayload {
+  session_id: string;
+  student_id: string;
+  event_type: string;
+  section?: string;
+  content?: string;
+  help_text?: string;
+  bot_type?: string;
+  duration_ms?: number;
+  payload?: Record<string, unknown>;
+}
+
+export interface AskBotPayload {
+  session_id: string;
+  student_id: string;
+  planet: string;
+  section?: string;
+  question: string;
+}
+
+export interface BotResponse {
+  source: "static" | "ai";
+  answer: string;
+  metadata?: Record<string, unknown>;
 }
