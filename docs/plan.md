@@ -15,57 +15,57 @@ The infrastructure for the unified bot, multi-agent pipeline, RAG, and LLM abstr
 
 | ID | Artifact | Status |
 |---|---|---|
-| **A1** | [AGENTS.md](../AGENTS.md) — workspace-root, always-loaded brief | ✅ Done |
-| **A2** | `.github/agents/maive-lead.agent.md` — invokable PhD-aware lead agent | 🟡 In progress |
-| **A3** | `.github/instructions/backend-clean-architecture.instructions.md` — `applyTo: src/backend/app/**/*.py` | 🟡 In progress |
-| **A4** | `.github/instructions/frontend-react.instructions.md` — `applyTo: src/frontend/src/**/*.{ts,tsx}` | 🟡 In progress |
+| **A1** | [AGENTS.md](../AGENTS.md) — workspace-root, always-loaded brief | ✅ Done (2026-04-28) |
+| **A2** | `.github/agents/maive-lead.agent.md` — invokable PhD-aware lead agent | ✅ Done (2026-04-28) |
+| **A3** | `.github/instructions/backend-clean-architecture.instructions.md` — `applyTo: src/backend/app/**/*.py` | ✅ Done (2026-04-28) |
+| **A4** | `.github/instructions/frontend-react.instructions.md` — `applyTo: src/frontend/src/**/*.{ts,tsx}` | ✅ Done (2026-04-28) |
 
 ## Phase B — Identity & Platform Model
 
 | ID | Change | Status |
 |---|---|---|
-| **B1** | Extend `Student`: `platform_user_id` + `platform` + `display_name` (drop `spatial_id`, drop `group`) | ⬜ Not started |
-| **B2** | New `IdentifyOrCreateStudentUseCase` | ⬜ Not started |
-| **B3** | New `POST /api/students/identify` endpoint (idempotent) | ⬜ Not started |
-| **B4** | Repo method `get_by_platform_identity(platform, platform_user_id)` | ⬜ Not started |
+| **B1** | Extend `Student`: `platform_user_id` + `platform` + `display_name` (drop `spatial_id`, drop `group`) | ✅ Done (2026-04-28) |
+| **B2** | New `IdentifyOrCreateStudentUseCase` | ✅ Done (2026-04-28) |
+| **B3** | New `POST /api/students/identify` endpoint (idempotent) | ✅ Done (2026-04-28) |
+| **B4** | Repo method `get_by_platform_identity(platform, platform_user_id)` | ✅ Done (2026-04-28) |
 
 ## Phase C — Multi-Client Integration Patterns
 
 | ID | Client | Notes | Status |
 |---|---|---|---|
-| **C1** | Flat web `/learn` page | **Reference implementation** — fastest iteration | ⬜ Not started |
-| **C2** | Unity single-player | Spec for `MaiveClient.cs` adapter (no code yet) | ⬜ Not started |
-| **C3** | Spatial.io | Research-blocked (DEC-008); fallback via embedded web view | ⬜ Not started |
-| **C4** | VRChat | UDON GET-only via `VRCStringDownloader`; POST via web-view bridge | ⬜ Not started |
+| **C1** | Flat web `/learner` page | **Reference implementation** — fastest iteration | ✅ Done (2026-04-28) |
+| **C2** | Unity single-player | Spec for `MaiveClient.cs` adapter (no code yet) | ✅ Done (2026-04-28) — see [client-integration.md](client-integration.md) |
+| **C3** | Spatial.io | Research-blocked (DEC-008); fallback via embedded web view | ✅ Done (2026-04-28) — see [client-integration.md](client-integration.md) |
+| **C4** | VRChat | UDON GET-only via `VRCStringDownloader`; POST via web-view bridge | ✅ Done (2026-04-28) — see [client-integration.md](client-integration.md) |
 
 ## Phase D — Seed Scripts & Reproducibility
 
 | ID | Script | Status |
 |---|---|---|
-| **D1** | `app/cli/seed_help_content.py` — load `data/help_content/<planet>/*.json` | ⬜ Not started |
-| **D2** | NASA ingestion docs (script already exists) — `data/nasa/<body>.md` layout | ⬜ Not started |
-| **D3** | `app/cli/seed_demo.py` — one demo student + session per platform (optional) | ⬜ Not started |
+| **D1** | `app/cli/seed_help_content.py` — load `data/help_content/<planet>/*.json` | ✅ Done (2026-04-28) |
+| **D2** | NASA ingestion docs (script already exists) — `data/nasa/<body>.md` layout | ✅ Done (2026-04-28) — see [knowledge-ingestion.md](knowledge-ingestion.md) |
+| **D3** | `app/cli/seed_demo.py` — one demo student + session per platform (optional) | ⏸ Deferred |
 
 ## Phase E — LLM Provider Wiring (verify, don't rebuild)
 
 | ID | Action | Status |
 |---|---|---|
-| **E1** | `.env.example` documents both Ollama and Azure modes | ⬜ Not started |
-| **E2** | `GET /api/health/llm` — pings provider, returns `{provider, model, ok, latency_ms}` | ⬜ Not started |
-| **E3** | Extend `/api/health` with `cosmos_ok`, `llm_ok` | ⬜ Not started |
+| **E1** | `.env.example` documents both Ollama and Azure modes | ✅ Done (2026-04-28) |
+| **E2** | `GET /api/health/llm` — pings provider, returns `{provider, model, ok, latency_ms}` | ✅ Done (2026-04-28) |
+| **E3** | Extend `/api/health` with `cosmos_ok`, `llm_ok` | ✅ Done (2026-04-28) — composite Cosmos+LLM check |
 
 ## Phase F — Living Documentation & Systems-Engineering Paper
 
 | ID | Artifact | Status |
 |---|---|---|
-| **F1** | [docs/plan.md](plan.md) — this file | ✅ Done |
-| **F2** | [docs/status.md](status.md) — running status board | 🟡 In progress |
-| **F3** | [docs/decisions.md](decisions.md) discipline (DEC-008..010 added) | 🟡 In progress |
-| **F4** | [docs/paper/maive-systems-engineering-extended.md](paper/maive-systems-engineering-extended.md) — internal extended paper | ⬜ Not started |
-| **F5** | [docs/paper/maive-systems-engineering-publishable.md](paper/maive-systems-engineering-publishable.md) — publishable derivative | ⬜ Deferred to Aug 2026 (post-data collection) |
-| **F6** | `docs/paper/figures/` — Mermaid sources | ⬜ Not started |
-| **F7** | [docs/paper/README.md](paper/README.md) — paper-development guide | ⬜ Not started |
-| **F8** | Cross-link discipline in source files | ⬜ Ongoing |
+| **F1** | [docs/plan.md](plan.md) — this file | ✅ Done (2026-04-28) |
+| **F2** | [docs/status.md](status.md) — running status board | ✅ Done (2026-04-28) |
+| **F3** | [docs/decisions.md](decisions.md) discipline (DEC-008..010 added) | ✅ Done (2026-04-28) |
+| **F4** | [docs/paper/maive-systems-engineering-extended.md](paper/maive-systems-engineering-extended.md) — internal extended paper | 🟡 Skeleton landed; superseded section-by-section by Phases G/I/J/K |
+| **F5** | [docs/paper/maive-systems-engineering-publishable.md](paper/maive-systems-engineering-publishable.md) — publishable derivative | ⏸ Deferred to Aug 2026 (post-data collection) |
+| **F6** | `docs/paper/figures/` — Mermaid sources | 🟡 In progress (Phase G) |
+| **F7** | [docs/paper/README.md](paper/README.md) — paper-development guide | ✅ Done (2026-04-28) |
+| **F8** | Cross-link discipline in source files | 🟡 In progress (Phase L) |
 
 ---
 
@@ -110,3 +110,106 @@ The infrastructure for the unified bot, multi-agent pipeline, RAG, and LLM abstr
 1. **AGENTS.md location** — workspace root chosen (auto-discovered by Claude + Copilot, visible to PhD committee)
 2. **Identify endpoint auth** — no auth pre-defence; add `X-Maive-Platform-Token` header check before any public deployment
 3. **Unity C# scaffolding now or after web client?** — defer; build web reference client first to lock the API contract
+
+---
+
+## Phases G–L — V-Model + Secure-System Validation (added 2026-04-28)
+
+> **Doc-only plan.** Builds the complete systems-engineering documentation pack (V-Model, traceability matrix, threat model, RAI policy, audit spec, V&V test catalog). No runtime code change here — implementation lands in a follow-up *Phase M — RAI/Security implementation* plan.
+
+### Phase G — V-Model rendering & traceability
+
+| ID | Artifact | Status |
+|---|---|---|
+| **G1** | `docs/paper/figures/vmodel.md` — Mermaid V-Model (left arm: Stakeholder needs → System reqs → Architecture → Module design → Implementation; right arm: Unit → Integration → System verif → Acceptance/validation; horizontal traceability arrows) | ⬜ Not started |
+| **G2** | `docs/paper/traceability-matrix.md` — `RQ × CR × Verification gate` table; columns: Hypothesis · Instrument · Statistical rule · Implementing files · Test case ID · Status | ⬜ Not started |
+| **G3** | `docs/paper/figures/components.md` — Mermaid component / subsystem diagram (Presentation → API → Application → Domain → Infrastructure → AI → Analytics) | ⬜ Not started |
+| **G4** | `docs/paper/figures/dfd-bot-flow.md` — Mermaid DFD for canonical user journey (identify → session → telemetry → bot ask → audit → adaptive action) | ⬜ Not started |
+| **G5** | `docs/paper/figures/deployment.md` — Mermaid deployment topology (Cosmos DB · FastAPI · LLM provider switch · 5 client platforms) | ⬜ Not started |
+
+### Phase H — Security architecture & threat model (STRIDE)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **H1** | `docs/security/threat-model.md` — STRIDE threats per trust boundary (Client ↔ FastAPI ↔ Cosmos ↔ LLM provider) | ⬜ Not started |
+| **H2** | `docs/paper/figures/trust-boundaries.md` — Mermaid trust-boundary diagram (data crossing each boundary; what is signed/encrypted) | ⬜ Not started |
+| **H3** | `docs/security/secrets-inventory.md` — `COSMOS_KEY`, `AZURE_OPENAI_KEY`, `MAIVE_PLATFORM_TOKEN` (planned); rotation owner, store, exposure | ⬜ Not started |
+| **H4** | Mitigations table extending H1 — every threat → (a) implemented (cite file), (b) planned (cite plan ID), or (c) accepted-risk (cite DEC) | ⬜ Not started |
+| **H5** | [docs/decisions.md](decisions.md) DEC-011 — Security architecture and threat model | 🟡 Placeholder seeded |
+
+### Phase I — Responsible AI specification
+
+| ID | Artifact | Status |
+|---|---|---|
+| **I1** | `docs/security/rai-policy.md` — scope (astronomy only), prohibited content, provenance requirement (RAG citations), refusal language | ⬜ Not started |
+| **I2** | `docs/paper/figures/rai-pipeline.md` — Mermaid sequence: `request → input validator → topic classifier (embedding gate) → prompt-injection heuristics → multi-agent → output validator → audit write → response`; new §15 "Responsible AI" in extended paper | ⬜ Not started |
+| **I3** | Astronomy-corpus centroid spec (in I1) — built from mean embedding of ≥50 NASA chunks; rebuilt at every `ingest_knowledge` run; cosine threshold τ tuned against held-out off-topic set | ⬜ Not started |
+| **I4** | Abuse / overuse controls catalog (in I1) — per-session call cap, per-student daily quota, token budget, repeated-question detector, prompt-injection regex set; each control has threshold + counter location + refusal message | ⬜ Not started |
+| **I5** | [docs/decisions.md](decisions.md) DEC-012 — Responsible AI guardrail pipeline | 🟡 Placeholder seeded |
+
+### Phase J — Audit & evidence storage
+
+| ID | Artifact | Status |
+|---|---|---|
+| **J1** | New section in [plan/architecture.md](../plan/architecture.md) — Cosmos container `bot_audit` (partition `/session_id`); fields: `id, session_id, student_id, timestamp, request_payload, response_payload, guardrail_verdicts[{stage,verdict,score,rule_hit}], provider, model, prompt_tokens, completion_tokens, latency_ms, condition` | ⬜ Not started |
+| **J2** | `docs/security/audit-policy.md` — retention, no-PII, append-only | ⬜ Not started |
+| **J3** | Audit ↔ telemetry linkage spec — telemetry `bot_request` event stores `audit_id`; audit row is canonical (no double-storing payloads) | ⬜ Not started |
+| **J4** | [docs/decisions.md](decisions.md) DEC-013 — `bot_audit` container is canonical RAI/security evidence store | 🟡 Placeholder seeded |
+
+### Phase K — Verification & validation gate catalog (V right arm)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **K1** | `docs/security/security-test-cases.md` — reuse thesis Section 4 ST-1..4 with new MAIVE IDs (`ST-OBJ-INTEG`, `ST-SEC-DIST`, `ST-PEN`, `ST-NETMU`); each adds backend file under test, expected outcome, status | ⬜ Not started |
+| **K2** | Backend security test catalog (extends K1) — rate-limit enforcement, identify-endpoint replay, prompt-injection refusal, off-topic refusal, audit-write, secret-leak in response | ⬜ Not started |
+| **K3** | RAI validation test catalog (extends K1) — 50 astronomy true-positives, 50 off-topic true-negatives, 20 prompt-injection prompts, 10 repeated-question patterns; held-out set in `data/rai_eval/` | ⬜ Not started |
+| **K4** | V-Model right-arm trace columns (in K1) — every test → its left-arm requirement (RQ / CR / DEC); closes the V | ⬜ Not started |
+| **K5** | Update extended paper §3 — embed G2 matrix + K1–K4 test summary | ⬜ Not started |
+
+### Phase L — Cross-link discipline + reconciliation (closes F8)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **L1** | `# Documented in: docs/paper/maive-systems-engineering-extended.md#<section>` headers in ~5 backend files (`student.py`, `bot.py`, `health.py`, `llm_provider.py`, `knowledge_ingestion.py`) | ⬜ Not started |
+| **L2** | `# Verified by: docs/security/security-test-cases.md#<test-id>` headers where applicable | ⬜ Not started |
+| **L3** | Update [docs/status.md](status.md) and this file — reflect Phases G–L; mark prior F4 stub superseded by G/I/J/K | ✅ Done (2026-04-28) |
+| **L4** | Reconcile stale entries — Phase A–F tables in this file still showed ⬜/🟡 but are actually ✅; remove duplicate "in progress" lines from `docs/status.md` | ✅ Done (2026-04-28) |
+
+### Sequencing (Phases G–L)
+
+1. **G1 + G3 + G5** parallel
+2. **G2 + G4** depend on G1/G3
+3. **H1–H5** parallel with G (independent track)
+4. **I1–I5** depend on H1–H2 (uses trust boundaries)
+5. **J1–J4** depend on I (audit schema needs guardrail verdict shape from I2)
+6. **K1–K5** depend on G2 + H4 + I4 + J1
+7. **L1–L4** last — reconciles everything and closes the cross-link discipline gate
+
+### Verification gates (Phases G–L)
+
+1. All `docs/paper/figures/*.md` Mermaid blocks render in VS Code preview
+2. No orphan rows in `traceability-matrix.md` and `security-test-cases.md`
+3. STRIDE coverage — all 6 categories present in `threat-model.md` with verdict columns
+4. RAI policy completeness — at least 3 refusal categories (off-topic, harmful, prompt-injection) with example refusal text
+5. Decision log — DEC-011, DEC-012, DEC-013 added with `Date: 2026-04-28`
+6. Cross-link audit — `grep -rn "Documented in:" src/backend/app | wc -l` ≥ 5
+7. Status parity — `docs/status.md` phase table includes G–L rows; this file's Phase A–F tables updated to ✅
+8. Doc-only constraint — no behavioral source code change in this plan
+
+### Decisions captured (Phases G–L)
+
+- **STRIDE** as threat-modeling vocabulary (industry standard, easy to audit)
+- **`bot_audit` is the canonical RAI/security evidence store** — telemetry events reference it by ID, do not duplicate payloads
+- **Astronomy-only enforcement is multi-layered** (embedding gate + prompt rules + output validator + abuse controls)
+- **No PII** in any audit/telemetry/request payload (re-affirms DEC-009)
+- **Security test cases reuse thesis Section 4 verbatim** and extend with backend-specific cases
+- **`docs/security/` standalone files** cross-linked from the paper (vs. embedded only)
+- **V-Model figure uses thesis lifecycle phases** as canonical; Clean Architecture mapping shown as a separate "implementation lens" diagram in §4
+- **`bot_audit` partition key `/session_id`** (matches research-session granularity)
+
+### Out of scope (Phases G–L)
+
+- Any **runtime code** for guardrails, audit container, rate limits — separate **Phase M — RAI/Security implementation** plan
+- Azure AI Content Safety integration
+- Auth (Entra ID) — already future-work per AGENTS.md
+- Live verification runs of `/api/health` against Cosmos+Ollama (separate operational task)

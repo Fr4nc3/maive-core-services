@@ -4,6 +4,60 @@ All architectural and design decisions for the MAIVE platform, in reverse chrono
 
 ---
 
+## DEC-013 — `bot_audit` Cosmos container is the canonical RAI/security evidence store
+
+**Date:** 2026-04-28
+**Status:** Proposed (placeholder — to be finalised by Phase J4)
+
+A new Cosmos container `bot_audit` (partition `/session_id`) will record every bot interaction and every guardrail verdict, providing both (a) reproducible thesis evidence for RQ1/RQ2/RQ3 and (b) forensic trail for security/RAI audits.
+
+**Schema (draft):** `id, session_id, student_id, timestamp, request_payload, response_payload, guardrail_verdicts[{stage, verdict, score, rule_hit}], provider, model, prompt_tokens, completion_tokens, latency_ms, condition`.
+
+**Linkage rule:** the existing `telemetry_events` `bot_request` event stores `audit_id` only; the audit row is canonical (no duplicate payload storage).
+
+**No PII** in payloads (re-affirms DEC-009). Audit rows are append-only.
+
+**To finalise (Phase J):** retention window, archival path, exact field types — see [docs/security/audit-policy.md](security/audit-policy.md) (planned) and the new `bot_audit` section of [plan/architecture.md](../plan/architecture.md) (planned).
+
+---
+
+## DEC-012 — Responsible AI guardrail pipeline (multi-layered)
+
+**Date:** 2026-04-28
+**Status:** Proposed (placeholder — to be finalised by Phase I5)
+
+The bot enforces astronomy-only, safe responses through a **multi-layered** guardrail pipeline rather than relying on any single check:
+
+1. **Input validator** — schema + size limits
+2. **Topic classifier (embedding gate)** — cosine similarity vs. NASA-corpus centroid; reject if below threshold τ
+3. **Prompt-injection heuristics** — regex set + provenance checks for "ignore previous instructions"-style attacks
+4. **Multi-agent pipeline** — system-prompt hard rules in every agent
+5. **Output validator** — re-checks the response is on-topic and free of secret-leak patterns
+6. **Audit write** — every verdict persisted to `bot_audit` (DEC-013)
+
+**Why multi-layered:** no single technique is robust; the embedding gate is cheap and deterministic, prompt-injection heuristics catch a different failure mode, and the output validator catches drift. Single-layer was rejected.
+
+**Abuse / overuse controls** layered on top: per-session call cap, per-student daily quota, token budget per session, repeated-question detector. Each control has an explicit threshold, counter location (in `bot_audit`), and refusal message.
+
+**To finalise (Phase I):** threshold τ, regex set, control thresholds, refusal text — see [docs/security/rai-policy.md](security/rai-policy.md) (planned) and `docs/paper/figures/rai-pipeline.md` (planned).
+
+---
+
+## DEC-011 — Security architecture & STRIDE threat model
+
+**Date:** 2026-04-28
+**Status:** Proposed (placeholder — to be finalised by Phase H5)
+
+We adopt **STRIDE** (Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege) as the threat-modeling vocabulary for the MAIVE backend. Trust boundaries are explicit: **Client ↔ FastAPI**, **FastAPI ↔ Cosmos DB**, **FastAPI ↔ LLM provider** (Ollama or Azure AI Foundry).
+
+**Why STRIDE:** industry-standard, easy to audit by external reviewers (PhD committee), and pairs cleanly with the V-Model right-arm verification gates (Phase K).
+
+**Each threat must carry a verdict:** (a) implemented (cite file), (b) planned (cite plan ID), or (c) accepted-risk (cite DEC-NNN). No threat without a verdict.
+
+**To finalise (Phase H):** populated STRIDE table, trust-boundary diagram, secrets inventory, mitigation matrix — see [docs/security/threat-model.md](security/threat-model.md) (planned), [docs/security/secrets-inventory.md](security/secrets-inventory.md) (planned), and `docs/paper/figures/trust-boundaries.md` (planned).
+
+---
+
 ## DEC-010 — Living documentation discipline
 
 **Date:** 2026-04-28

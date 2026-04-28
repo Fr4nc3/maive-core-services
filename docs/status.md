@@ -5,9 +5,9 @@
 
 ## Current sprint focus
 
-**Sprint goal:** Wire infrastructure (LLM provider env, health checks), ship the unified-bot reference flow end-to-end on the web client, and seed reproducible content (static help + NASA RAG).
+**Sprint goal:** Land the V-Model + secure-system documentation pack (Phases G–L) so every architectural and security claim has a verifiable artifact behind it. Then transition to *Phase M — RAI/Security implementation*.
 
-**Active phases:** ✅ A · ✅ B · ✅ C · ✅ D1/D2 · ✅ E · ✅ F1–F4/F7 · *next:* F5 (publishable paper), F6 (figures), D3 (demo seeder)
+**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model) · ⏳ I (Responsible AI policy) · ⏳ J (audit & evidence storage) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline)
 
 ## Blockers
 
@@ -41,11 +41,17 @@
 | F1 | docs/plan.md | ✅ Done (2026-04-28) |
 | F2 | docs/status.md (this file) | ✅ Done (2026-04-28) |
 | F3 | docs/decisions.md DEC-008/009/010 | ✅ Done (2026-04-28) |
-| F4 | docs/paper extended SE paper | 🟡 In progress (skeleton landed) |
+| F4 | docs/paper extended SE paper | 🟡 Skeleton landed; superseded section-by-section by Phases G/I/J/K |
 | F5 | docs/paper publishable derivative | ⏸ Deferred (Aug 2026) |
-| F6 | docs/paper/figures (Mermaid) | ⬜ Not started |
+| F6 | docs/paper/figures (Mermaid) | 🟡 In progress (Phase G) |
 | F7 | docs/paper/README.md (workflow guide) | ✅ Done (2026-04-28) |
-| F8 | Source-file cross-link discipline | ⬜ Ongoing |
+| F8 | Source-file cross-link discipline | 🟡 In progress (Phase L) |
+| **G1–G5** | V-Model + traceability + components + DFD + deployment figures | ⬜ Not started |
+| **H1–H5** | STRIDE threat model, trust boundaries, secrets inventory, mitigations, DEC-011 | ⬜ Not started (DEC-011 placeholder seeded) |
+| **I1–I5** | Responsible AI policy, pipeline figure, centroid spec, abuse controls, DEC-012 | ⬜ Not started (DEC-012 placeholder seeded) |
+| **J1–J4** | `bot_audit` container schema, audit policy, telemetry linkage, DEC-013 | ⬜ Not started (DEC-013 placeholder seeded) |
+| **K1–K5** | V&V test catalog (security + RAI), V-Model right-arm trace, paper §3 update | ⬜ Not started |
+| **L1–L4** | Cross-link headers in source files; status/plan reconciliation | 🟡 L3+L4 done; L1+L2 not started |
 
 **Legend:** ⬜ Not started · 🟡 In progress · ✅ Done · 🚫 Blocked · ⏸ Deferred
 
@@ -65,8 +71,7 @@
 - **Phase F1/F2 complete** — `docs/plan.md` mirrors session plan; this status file landed
 - **Phase F3 complete** — DEC-008 (Spatial.io API), DEC-009 (unified identity), DEC-010 (documentation discipline)
 - **Phase F4/F7 complete** — extended SE paper skeleton + paper README workflow guide
-- **Phase A2/A3/A4 in progress** — invokable lead agent + backend/frontend instructions being created
-- **Phase F4 in progress** — extended systems-engineering paper skeleton being scaffolded
+- **Phases G–L planned** — V-Model + secure-system validation pack (doc-only) recorded in `docs/plan.md`; DEC-011/012/013 placeholders seeded in `docs/decisions.md`; status table extended with G–L rows; A–F rows reconciled
 
 ### Earlier (April 2026)
 - **DEC-007** Platform identifiers standardised to `spatial.io | vrchat | sinespace | web`
@@ -81,12 +86,14 @@
 
 ## Next actions (immediate)
 
-1. Finish A2 — invokable `maive-lead.agent.md` with status awareness
-2. Finish A3 + A4 — backend/frontend file instructions
-3. Append DEC-008, DEC-009, DEC-010 to `docs/decisions.md`
-4. Scaffold `docs/paper/maive-systems-engineering-extended.md` with section headers
-5. Create `docs/paper/README.md` workflow guide
-6. Begin Phase B1 (extend Student entity with `platform_user_id` + `platform`)
+1. **G1** — author Mermaid V-Model figure (`docs/paper/figures/vmodel.md`)
+2. **G3 + G5** — component diagram + deployment topology (parallel with G1)
+3. **H1 + H2** — STRIDE threat model + trust-boundary diagram (parallel track)
+4. **G2** — traceability matrix (depends on G1)
+5. **I1 + I2** — Responsible AI policy + pipeline figure (depends on H1–H2)
+6. **J1** — `bot_audit` schema in `plan/architecture.md` (depends on I2)
+7. **K1–K4** — V&V test catalog (depends on G2 + H4 + I4 + J1)
+8. **L1 + L2** — source-file cross-link headers (last)
 
 ---
 
