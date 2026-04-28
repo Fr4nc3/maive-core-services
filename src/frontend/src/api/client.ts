@@ -74,6 +74,8 @@ export interface Student {
   platform: string;
   platform_user_id: string;
   display_name: string;
+  // DEC-014: stable per-student language preference ("en" | "es").
+  preferred_language: string;
   created_at: string;
   metadata: Record<string, unknown>;
 }
@@ -82,12 +84,15 @@ export interface CreateStudentPayload {
   platform: string;
   platform_user_id: string;
   display_name?: string;
+  preferred_language?: string;
 }
 
 export interface Session {
   id: string;
   student_id: string;
   condition: string;
+  // DEC-014: per-session effective language ("en" | "es").
+  language: string;
   started_at: string;
   ended_at: string | null;
   status: string;
@@ -97,6 +102,9 @@ export interface Session {
 export interface CreateSessionPayload {
   student_id: string;
   condition?: string;
+  // DEC-014: optional per-session override; if omitted backend falls back to
+  // student.preferred_language, then "en".
+  language?: string;
 }
 
 export interface Assessment {
@@ -138,6 +146,8 @@ export interface IdentifyStudentPayload {
   platform_user_id: string;
   display_name?: string;
   condition?: string;
+  // DEC-014: passed on first contact so the student row stores the chosen UI language.
+  preferred_language?: string;
 }
 
 export interface LogTelemetryPayload {
@@ -158,10 +168,16 @@ export interface AskBotPayload {
   planet: string;
   section?: string;
   question: string;
+  // DEC-014: optional per-call override; backend resolves
+  // body.language → session.language → student.preferred_language → "en".
+  language?: string;
 }
 
 export interface BotResponse {
   source: "static" | "ai";
   answer: string;
+  // DEC-014: language actually used by the backend for this response.
+  language?: string;
+  language_fallback?: boolean;
   metadata?: Record<string, unknown>;
 }

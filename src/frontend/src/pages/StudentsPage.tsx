@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { api, type Student } from "../api/client";
+import { useLanguage } from "../i18n/LanguageContext";
 
 function StudentsPage() {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     api
@@ -14,12 +16,17 @@ function StudentsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading students...</p>;
-  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+  if (loading) return <p>{t("students.loading")}</p>;
+  if (error)
+    return (
+      <p style={{ color: "red" }}>
+        {t("common.error")}: {error}
+      </p>
+    );
 
   return (
     <div>
-      <h1>Students</h1>
+      <h1>{t("students.title")}</h1>
       <table
         style={{
           width: "100%",
@@ -29,10 +36,11 @@ function StudentsPage() {
       >
         <thead>
           <tr style={{ borderBottom: "2px solid #e2e8f0", textAlign: "left" }}>
-            <th style={{ padding: "0.5rem" }}>Platform</th>
-            <th style={{ padding: "0.5rem" }}>Platform User ID</th>
-            <th style={{ padding: "0.5rem" }}>Display Name</th>
-            <th style={{ padding: "0.5rem" }}>Created</th>
+            <th style={{ padding: "0.5rem" }}>{t("students.col.platform")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("students.col.platformUserId")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("students.col.displayName")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("students.col.language")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("students.col.created")}</th>
           </tr>
         </thead>
         <tbody>
@@ -41,6 +49,7 @@ function StudentsPage() {
               <td style={{ padding: "0.5rem" }}>{s.platform}</td>
               <td style={{ padding: "0.5rem" }}>{s.platform_user_id}</td>
               <td style={{ padding: "0.5rem" }}>{s.display_name || "—"}</td>
+              <td style={{ padding: "0.5rem" }}>{s.preferred_language || "en"}</td>
               <td style={{ padding: "0.5rem" }}>
                 {new Date(s.created_at).toLocaleDateString()}
               </td>
@@ -48,8 +57,8 @@ function StudentsPage() {
           ))}
           {students.length === 0 && (
             <tr>
-              <td colSpan={4} style={{ padding: "1rem", color: "#94a3b8" }}>
-                No students found.
+              <td colSpan={5} style={{ padding: "1rem", color: "#94a3b8" }}>
+                {t("students.empty")}
               </td>
             </tr>
           )}

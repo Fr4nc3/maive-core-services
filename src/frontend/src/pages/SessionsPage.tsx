@@ -1,9 +1,12 @@
+import { useLanguage } from "../i18n/LanguageContext";
+
 function SessionsPage() {
+  const { t } = useLanguage();
   return (
     <div>
-      <h1>Sessions</h1>
+      <h1>{t("sessions.title")}</h1>
       <p style={{ marginTop: "1rem", color: "#64748b" }}>
-        VR learning sessions will be listed here once connected to the backend.
+        {t("sessions.placeholder")}
       </p>
     </div>
   );

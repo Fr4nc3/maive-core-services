@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { api, type Student, type Session, type BotResponse } from "../api/client";
+import { useLanguage } from "../i18n/LanguageContext";
+import { LANGS, LANG_LABEL, type Lang } from "../i18n/messages";
 
 const PLANETS = ["mars", "jupiter", "europa", "moon"];
 const SECTIONS = ["intro", "crater_lab", "orbit_observatory", "atmosphere_lab"];
 
 function LearnerPage() {
+  const { lang, setLang, t } = useLanguage();
+
   // Identity
   const [platformUserId, setPlatformUserId] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -24,14 +28,21 @@ function LearnerPage() {
     setError(null);
     setBusy(true);
     try {
+      // DEC-014: thread the chosen UI language through identify + create-session
+      // so the backend stores it on Student and resolves it on Session.
       const s = await api.identifyStudent({
         platform: "web",
         platform_user_id: platformUserId,
         display_name: displayName || platformUserId,
         condition,
+        preferred_language: lang,
       });
       setStudent(s);
-      const sess = await api.createSession({ student_id: s.id, condition });
+      const sess = await api.createSession({
+        student_id: s.id,
+        condition,
+        language: lang,
+      });
       setSession(sess);
     } catch (e) {
       setError(String(e));
@@ -53,7 +64,7 @@ function LearnerPage() {
         section,
         content: planet,
         bot_type: condition === "control" ? "static" : "ai",
-        payload: { question },
+        payload: { question, language: lang },
       });
       const reply = await api.askBot({
         session_id: session.id,
@@ -61,6 +72,7 @@ function LearnerPage() {
         planet,
         section,
         question,
+        language: lang,
       });
       setBotReply(reply);
     } catch (e) {
@@ -72,88 +84,113 @@ function LearnerPage() {
 
   return (
     <div style={{ maxWidth: 720 }}>
-      <h1>Learner (web reference client)</h1>
-      <p style={{ color: "#475569" }}>
-        Web-flat fallback for testing the unified bot endpoint. Mirrors the
-        contract used by the Unity / Spatial.io / VRChat clients.
-      </p>
+      <h1>{t("learner.title")}</h1>
+      <p style={{ color: "#475569" }}>{t("learner.subtitle")}</p>
 
       {!session ? (
         <section style={card}>
-          <h2>1. Identify</h2>
-          <label style={lbl}>Platform user id</label>
+          <h2>{t("learner.identify.title")}</h2>
+          <label style={lbl}>{t("learner.identify.platformUserId")}</label>
           <input
             style={inp}
             value={platformUserId}
             onChange={(e) => setPlatformUserId(e.target.value)}
             placeholder="e.g. web_demo_001"
           />
-          <label style={lbl}>Display name</label>
+          <label style={lbl}>{t("learner.identify.displayName")}</label>
           <input
             style={inp}
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="optional"
+            placeholder={t("learner.identify.optional")}
           />
-          <label style={lbl}>Condition</label>
+          <label style={lbl}>{t("learner.identify.condition")}</label>
           <select
             style={inp}
             value={condition}
             onChange={(e) => setCondition(e.target.value as "control" | "treatment")}
           >
-            <option value="control">control (static bot)</option>
-            <option value="treatment">treatment (AI multi-agent)</option>
+            <option value="control">{t("learner.condition.control")}</option>
+            <option value="treatment">{t("learner.condition.treatment")}</option>
+          </select>
+          <label style={lbl}>{t("learner.identify.language")}</label>
+          <select
+            style={inp}
+            value={lang}
+            onChange={(e) => setLang(e.target.value as Lang)}
+          >
+            {LANGS.map((l) => (
+              <option key={l} value={l}>
+                {LANG_LABEL[l]}
+              </option>
+            ))}
           </select>
           <button
             style={btn}
             disabled={!platformUserId || busy}
             onClick={handleStart}
           >
-            Start session
+            {t("learner.identify.start")}
           </button>
         </section>
       ) : (
         <section style={card}>
-          <h2>2. Ask the bot</h2>
+          <h2>{t("learner.ask.title")}</h2>
           <p>
-            <strong>Student:</strong> {student?.display_name} (
-            {student?.platform_user_id}) — <strong>condition:</strong>{" "}
-            {session.condition} — <strong>session:</strong>{" "}
-            <code>{session.id.slice(0, 8)}…</code>
+            <strong>{student?.display_name}</strong> ({student?.platform_user_id}) —{" "}
+            <strong>{session.condition}</strong> —{" "}
+            <code>{session.id.slice(0, 8)}…</code> —{" "}
+            <strong>{t("learner.ask.languageEcho")}:</strong> {session.language}
           </p>
-          <label style={lbl}>Planet</label>
+          <label style={lbl}>{t("learner.ask.planet")}</label>
           <select style={inp} value={planet} onChange={(e) => setPlanet(e.target.value)}>
             {PLANETS.map((p) => (
               <option key={p}>{p}</option>
             ))}
           </select>
-          <label style={lbl}>Section</label>
+          <label style={lbl}>{t("learner.ask.section")}</label>
           <select style={inp} value={section} onChange={(e) => setSection(e.target.value)}>
             {SECTIONS.map((s) => (
               <option key={s}>{s}</option>
             ))}
           </select>
-          <label style={lbl}>Question</label>
+          <label style={lbl}>{t("learner.ask.question")}</label>
           <textarea
             style={{ ...inp, minHeight: 80 }}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Why does Mars have seasons?"
+            placeholder={t("learner.ask.placeholder")}
           />
           <button style={btn} disabled={!question || busy} onClick={handleAsk}>
-            Ask bot
+            {t("learner.ask.submit")}
           </button>
 
           {botReply && (
             <div style={{ ...card, marginTop: "1rem", background: "#f1f5f9" }}>
-              <strong>Source:</strong> {botReply.source}
+              <strong>{t("learner.ask.source")}:</strong> {botReply.source}
+              {botReply.language && (
+                <>
+                  {" — "}
+                  <strong>{t("learner.ask.languageEcho")}:</strong>{" "}
+                  {botReply.language}
+                  {botReply.language_fallback && (
+                    <em style={{ marginLeft: "0.5rem", color: "#b45309" }}>
+                      {t("learner.ask.fallback")}
+                    </em>
+                  )}
+                </>
+              )}
               <p style={{ marginTop: "0.5rem" }}>{botReply.answer}</p>
             </div>
           )}
         </section>
       )}
 
-      {error && <p style={{ color: "#b91c1c" }}>Error: {error}</p>}
+      {error && (
+        <p style={{ color: "#b91c1c" }}>
+          {t("common.error")}: {error}
+        </p>
+      )}
     </div>
   );
 }
