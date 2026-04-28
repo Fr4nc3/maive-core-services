@@ -4,6 +4,67 @@ All architectural and design decisions for the MAIVE platform, in reverse chrono
 
 ---
 
+## DEC-010 — Living documentation discipline
+
+**Date:** 2026-04-28
+**Status:** Accepted
+
+We adopt a four-file documentation system to keep the project coherent across long-running PhD work and across AI-agent sessions:
+
+| File | Role |
+|---|---|
+| [AGENTS.md](../AGENTS.md) | Always-loaded project brief — identity rule, unified bot rule, Clean Architecture rule, rules of engagement |
+| [docs/plan.md](plan.md) | Public mirror of the working plan; phases, sequencing, verification gates |
+| [docs/status.md](status.md) | Running status board: current sprint, blockers, weekly changelog. Read first in any new session |
+| [docs/decisions.md](decisions.md) | This file — reverse-chronological architectural decisions |
+
+In addition, an **extended systems-engineering paper** ([docs/paper/maive-systems-engineering-extended.md](paper/maive-systems-engineering-extended.md)) acts as the long-form internal record of the architecture, with a publishable derivative produced after data collection completes.
+
+**Enforcement:** Every architectural change must (a) append a `DEC-NNN` entry here, (b) update `docs/status.md` weekly, and (c) cross-reference the relevant section in the extended paper. Backend file instructions in `.github/instructions/` and the `maive-lead` agent enforce this.
+
+---
+
+## DEC-009 — Unified `(platform, platform_user_id)` identity model
+
+**Date:** 2026-04-28
+**Status:** Accepted
+
+All clients (web, Unity, Spatial.io, VRChat) share the same backend API. Each client identifies its user with a `(platform, platform_user_id)` natural key on first contact via a new endpoint:
+
+```
+POST /api/students/identify
+{ "platform": "web" | "unity" | "spatial.io" | "vrchat" | "sinespace",
+  "platform_user_id": "<provider-issued ID>",
+  "display_name": "<optional>" }
+```
+
+The endpoint is **idempotent** — repeated calls with the same `(platform, platform_user_id)` return the same internal `student.id` (UUID). No PII (no email, no real name).
+
+**Why:**
+- Unity, Spatial.io, VRChat, and the flat web client cannot share a single auth scheme; the natural-key approach decouples identity from any specific platform's auth.
+- Aligns with the multi-platform research design — same telemetry pipeline regardless of how the participant accesses MAIVE.
+- The `Student` entity drops the legacy `spatial_id` field and the redundant `group` field (experimental condition is already on `Session.condition`).
+
+**Pre-deployment hardening (out of scope for the thesis):** add a `X-Maive-Platform-Token` header check before any public release.
+
+---
+
+## DEC-008 — Spatial.io API integration is research-blocked
+
+**Date:** 2026-04-28
+**Status:** Accepted
+
+Spatial.io currently does not expose a server-side API that allows a Spatial scene to call our FastAPI backend directly. We do **not** abandon Spatial.io, but we mark it as research-blocked and document the workaround:
+
+**Workaround:** Embed a minimal web view inside the Spatial.io scene that loads the standard MAIVE flat-web client at `/learn`. The web view sends `platform = "spatial.io"` so all telemetry and bot interactions flow through the unified backend with the correct provenance.
+
+**Tracking:**
+- Notes and experiments live in `src/unity/sandbox_26/spatial_research/NOTES.md`
+- We re-evaluate quarterly whether Spatial.io has shipped server-callable APIs
+- The thesis can still report Spatial.io as a deployment target via the web-view bridge
+
+---
+
 ## DEC-007 — Platform identifiers standardised
 
 **Date:** 2026-04-15

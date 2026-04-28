@@ -50,15 +50,17 @@ export const api = {
 // ---- Types ----
 export interface Student {
   id: string;
-  spatial_id: string;
-  group: string;
+  platform: string;
+  platform_user_id: string;
+  display_name: string;
   created_at: string;
   metadata: Record<string, unknown>;
 }
 
 export interface CreateStudentPayload {
-  spatial_id: string;
-  group?: string;
+  platform: string;
+  platform_user_id: string;
+  display_name?: string;
 }
 
 export interface Session {

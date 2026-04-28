@@ -13,6 +13,11 @@ class StudentRepository(ABC):
     async def get_by_id(self, student_id: str) -> Student | None: ...
 
     @abstractmethod
+    async def get_by_platform_identity(
+        self, platform: str, platform_user_id: str
+    ) -> Student | None: ...
+
+    @abstractmethod
     async def list_all(self, limit: int = 50, offset: int = 0) -> list[Student]: ...
 
     @abstractmethod

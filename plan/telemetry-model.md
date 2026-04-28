@@ -27,7 +27,7 @@ This document defines the telemetry data model for the MAIVE platform, derived f
 ### 2.1 Existing Entities (minor expansions)
 
 #### Student
-Identifies users only by `id` and `spatial_id` (Spatial.io identifier). No email or display name is collected.
+Identifies users only by `id` (internal UUID) and the natural key `(platform, platform_user_id)` per DEC-009. No email or real name is collected; an optional free-form `display_name` may be set by the client. The `platform` field accepts: `spatial.io | vrchat | sinespace | unity | web` (DEC-007).
 
 #### Session
 Add fields to support richer session context:

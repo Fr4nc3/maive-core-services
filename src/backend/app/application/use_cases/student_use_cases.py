@@ -1,6 +1,35 @@
-from app.application.dtos.student_dtos import CreateStudentDTO, StudentResponseDTO
+from app.application.dtos.student_dtos import (
+    CreateStudentDTO,
+    IdentifyStudentDTO,
+    StudentResponseDTO,
+)
 from app.domain.entities.student import Student
 from app.domain.interfaces.student_repository import StudentRepository
+
+
+class IdentifyOrCreateStudentUseCase:
+    """Idempotent: returns the existing student for ``(platform, platform_user_id)``
+    or creates one if absent. This is the entry point every VR/web client calls
+    on first interaction.
+    """
+
+    def __init__(self, repository: StudentRepository) -> None:
+        self._repo = repository
+
+    async def execute(self, dto: IdentifyStudentDTO) -> StudentResponseDTO:
+        existing = await self._repo.get_by_platform_identity(
+            dto.platform, dto.platform_user_id
+        )
+        if existing is not None:
+            return _to_response(existing)
+        student = Student(
+            platform=dto.platform,
+            platform_user_id=dto.platform_user_id,
+            display_name=dto.display_name,
+            metadata=dto.metadata,
+        )
+        created = await self._repo.create(student)
+        return _to_response(created)
 
 
 class CreateStudentUseCase:
@@ -9,8 +38,9 @@ class CreateStudentUseCase:
 
     async def execute(self, dto: CreateStudentDTO) -> StudentResponseDTO:
         student = Student(
-            spatial_id=dto.spatial_id,
-            group=dto.group,
+            platform=dto.platform,
+            platform_user_id=dto.platform_user_id,
+            display_name=dto.display_name,
             metadata=dto.metadata,
         )
         created = await self._repo.create(student)
@@ -42,8 +72,9 @@ class ListStudentsUseCase:
 def _to_response(s: Student) -> StudentResponseDTO:
     return StudentResponseDTO(
         id=s.id,
-        spatial_id=s.spatial_id,
-        group=s.group,
+        platform=s.platform,
+        platform_user_id=s.platform_user_id,
+        display_name=s.display_name,
         created_at=s.created_at.isoformat(),
         metadata=s.metadata,
     )

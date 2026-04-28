@@ -1,14 +1,33 @@
 from fastapi import APIRouter, HTTPException
 
-from app.application.dtos.student_dtos import CreateStudentDTO, StudentResponseDTO
+from app.application.dtos.student_dtos import (
+    CreateStudentDTO,
+    IdentifyStudentDTO,
+    StudentResponseDTO,
+)
 from app.application.use_cases.student_use_cases import (
     CreateStudentUseCase,
     GetStudentUseCase,
+    IdentifyOrCreateStudentUseCase,
     ListStudentsUseCase,
 )
 from app.dependencies import get_student_repository
 
 router = APIRouter()
+
+
+@router.post("/identify", response_model=StudentResponseDTO)
+async def identify_student(dto: IdentifyStudentDTO):
+    """Idempotent client identity endpoint.
+
+    Every VR/web client calls this on first interaction. Returns the existing
+    student for ``(platform, platform_user_id)`` or creates a new one. The
+    returned ``id`` (UUID) is the stable internal identifier the client must
+    reuse for all subsequent calls.
+    """
+    repo = get_student_repository()
+    use_case = IdentifyOrCreateStudentUseCase(repo)
+    return await use_case.execute(dto)
 
 
 @router.post("", response_model=StudentResponseDTO, status_code=201)

@@ -21,6 +21,27 @@ class CosmosStudentRepository(BaseCosmosRepository, StudentRepository):
         except CosmosResourceNotFoundError:
             return None
 
+    async def get_by_platform_identity(
+        self, platform: str, platform_user_id: str
+    ) -> Student | None:
+        query = (
+            "SELECT TOP 1 * FROM c WHERE c.platform = @p AND c.platform_user_id = @uid"
+        )
+        parameters = [
+            {"name": "@p", "value": platform},
+            {"name": "@uid", "value": platform_user_id},
+        ]
+        items = list(
+            self._container.query_items(
+                query=query,
+                parameters=parameters,
+                enable_cross_partition_query=True,
+            )
+        )
+        if not items:
+            return None
+        return Student(**self._strip_cosmos_meta(items[0]))
+
     async def list_all(self, limit: int = 50, offset: int = 0) -> list[Student]:
         query = "SELECT * FROM c ORDER BY c.created_at DESC OFFSET @offset LIMIT @limit"
         parameters = [
