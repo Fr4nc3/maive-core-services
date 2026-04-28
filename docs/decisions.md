@@ -4,6 +4,37 @@ All architectural and design decisions for the MAIVE platform, in reverse chrono
 
 ---
 
+## DEC-014 — Bilingual support model (English / Spanish)
+
+**Date:** 2026-04-28
+**Status:** Proposed (placeholder — to be finalised by Phase N11)
+
+The MAIVE experience and service must respect a learner's preferred language (`en` or `es`) end-to-end: client UI, session record, static help content, NASA RAG retrieval, agent prompts, bot response, and telemetry/audit. Language is recorded as a research-grade variable so RQ1/RQ2/RQ3 analyses can be split by language.
+
+**Resolution order (effective language for any bot/help call):**
+1. `BotAskRequest.language` (per-request override)
+2. `Session.language` (per-session override of student default)
+3. `Student.preferred_language` (set on `POST /api/students/identify`)
+4. Default: `"en"`
+
+**Translation discipline:**
+- **Agent system prompts are human-translated** (`<agent>_en.md` + `<agent>_es.md`) — auditable and reproducible. No runtime machine translation.
+- **Static help content** must exist in **both** languages before a planet/section is released for a Spanish session (enforced by seeder check, not at request time).
+- **NASA RAG fallback rule:** if no chunks exist in the target language, retrieve English chunks but instruct the LLM to *answer in the target language*; mark the response with `language_fallback=true` for audit.
+- **No machine-translation API dependency** in this phase (small dependency surface).
+
+**Locale scope (v1):** `es` neutral (LatAm/EU-agnostic). Locale tag (`es-MX`, `es-ES`, `es-419`) deferred until pilot data shows confusion.
+
+**Default at first contact:** the web client reads browser `Accept-Language` and passes it to `identify`. Non-web clients (Unity, VRChat) fall back to `"en"` unless explicit.
+
+**Research instruments:** the concept inventory and ARCS survey use **published validated Spanish versions only**. Freshly-translated instruments would be a research-validity threat (psychometric properties not preserved).
+
+**Telemetry/audit:** every `telemetry_event` and (Phase J1) `bot_audit` row records the resolved `language` so per-language RQ analyses are trivial.
+
+**To finalise (Phase N):** owner of Spanish prompts + help content + validated-instrument sourcing — see Phase N in [docs/plan.md](plan.md) and `docs/paper/figures/language-flow.md` (planned).
+
+---
+
 ## DEC-013 — `bot_audit` Cosmos container is the canonical RAI/security evidence store
 
 **Date:** 2026-04-28

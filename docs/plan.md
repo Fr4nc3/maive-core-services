@@ -213,3 +213,67 @@ The infrastructure for the unified bot, multi-agent pipeline, RAG, and LLM abstr
 - Azure AI Content Safety integration
 - Auth (Entra ID) — already future-work per AGENTS.md
 - Live verification runs of `/api/health` against Cosmos+Ollama (separate operational task)
+
+---
+
+## Phase N — Bilingual content & experience: English / Spanish (added 2026-04-28)
+
+> **Goal.** Make the learner's preferred language a first-class field that propagates from client → session → agents → response → telemetry/audit, so RQ analyses can be split by language and Spanish-speaking participants get a fully Spanish experience (UI, static help, RAG, AI bot).
+
+### Steps
+
+| ID | Change | Layer / files |
+|---|---|---|
+| **N1** | Add `preferred_language: str = "en"` to `Student` entity + `IdentifyStudentDTO` + `StudentResponseDTO` | [src/backend/app/domain/entities/student.py](../src/backend/app/domain/entities/student.py), [src/backend/app/application/dtos/student_dtos.py](../src/backend/app/application/dtos/student_dtos.py) |
+| **N2** | Add `language: str = "en"` to `Session` entity + Session create/response DTOs (per-session override of student default) | [src/backend/app/domain/entities/session.py](../src/backend/app/domain/entities/session.py), session DTOs |
+| **N3** | Add `language: str \| None = None` to `BotAskRequest`; resolve effective language as `request.language ?? session.language ?? student.preferred_language ?? "en"`; echo back as `BotAskResponse.language` | [src/backend/app/api/routes/bot.py](../src/backend/app/api/routes/bot.py) |
+| **N4** | Split agent system prompts into `<agent>_en.md` + `<agent>_es.md`; loader picks file by language; coordination agent passes language down to user-modeling, content-curation, assessment | `src/backend/app/infrastructure/agents/*.py` + prompt files |
+| **N5** | Static help content: add `language` field to JSON schema + Cosmos query filter; seed `data/help_content/<planet>/<lang>/*.json` | seed CLI + `HelpContentRepository` + use case |
+| **N6** | RAG: tag chunks with `language` at ingest; folder layout `data/nasa/<lang>/<body>.md`; filter retrieval by effective language; fallback rule: if no chunks in target language, retrieve EN chunks but instruct LLM to answer in target language and mark `language_fallback=true` | `app/cli/ingest_knowledge.py`, embedding store query |
+| **N7** | Frontend i18n on `LearnerPage`: lightweight context (or `react-i18next`); `en.json`/`es.json` resources; language selector; persist to `localStorage`; pass to `identify`, `createSession`, `askBot` | [src/frontend/src/pages/LearnerPage.tsx](../src/frontend/src/pages/LearnerPage.tsx), [src/frontend/src/api/client.ts](../src/frontend/src/api/client.ts), `src/frontend/src/i18n/` (new) |
+| **N8** | Set `<html lang>` dynamically; researcher pages add `language` column (read-only) | [src/frontend/index.html](../src/frontend/index.html), researcher pages |
+| **N9** | Telemetry + (Phase J1) `bot_audit` write resolved `language` per event/request | telemetry DTOs + Phase J1 schema |
+| **N10** | Backfill: existing `Student`/`Session` documents default to `language="en"` (no migration script — Pydantic default handles read; idempotent re-write on update) | repo layer |
+| **N11** | DEC-014 — Bilingual support model (resolution order, fallback rules, human-translated agent prompts, no runtime MT) | [docs/decisions.md](decisions.md) |
+| **N12** | Update [docs/plan.md](plan.md), [docs/status.md](status.md), [docs/paper/maive-systems-engineering-extended.md](paper/maive-systems-engineering-extended.md) §11 + add `docs/paper/figures/language-flow.md` (Mermaid: client → effective-language resolution → agent/static path → response) | docs only |
+
+### Sequencing (Phase N)
+
+1. **N1 + N2** parallel — data model
+2. **N3** depends on N1+N2
+3. **N4 + N5 + N6** parallel after N3 — translation + content
+4. **N7 + N8** parallel after N3 (frontend can stub against fixed `language` first)
+5. **N9** depends on N3
+6. **N10 + N11 + N12** last — closes the loop
+
+### Verification (Phase N)
+
+1. `POST /api/students/identify` accepts and persists `preferred_language="es"`; round-trips on `GET /api/students/{id}`
+2. `POST /api/sessions` with `language="es"` overrides student default
+3. `POST /api/bot/ask` with `condition="non-adaptive-vr"` returns Spanish `body_text` from a Spanish help-content row
+4. `POST /api/bot/ask` with `condition="maive"` returns Spanish answer; system-prompt swap verified via `bot_audit` (planned)
+5. Ingest `data/nasa/es/marte.md`; Spanish question returns Spanish-cited answer
+6. Frontend selector switches all UI strings; reload preserves choice; API calls carry `language=es`
+7. Researcher `StudentsPage` shows `language` column
+8. `BotAskResponse.language` always reflects the actually-used language (so client can render correctly even on fallback)
+9. Telemetry rows in a mixed-language session correctly attribute each event to its language
+10. DEC-014 dated 2026-04-28 present in [docs/decisions.md](decisions.md)
+
+### Decisions captured (Phase N — authored as DEC-014)
+
+- **Resolution order:** request override → session → student preference → `"en"` default
+- **Agent prompts are human-translated**, not machine-translated at runtime (auditable, reproducible for the thesis)
+- **RAG language fallback:** if no chunks exist in target language, retrieve English chunks but instruct LLM to *answer in target language*; mark response with `language_fallback=true` for audit
+- **Static help content** must exist in **both languages** before a planet/section is released for a Spanish session (enforced by seeder check, not at request time)
+- **No machine-translation API dependency** introduced in Phase N (small dependency surface)
+- **`es` neutral** (LatAm/EU-agnostic) for v1; locale tag deferred until pilot data shows confusion
+- **Default language on first contact:** web client reads browser `Accept-Language` and passes to `identify`; non-web clients (Unity / VRChat) fall back to `"en"` unless explicit
+- **Concept inventory + ARCS in Spanish:** use **published validated Spanish versions only** (preserves psychometric validity); freshly-translated instruments would be a research-validity threat
+
+### Out of scope (Phase N)
+
+- Auto language detection from query text (rely on explicit selection)
+- Right-to-left languages
+- Voice / TTS in Spanish (separate concern)
+- Translation of thesis instruments (use validated published versions externally)
+- Researcher dashboard internationalization (researcher-facing pages stay English)

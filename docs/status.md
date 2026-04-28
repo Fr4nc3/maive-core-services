@@ -5,9 +5,9 @@
 
 ## Current sprint focus
 
-**Sprint goal:** Land the V-Model + secure-system documentation pack (Phases G–L) so every architectural and security claim has a verifiable artifact behind it. Then transition to *Phase M — RAI/Security implementation*.
+**Sprint goal:** Land the V-Model + secure-system documentation pack (Phases G–L) so every architectural and security claim has a verifiable artifact behind it, plus stand up Phase N (bilingual EN/ES) as a first-class data + content track. Then transition to *Phase M — RAI/Security implementation*.
 
-**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model) · ⏳ I (Responsible AI policy) · ⏳ J (audit & evidence storage) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline)
+**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model) · ⏳ I (Responsible AI policy) · ⏳ J (audit & evidence storage) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline) · ⏳ N (bilingual EN/ES)
 
 ## Blockers
 
@@ -52,6 +52,11 @@
 | **J1–J4** | `bot_audit` container schema, audit policy, telemetry linkage, DEC-013 | ⬜ Not started (DEC-013 placeholder seeded) |
 | **K1–K5** | V&V test catalog (security + RAI), V-Model right-arm trace, paper §3 update | ⬜ Not started |
 | **L1–L4** | Cross-link headers in source files; status/plan reconciliation | 🟡 L3+L4 done; L1+L2 not started |
+| **N1–N3** | Bilingual data model: `Student.preferred_language`, `Session.language`, `BotAskRequest.language` + resolution | ⬜ Not started |
+| **N4–N6** | Agent prompts EN/ES split, static help language field, RAG language tagging + fallback | ⬜ Not started |
+| **N7–N8** | Frontend i18n (selector, `en.json`/`es.json`, `<html lang>`); researcher `language` column | ⬜ Not started |
+| **N9–N10** | Telemetry/audit `language` field; backfill defaults | ⬜ Not started |
+| **N11–N12** | DEC-014 + paper §11 update + `figures/language-flow.md` | 🟡 DEC-014 placeholder seeded |
 
 **Legend:** ⬜ Not started · 🟡 In progress · ✅ Done · 🚫 Blocked · ⏸ Deferred
 
@@ -72,6 +77,7 @@
 - **Phase F3 complete** — DEC-008 (Spatial.io API), DEC-009 (unified identity), DEC-010 (documentation discipline)
 - **Phase F4/F7 complete** — extended SE paper skeleton + paper README workflow guide
 - **Phases G–L planned** — V-Model + secure-system validation pack (doc-only) recorded in `docs/plan.md`; DEC-011/012/013 placeholders seeded in `docs/decisions.md`; status table extended with G–L rows; A–F rows reconciled
+- **Phase N planned** — Bilingual (English / Spanish) end-to-end recorded in `docs/plan.md`: `preferred_language` on Student, `language` on Session, `language` on `BotAskRequest`, resolution order `request → session → student → "en"`, EN/ES split for agent prompts, static help, and NASA RAG, frontend i18n, telemetry/audit `language` field. DEC-014 placeholder seeded in `docs/decisions.md`.
 
 ### Earlier (April 2026)
 - **DEC-007** Platform identifiers standardised to `spatial.io | vrchat | sinespace | web`
@@ -94,6 +100,10 @@
 6. **J1** — `bot_audit` schema in `plan/architecture.md` (depends on I2)
 7. **K1–K4** — V&V test catalog (depends on G2 + H4 + I4 + J1)
 8. **L1 + L2** — source-file cross-link headers (last)
+9. **N1 + N2** — bilingual data model: `Student.preferred_language` + `Session.language` (parallel track)
+10. **N3** — `BotAskRequest.language` + resolution order in `bot.py`
+11. **N4 + N5 + N6** — agent prompts EN/ES split, static help language field, RAG language tagging
+12. **N7 + N8** — frontend language selector + i18n + dynamic `<html lang>`
 
 ---
 
