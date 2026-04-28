@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Stella Astra thinking placeholder">
+  <defs>
+    <radialGradient id="bg2" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#bg2)"/>
+  <g transform="translate(60 64)">
+    <polygon
+      points="0,-26 7,-8 26,-8 11,4 17,22 0,12 -17,22 -11,4 -26,-8 -7,-8"
+      fill="#60a5fa" stroke="#bfdbfe" stroke-width="1.5">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0" to="-360" dur="6s" repeatCount="indefinite"/>
+    </polygon>
+    <circle cx="-4" cy="-2" r="1.6" fill="#0f172a"/>
+    <circle cx="4" cy="-2" r="1.6" fill="#0f172a"/>
+    <path d="M -3 5 L 3 5" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <g fill="#bfdbfe">
+    <circle cx="92" cy="28" r="3">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="22" r="2.2">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="106" cy="18" r="1.6">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

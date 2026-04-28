@@ -61,6 +61,15 @@ const en: Dict = {
   "learner.ask.source": "Source",
   "learner.ask.languageEcho": "Language",
   "learner.ask.fallback": "(content unavailable in selected language; fallback used)",
+
+  // Stella Astra (mentor character)
+  "stella.name": "Stella Astra",
+  "stella.state.idle": "ready",
+  "stella.state.thinking": "thinking…",
+  "stella.state.talking": "speaking",
+  "stella.state.celebrating": "celebrating",
+  "stella.greeting": "Hi! I'm Stella Astra. Ask me anything about the planet you're exploring.",
+  "stella.thinking": "Let me think about that…",
 };
 
 const es: Dict = {
@@ -111,6 +120,16 @@ const es: Dict = {
   "learner.ask.languageEcho": "Idioma",
   "learner.ask.fallback":
     "(contenido no disponible en el idioma seleccionado; se usó alternativa)",
+
+  // Stella Astra (personaje mentor)
+  "stella.name": "Stella Astra",
+  "stella.state.idle": "lista",
+  "stella.state.thinking": "pensando…",
+  "stella.state.talking": "hablando",
+  "stella.state.celebrating": "celebrando",
+  "stella.greeting":
+    "¡Hola! Soy Stella Astra. Pregúntame lo que quieras sobre el planeta que estás explorando.",
+  "stella.thinking": "Déjame pensarlo…",
 };
 
 export const MESSAGES: Record<Lang, Dict> = { en, es };

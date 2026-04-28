@@ -2,6 +2,7 @@ import { useState } from "react";
 import { api, type Student, type Session, type BotResponse } from "../api/client";
 import { useLanguage } from "../i18n/LanguageContext";
 import { LANGS, LANG_LABEL, type Lang } from "../i18n/messages";
+import StellaAstra, { type StellaState } from "../components/StellaAstra";
 
 const PLANETS = ["mars", "jupiter", "europa", "moon"];
 const SECTIONS = ["intro", "crater_lab", "orbit_observatory", "atmosphere_lab"];
@@ -23,6 +24,20 @@ function LearnerPage() {
   const [botReply, setBotReply] = useState<BotResponse | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Stella Astra animation state machine.
+  // - busy           → thinking
+  // - botReply set   → talking (placeholder; designer can swap to celebrating
+  //                    when an assessment milestone fires)
+  // - otherwise      → idle
+  const stellaState: StellaState = busy
+    ? "thinking"
+    : botReply
+    ? "talking"
+    : "idle";
+  const stellaMessage = busy
+    ? t("stella.thinking")
+    : botReply?.answer ?? t("stella.greeting");
 
   async function handleStart() {
     setError(null);
@@ -86,6 +101,8 @@ function LearnerPage() {
     <div style={{ maxWidth: 720 }}>
       <h1>{t("learner.title")}</h1>
       <p style={{ color: "#475569" }}>{t("learner.subtitle")}</p>
+
+      <StellaAstra state={stellaState} message={stellaMessage} />
 
       {!session ? (
         <section style={card}>
