@@ -13,6 +13,7 @@ class Session(BaseModel):
     condition: str = ""  # "maive" | "non-adaptive-vr"
     module_id: str = ""
     vr_device: str = ""  # "quest" | "pcvr" | "desktop"
+    language: str = "en"  # "en" | "es" — per-session override; see DEC-014
     difficulty_level: str = ""  # current adaptive difficulty, e.g. "easy" | "medium" | "hard"
     started_at: datetime = Field(default_factory=datetime.utcnow)
     ended_at: datetime | None = None

@@ -7,7 +7,7 @@ All architectural and design decisions for the MAIVE platform, in reverse chrono
 ## DEC-014 — Bilingual support model (English / Spanish)
 
 **Date:** 2026-04-28
-**Status:** Proposed (placeholder — to be finalised by Phase N11)
+**Status:** Accepted
 
 The MAIVE experience and service must respect a learner's preferred language (`en` or `es`) end-to-end: client UI, session record, static help content, NASA RAG retrieval, agent prompts, bot response, and telemetry/audit. Language is recorded as a research-grade variable so RQ1/RQ2/RQ3 analyses can be split by language.
 
@@ -19,19 +19,20 @@ The MAIVE experience and service must respect a learner's preferred language (`e
 
 **Translation discipline:**
 - **Agent system prompts are human-translated** (`<agent>_en.md` + `<agent>_es.md`) — auditable and reproducible. No runtime machine translation.
+- Spanish prompts and Spanish help content are authored by the PhD owner (Francia Riesco), who is bilingual. No third-party translation service in the loop.
 - **Static help content** must exist in **both** languages before a planet/section is released for a Spanish session (enforced by seeder check, not at request time).
 - **NASA RAG fallback rule:** if no chunks exist in the target language, retrieve English chunks but instruct the LLM to *answer in the target language*; mark the response with `language_fallback=true` for audit.
 - **No machine-translation API dependency** in this phase (small dependency surface).
 
 **Locale scope (v1):** `es` neutral (LatAm/EU-agnostic). Locale tag (`es-MX`, `es-ES`, `es-419`) deferred until pilot data shows confusion.
 
-**Default at first contact:** the web client reads browser `Accept-Language` and passes it to `identify`. Non-web clients (Unity, VRChat) fall back to `"en"` unless explicit.
+**Default at first contact:** all clients (web, Unity, VRChat, Spatial.io) default to `"en"` unless the learner explicitly selects Spanish via the in-experience language selector. Browser `Accept-Language` is **not** auto-applied (keeps behaviour consistent across the 5 platforms and avoids surprising the participant before the consent step).
 
-**Research instruments:** the concept inventory and ARCS survey use **published validated Spanish versions only**. Freshly-translated instruments would be a research-validity threat (psychometric properties not preserved).
+**Research instruments:** the concept inventory and ARCS survey use **published validated Spanish versions only** (sourcing tracked by Francia). Freshly-translated instruments would be a research-validity threat (psychometric properties not preserved). Citations of the validated Spanish instruments will be added to the extended paper §10 (Evaluation Plan) and §References before data collection.
 
 **Telemetry/audit:** every `telemetry_event` and (Phase J1) `bot_audit` row records the resolved `language` so per-language RQ analyses are trivial.
 
-**To finalise (Phase N):** owner of Spanish prompts + help content + validated-instrument sourcing — see Phase N in [docs/plan.md](plan.md) and `docs/paper/figures/language-flow.md` (planned).
+**Implementation:** see Phase N in [docs/plan.md](plan.md). Diagram: `docs/paper/figures/language-flow.md` (planned).
 
 ---
 

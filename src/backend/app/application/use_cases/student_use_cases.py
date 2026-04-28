@@ -26,6 +26,7 @@ class IdentifyOrCreateStudentUseCase:
             platform=dto.platform,
             platform_user_id=dto.platform_user_id,
             display_name=dto.display_name,
+            preferred_language=dto.preferred_language,
             metadata=dto.metadata,
         )
         created = await self._repo.create(student)
@@ -41,6 +42,7 @@ class CreateStudentUseCase:
             platform=dto.platform,
             platform_user_id=dto.platform_user_id,
             display_name=dto.display_name,
+            preferred_language=dto.preferred_language,
             metadata=dto.metadata,
         )
         created = await self._repo.create(student)
@@ -75,6 +77,7 @@ def _to_response(s: Student) -> StudentResponseDTO:
         platform=s.platform,
         platform_user_id=s.platform_user_id,
         display_name=s.display_name,
+        preferred_language=s.preferred_language,
         created_at=s.created_at.isoformat(),
         metadata=s.metadata,
     )

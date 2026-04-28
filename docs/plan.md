@@ -259,16 +259,16 @@ The infrastructure for the unified bot, multi-agent pipeline, RAG, and LLM abstr
 9. Telemetry rows in a mixed-language session correctly attribute each event to its language
 10. DEC-014 dated 2026-04-28 present in [docs/decisions.md](decisions.md)
 
-### Decisions captured (Phase N — authored as DEC-014)
+### Decisions captured (Phase N — DEC-014, Accepted 2026-04-28)
 
 - **Resolution order:** request override → session → student preference → `"en"` default
-- **Agent prompts are human-translated**, not machine-translated at runtime (auditable, reproducible for the thesis)
+- **Agent prompts are human-translated** by PhD owner (Francia Riesco, bilingual); no runtime MT, no third-party translation service
 - **RAG language fallback:** if no chunks exist in target language, retrieve English chunks but instruct LLM to *answer in target language*; mark response with `language_fallback=true` for audit
 - **Static help content** must exist in **both languages** before a planet/section is released for a Spanish session (enforced by seeder check, not at request time)
 - **No machine-translation API dependency** introduced in Phase N (small dependency surface)
 - **`es` neutral** (LatAm/EU-agnostic) for v1; locale tag deferred until pilot data shows confusion
-- **Default language on first contact:** web client reads browser `Accept-Language` and passes to `identify`; non-web clients (Unity / VRChat) fall back to `"en"` unless explicit
-- **Concept inventory + ARCS in Spanish:** use **published validated Spanish versions only** (preserves psychometric validity); freshly-translated instruments would be a research-validity threat
+- **Default language on first contact:** all clients default to `"en"`; learner explicitly picks Spanish via in-experience selector. Browser `Accept-Language` is not auto-applied (consistent across the 5 platforms; consent step first)
+- **Concept inventory + ARCS in Spanish:** validated published Spanish versions exist; sourcing tracked by Francia. Citations added to extended paper §10 + References before data collection
 
 ### Out of scope (Phase N)
 
