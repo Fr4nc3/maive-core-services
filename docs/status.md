@@ -1,13 +1,25 @@
 # MAIVE — Project Status
 
 > **Running status board.** Updated whenever meaningful work merges. Read this *first* in any new session.
-> Last updated: **2026-04-28**
+> Last updated: **2026-04-29**
 
 ## Current sprint focus
 
-**Sprint goal:** Land the V-Model + secure-system documentation pack (Phases G–L) so every architectural and security claim has a verifiable artifact behind it, plus stand up Phase N (bilingual EN/ES) as a first-class data + content track. Then transition to *Phase M — RAI/Security implementation*.
+**Sprint goal:** Phase R (RAI Bot Pipeline) shipped 2026-04-29 — `/api/bot/ask`
+now traverses 6 guardrail stages with an immutable `bot_audit` row. Granular
+sub-agent surface (Phase W) live. Sample help_content seeded for the
+non-adaptive control arm. Next: Phase X (rate limiting + Content Safety
+integration) and execute the operator-side V steps (`docker compose up`,
+`azd provision --preview`).
 
-**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model) · ⏳ I (Responsible AI policy) · ⏳ J (audit & evidence storage) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline) · ⏳ N (bilingual EN/ES)
+**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model — base done; expand per-feature) · ⏳ I (RAI policy — base done; expand) · ⏳ J (audit & evidence — base done) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline) · ⏳ N (bilingual EN/ES) · ⏳ X (per-session rate limit + Content Safety)
+
+## What changed this week
+- **2026-04-29** — System review snapshot authored: [`docs/system-review-2026-04-29.md`](system-review-2026-04-29.md) (services, plan, infra, status, API surface, telemetry → RQ traceability, gap audit, fitness-to-research scorecard).
+- **2026-04-29** — Phase R shipped: 6-stage RAI bot pipeline (`input_validator → topic_gate → prompt_injection → system_prompt → CoordinationAgent → output_validator → audit`), `BotAudit` entity + Cosmos repo + explicit `bot_audit` container in Bicep, `BotPipelineUseCase` orchestrator, both AI and static `/api/bot/ask` paths now write audit rows. 42/42 RAI tests passing. DEC-019 + DEC-020 added. [`docs/rai-policy.md`](rai-policy.md) and [`docs/threat-model.md`](threat-model.md) authored. `qa_audit rai-check` upgraded to verify modules + container + wiring (15+ checks). Phase W shipped: `@maive-deploy`, `@maive-frontend`, `@maive-research` sub-agents + `deploy.instructions.md` + top-level dispatcher [`.github/copilot-instructions.md`](../.github/copilot-instructions.md). Phase P4 shipped: narrowed `except Exception` in `health.py` (httpx/OpenAIError/CosmosHttpResponseError) and 3 cosmos repos (CosmosResourceNotFoundError); audit-write blocks remain broad by design (DEC-019). Phase S sample seeded: `data/help_content/mars/atmosphere.json` (3 EN + 3 ES across `fact`/`hint`/`explanation`).
+- **2026-04-28** — Phase Q shipped: [`RUNLOCAL.md`](RUNLOCAL.md) (Path A `.venv` + Path B Docker Compose), backend + frontend Dockerfiles + nginx template, `docker-compose.yml`, Edge Protector ([`src/edge-protector/`](../src/edge-protector/)), full `infra/` Bicep (App Service B1 frontend + Container Apps backend + Cosmos serverless + AI Foundry + Key Vault + ACR + Log Analytics + App Insights), `azure.yaml`, CI + deploy workflows, [`docs/deployment/`](deployment/) trio (architecture / runbook / secrets). DEC-017 + DEC-018 added.
+- **2026-04-28** — Phase P1 shipped: `LLMProviderRegistry` removes the if/elif provider switch in `dependencies.py` + `health.py`; `LLMProvider.model_name` added; both providers self-register via decorator. DEC-016 added. P2/P3 explicitly deferred (no if/elif present to remove). Also fixed 2 `datetime.utcnow()` violations.
+- **2026-04-28** — Phase O shipped: `@maive-qa` agent + `qa_audit.py` (5 rubrics) + checklist. DEC-015 added. Surfaced concrete Phase P targets: 4 if/elif provider sites in `dependencies.py` + `health.py`, 2 `datetime.utcnow()` calls, 5 bare `except Exception` blocks.
 
 ## Blockers
 

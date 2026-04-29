@@ -3,6 +3,11 @@ Embedding service — thin wrapper over the LLM provider's embedding capability.
 
 Used by the knowledge ingestion pipeline and the Content Curation Agent
 for RAG vector search.
+
+Pillar: Stable Core
+Phase: E
+Purpose: Embedding helper for RAG ingestion + vector search.
+Documented in: docs/decisions.md
 """
 
 from app.infrastructure.ai.llm_provider import LLMProvider

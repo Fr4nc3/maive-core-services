@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from azure.cosmos.exceptions import CosmosResourceNotFoundError
 
 from app.domain.entities.student import Student

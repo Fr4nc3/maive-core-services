@@ -3,6 +3,11 @@ Knowledge ingestion pipeline.
 
 Loads NASA markdown files, chunks them, generates embeddings,
 and stores them in Cosmos DB for RAG vector search.
+
+Pillar: Stable Core
+Phase: D
+Purpose: NASA RAG ingestion (chunk -> embed -> store).
+Documented in: docs/knowledge-ingestion.md
 """
 
 import logging

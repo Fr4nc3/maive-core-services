@@ -4,6 +4,11 @@ Coordination Agent.
 Orchestrates User Modeling, Content Curation, and Assessment agents to produce
 a single cohesive action for the student's current VR session.
 Records the decision as an AgentAction entity in the database.
+
+Pillar: Configuration Layer
+Phase: R
+Purpose: Multi-agent layer; system prompts and decision logic.
+Documented in: docs/paper/maive-systems-engineering-extended.md
 """
 
 import json

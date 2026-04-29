@@ -1,3 +1,11 @@
+"""Admin endpoints for static help content (control arm).
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: Admin endpoints for static help content (control arm).
+Documented in: data/help_content/README.md
+"""
+
 from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.help_content_dtos import (

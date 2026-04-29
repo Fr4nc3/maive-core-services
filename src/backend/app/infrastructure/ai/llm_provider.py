@@ -4,6 +4,11 @@ LLM Provider abstraction layer.
 Defines the interface that all LLM backends must implement.
 This allows switching between Ollama (local dev), Azure AI Foundry (production),
 or any other provider via configuration — without changing agent code.
+
+Pillar: Stable Core
+Phase: E
+Purpose: Abstract LLMProvider port.
+Documented in: docs/decisions.md
 """
 
 from abc import ABC, abstractmethod

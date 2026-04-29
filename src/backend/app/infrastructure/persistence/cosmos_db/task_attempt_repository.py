@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.task_attempt import TaskAttempt
 from app.domain.interfaces.task_attempt_repository import TaskAttemptRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.agent_action import AgentAction
 from app.domain.interfaces.agent_action_repository import AgentActionRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

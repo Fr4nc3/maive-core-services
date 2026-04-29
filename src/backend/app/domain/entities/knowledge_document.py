@@ -1,3 +1,11 @@
+"""Domain entity for the 5-platform research data model.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Domain entity for the 5-platform research data model.
+Documented in: plan/architecture.md
+"""
+
 import uuid
 from datetime import datetime
 

@@ -7,6 +7,11 @@ to decide which path to take:
 
 * ``non-adaptive-vr`` → static help-content lookup
 * ``maive``           → full multi-agent AI pipeline
+
+Pillar: Stable Core
+Phase: R
+Purpose: Unified /api/bot/ask endpoint; routes AI vs static help_content.
+Documented in: docs/rai-policy.md
 """
 
 from fastapi import APIRouter, HTTPException

@@ -1,3 +1,11 @@
+"""Cosmos client (passwordless via Managed Identity, DEC-021).
+
+Pillar: Stable Core
+Phase: Q
+Purpose: Cosmos client (passwordless via Managed Identity, DEC-021).
+Documented in: docs/deployment/configuration.md
+"""
+
 import logging
 
 from azure.cosmos import CosmosClient

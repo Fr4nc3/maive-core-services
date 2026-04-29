@@ -1,3 +1,11 @@
+"""Static help content entity (control-arm bot answers).
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: Static help content entity (control-arm bot answers).
+Documented in: data/help_content/README.md
+"""
+
 import uuid
 from datetime import datetime
 

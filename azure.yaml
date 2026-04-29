@@ -1,0 +1,44 @@
+# Documented in: docs/RUNLOCAL.md (cloud topology), docs/deployment/runbook.md
+# Azure Developer CLI (azd) configuration for MAIVE Core Services.
+# Reference: https://learn.microsoft.com/azure/developer/azure-developer-cli/azd-schema
+#
+# Topology (DEC-018):
+#   Frontend  → Azure App Service (B1)  → reverse-proxies /api/* to backend
+#   Backend   → Azure Container Apps    → talks to Cosmos + AI Foundry
+#   Storage   → Cosmos DB serverless (DiskANN vector index on knowledge_chunks)
+#   LLM       → Azure AI Foundry (Azure OpenAI deployments)
+#   Secrets   → Key Vault, accessed via Managed Identity
+#   Observ.   → Log Analytics + Application Insights
+
+name: maive-core-services
+metadata:
+  template: maive-core-services@0.1.0
+
+services:
+  backend:
+    project: ./src/backend
+    language: python
+    host: containerapp
+    docker:
+      path: Dockerfile
+      context: .
+  frontend:
+    project: ./src/frontend
+    language: ts
+    host: appservice
+    docker:
+      path: Dockerfile
+      context: .
+
+hooks:
+  postprovision:
+    windows:
+      shell: pwsh
+      run: |
+        Write-Host "Provisioned. Backend FQDN: $env:BACKEND_URI"
+        Write-Host "Frontend FQDN: $env:FRONTEND_URI"
+    posix:
+      shell: sh
+      run: |
+        echo "Provisioned. Backend FQDN: $BACKEND_URI"
+        echo "Frontend FQDN: $FRONTEND_URI"

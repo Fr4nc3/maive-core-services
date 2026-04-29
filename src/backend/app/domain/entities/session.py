@@ -1,3 +1,11 @@
+"""Session entity; platform + condition (maive | non-adaptive-vr).
+
+Pillar: Stable Core
+Phase: B
+Purpose: Session entity; platform + condition (maive | non-adaptive-vr).
+Documented in: plan/architecture.md
+"""
+
 import uuid
 from datetime import datetime
 

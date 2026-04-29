@@ -1,5 +1,10 @@
 """
 Base Cosmos DB repository with shared boilerplate.
+
+Pillar: Stable Core
+Phase: Q
+Purpose: Cosmos base repository.
+Documented in: plan/architecture.md
 """
 
 from azure.cosmos import CosmosClient

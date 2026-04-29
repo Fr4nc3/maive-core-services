@@ -3,6 +3,11 @@ Assessment Agent.
 
 Evaluates whether the current difficulty level is appropriate for the student
 and recommends adjustments using Zone of Proximal Development principles.
+
+Pillar: Configuration Layer
+Phase: R
+Purpose: Multi-agent layer; system prompts and decision logic.
+Documented in: docs/paper/maive-systems-engineering-extended.md
 """
 
 import json

@@ -73,6 +73,8 @@ Agents never import a provider class directly.
 | File | Purpose |
 |---|---|
 | [docs/plan.md](docs/plan.md) | Current project plan, phases, sequencing |
+| [docs/plan-template.md](docs/plan-template.md) | Strict template every new phase MUST follow (Pillar / Goal / Owner / Status) |
+| [docs/plan-history.md](docs/plan-history.md) | Append-only log of plan restructures. **Every restructure adds a row.** |
 | [docs/status.md](docs/status.md) | Running status board: current sprint, blockers, weekly changelog |
 | [docs/decisions.md](docs/decisions.md) | Architectural decisions (DEC-NNN), reverse chronological |
 | [plan/architecture.md](plan/architecture.md) | Architecture spec (entities, endpoints, containers) |

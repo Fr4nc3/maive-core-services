@@ -1,4 +1,12 @@
 # Documented in: docs/paper/maive-systems-engineering-extended.md#81-identity-model
+"""Student entity; (platform, platform_user_id) + UUID, no PII (DEC-009).
+
+Pillar: Stable Core
+Phase: B
+Purpose: Student entity; (platform, platform_user_id) + UUID, no PII (DEC-009).
+Documented in: plan/architecture.md
+"""
+
 import uuid
 from datetime import datetime
 

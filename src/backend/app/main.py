@@ -1,3 +1,11 @@
+"""FastAPI application entry point.
+
+Pillar: Stable Core
+Phase: Q
+Purpose: FastAPI application entry point.
+Documented in: docs/RUNLOCAL.md
+"""
+
 import logging
 
 from fastapi import FastAPI

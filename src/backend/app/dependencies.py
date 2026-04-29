@@ -1,3 +1,11 @@
+"""FastAPI DI container; wires registries (DEC-016) + repositories.
+
+Pillar: Stable Core
+Phase: P1
+Purpose: FastAPI DI container; wires registries (DEC-016) + repositories.
+Documented in: plan/architecture.md
+"""
+
 from app.config import settings
 from app.infrastructure.persistence.cosmos_db.agent_action_repository import (
     CosmosAgentActionRepository,

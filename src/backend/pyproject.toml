@@ -19,8 +19,10 @@ dependencies = [
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.24.0",
+    "pytest-cov>=5.0.0",
     "ruff>=0.8.0",
     "mypy>=1.13.0",
+    "radon>=6.0.1",
 ]
 
 [build-system]
@@ -40,6 +42,33 @@ select = ["E", "F", "I", "N", "W", "UP"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
+# Strict only on application + domain (DEC-023 / Rubric 7).
+# Infrastructure layer is loose because Azure SDK stubs are incomplete.
+files = ["app/application", "app/domain"]
+
+[[tool.mypy.overrides]]
+module = "app.infrastructure.*"
+ignore_errors = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+omit = [
+    "app/cli/*",
+    "app/main.py",
+]
+
+[tool.coverage.report]
+# Coverage threshold enforced via --cov-fail-under in qa_audit phd-check
+# (DEC-023 / Rubric 7). 80% baseline on application + infrastructure/rai.
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "\\.\\.\\.",
+]

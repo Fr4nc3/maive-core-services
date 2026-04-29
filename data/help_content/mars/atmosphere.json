@@ -1,0 +1,68 @@
+[
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "easy",
+    "help_type": "fact",
+    "title": "Mars atmosphere — quick fact (EN)",
+    "body_text": "Mars has a very thin atmosphere, about 1% the density of Earth's, made mostly of carbon dioxide. That is why pressurised suits are needed on the surface.",
+    "display_order": 1,
+    "tags": ["mars", "atmosphere", "en"]
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "easy",
+    "help_type": "hint",
+    "title": "Mars atmosphere — hint (EN)",
+    "body_text": "Look around the lab: do you see anything that might tell you whether the air outside is breathable? Check the pressure gauge near the airlock.",
+    "display_order": 2,
+    "tags": ["mars", "atmosphere", "en"]
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "medium",
+    "help_type": "explanation",
+    "title": "Why Mars lost most of its atmosphere (EN)",
+    "body_text": "Mars has a weak global magnetic field, so the solar wind has been steadily stripping atmospheric particles for billions of years. This thinning explains the low surface pressure today.",
+    "display_order": 3,
+    "tags": ["mars", "atmosphere", "magnetic-field", "en"]
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "easy",
+    "help_type": "fact",
+    "title": "Atmósfera de Marte — dato rápido (ES)",
+    "body_text": "Marte tiene una atmósfera muy delgada, aproximadamente el 1% de la densidad terrestre, compuesta en su mayoría de dióxido de carbono. Por eso se necesitan trajes presurizados en la superficie.",
+    "display_order": 1,
+    "tags": ["mars", "atmosphere", "es"]
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "easy",
+    "help_type": "hint",
+    "title": "Atmósfera de Marte — pista (ES)",
+    "body_text": "Mira a tu alrededor en el laboratorio: ¿ves algo que te indique si el aire exterior es respirable? Revisa el manómetro junto a la esclusa.",
+    "display_order": 2,
+    "tags": ["mars", "atmosphere", "es"]
+  },
+  {
+    "planet": "mars",
+    "section": "crater_lab",
+    "content_topic": "atmosphere",
+    "difficulty_level": "medium",
+    "help_type": "explanation",
+    "title": "Por qué Marte perdió gran parte de su atmósfera (ES)",
+    "body_text": "Marte posee un campo magnético global débil, por lo que el viento solar ha ido arrastrando partículas atmosféricas durante miles de millones de años. Ese adelgazamiento explica la baja presión superficial actual.",
+    "display_order": 3,
+    "tags": ["mars", "atmosphere", "magnetic-field", "es"]
+  }
+]

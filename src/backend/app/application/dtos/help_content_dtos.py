@@ -1,3 +1,11 @@
+"""DTOs for static help content scenario pack.
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: DTOs for static help content scenario pack.
+Documented in: data/help_content/README.md
+"""
+
 from pydantic import BaseModel
 
 

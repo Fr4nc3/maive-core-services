@@ -1,3 +1,11 @@
+"""Use case orchestrating domain + repository ports.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Use case orchestrating domain + repository ports.
+Documented in: plan/architecture.md
+"""
+
 from app.application.dtos.task_attempt_dtos import (
     CreateTaskAttemptDTO,
     TaskAttemptResponseDTO,

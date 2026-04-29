@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.telemetry import TelemetryEvent
 from app.domain.interfaces.telemetry_repository import TelemetryRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

@@ -1,3 +1,11 @@
+"""Static help content repository port.
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: Static help content repository port.
+Documented in: data/help_content/README.md
+"""
+
 from abc import ABC, abstractmethod
 
 from app.domain.entities.help_content import HelpContent

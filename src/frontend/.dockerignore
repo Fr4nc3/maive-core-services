@@ -1,0 +1,11 @@
+# Frontend Docker build context excludes
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+!.env.example
+README.md
+*.md
+coverage/
+.eslintcache

@@ -1,0 +1,59 @@
+# Documented in: docs/deployment/runbook.md
+# Deployment via Azure Developer CLI (azd). OIDC federated credential — no secrets in GitHub.
+# Configure once with: azd pipeline config --provider github
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "azd environment name (e.g. dev, staging)"
+        required: true
+        default: "dev"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "infra/**"
+      - "azure.yaml"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-${{ inputs.environment || 'dev' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: azd up
+    runs-on: ubuntu-latest
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_ENV_NAME: ${{ inputs.environment || 'dev' }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install azd
+        uses: Azure/setup-azd@v2
+
+      - name: Log in with azd (federated)
+        run: |
+          azd auth login \
+            --client-id "$AZURE_CLIENT_ID" \
+            --federated-credential-provider "github" \
+            --tenant-id "$AZURE_TENANT_ID"
+
+      - name: Provision + deploy
+        run: azd up --no-prompt
+
+      - name: Smoke test backend
+        run: |
+          BACKEND_URI=$(azd env get-value BACKEND_URI)
+          echo "Hitting $BACKEND_URI/api/health"
+          curl --fail --retry 5 --retry-delay 5 "$BACKEND_URI/api/health"

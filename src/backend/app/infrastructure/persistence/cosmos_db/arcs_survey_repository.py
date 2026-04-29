@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.arcs_survey import ARCSSurveyResponse
 from app.domain.interfaces.arcs_survey_repository import ARCSSurveyRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

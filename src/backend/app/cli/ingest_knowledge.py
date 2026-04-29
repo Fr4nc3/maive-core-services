@@ -6,6 +6,11 @@ Usage:
   uv run python -m app.cli.ingest_knowledge --data-dir ../../data/nasa
   uv run python -m app.cli.ingest_knowledge --provider ollama
   uv run python -m app.cli.ingest_knowledge --provider azure
+
+Pillar: Configuration Layer
+Phase: D
+Purpose: CLI for NASA RAG ingestion.
+Documented in: docs/knowledge-ingestion.md
 """
 
 import argparse

@@ -1,3 +1,11 @@
+"""Cosmos impl of static help_content.
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: Cosmos impl of static help_content.
+Documented in: data/help_content/README.md
+"""
+
 from app.domain.entities.help_content import HelpContent
 from app.domain.interfaces.help_content_repository import HelpContentRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

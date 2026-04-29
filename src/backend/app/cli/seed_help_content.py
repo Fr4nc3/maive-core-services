@@ -12,6 +12,11 @@ Usage:
   uv run python -m app.cli.seed_help_content
   uv run python -m app.cli.seed_help_content --data-dir ../../data/help_content
   uv run python -m app.cli.seed_help_content --planet mars
+
+Pillar: Scenario Pack
+Phase: S
+Purpose: Seeder for static help_content (control-arm scenario pack).
+Documented in: data/help_content/README.md
 """
 
 import argparse

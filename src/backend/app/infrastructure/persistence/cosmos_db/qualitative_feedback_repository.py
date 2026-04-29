@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.qualitative_feedback import QualitativeFeedback
 from app.domain.interfaces.qualitative_feedback_repository import (
     QualitativeFeedbackRepository,

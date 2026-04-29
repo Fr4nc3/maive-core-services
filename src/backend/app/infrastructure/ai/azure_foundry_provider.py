@@ -3,6 +3,11 @@ Azure AI Foundry LLM Provider — for production and cloud testing.
 
 Uses Azure OpenAI endpoints via the openai SDK with Azure-specific auth.
 Requires: azure_openai_endpoint, azure_openai_key, deployment names in config.
+
+Pillar: Stable Core
+Phase: E
+Purpose: Azure AI Foundry implementation of LLMProvider.
+Documented in: docs/decisions.md
 """
 
 import logging

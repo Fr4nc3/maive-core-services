@@ -67,6 +67,7 @@ This document defines the architecture for the **backend API** and **frontend da
 | ClassifierPrediction | `classifier_predictions`| `/session_id`  | ML predicted success probability |
 | HelpContent          | `help_content`         | `/planet`       | Static bot responses (control group) |
 | KnowledgeDocument    | `knowledge_documents`  | `/body_id`      | NASA RAG chunks with vector embeddings |
+| BotAudit             | `bot_audit`            | `/session_id`   | Append-only RAI audit per `/api/bot/ask` (DEC-013/019) |
 
 ## Multi-Agent AI System
 

@@ -1,3 +1,11 @@
+"""FastAPI route; Clean Architecture API boundary.
+
+Pillar: Stable Core
+Phase: B
+Purpose: FastAPI route; Clean Architecture API boundary.
+Documented in: plan/architecture.md
+"""
+
 from fastapi import APIRouter, HTTPException
 
 from app.application.dtos.assessment_dtos import (

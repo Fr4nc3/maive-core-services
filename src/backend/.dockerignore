@@ -1,0 +1,17 @@
+# Backend Docker build context excludes
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.env
+.env.*
+!.env.example
+README.md
+*.md
+tests/

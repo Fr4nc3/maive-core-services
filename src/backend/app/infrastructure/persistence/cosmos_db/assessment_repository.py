@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.assessment import Assessment
 from app.domain.interfaces.assessment_repository import AssessmentRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

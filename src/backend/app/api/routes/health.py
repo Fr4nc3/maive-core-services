@@ -1,4 +1,10 @@
-"""Health check endpoints for Cosmos DB and LLM provider connectivity."""
+"""Health check endpoints for Cosmos DB and LLM provider connectivity.
+
+Pillar: Stable Core
+Phase: B
+Purpose: FastAPI route; Clean Architecture API boundary.
+Documented in: plan/architecture.md
+"""
 
 from __future__ import annotations
 

@@ -1,0 +1,65 @@
+# Documented in: docs/RUNLOCAL.md (Path B)
+# Local-stack composer for MAIVE: backend + frontend + Cosmos emulator.
+# Ollama is intentionally NOT included by default (run natively for GPU);
+# uncomment the `ollama` service if you want a fully self-contained stack.
+
+services:
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: maive-backend
+    env_file:
+      - ./src/backend/.env
+    environment:
+      # Override Ollama URL so containerized backend reaches host's Ollama.
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      COSMOS_ENDPOINT: ${COSMOS_ENDPOINT:-https://cosmos:8081/}
+    ports:
+      - "8000:8000"
+    depends_on:
+      cosmos:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: maive-frontend
+    environment:
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  cosmos:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview
+    container_name: maive-cosmos
+    environment:
+      AZURE_COSMOS_EMULATOR_PARTITION_COUNT: "10"
+      AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE: "true"
+    ports:
+      - "8081:8081"
+      - "10250-10255:10250-10255"
+    volumes:
+      - cosmos-data:/tmp/cosmos/appdata
+    restart: unless-stopped
+
+  # Uncomment to run Ollama in-container (CPU only; for GPU use native install).
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   container_name: maive-ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama-data:/root/.ollama
+  #   restart: unless-stopped
+
+volumes:
+  cosmos-data:
+  # ollama-data:

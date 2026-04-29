@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.session import Session
 from app.domain.interfaces.session_repository import SessionRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (

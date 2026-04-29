@@ -3,6 +3,11 @@ Content Curation Agent.
 
 Queries the RAG knowledge base for relevant NASA content and uses the LLM
 to craft a context-appropriate help response for the student.
+
+Pillar: Configuration Layer
+Phase: R
+Purpose: Multi-agent layer; system prompts and decision logic.
+Documented in: docs/paper/maive-systems-engineering-extended.md
 """
 
 import json

@@ -1,3 +1,11 @@
+"""Pydantic settings; .env locally, Azure App Configuration in prod (DEC-021).
+
+Pillar: Stable Core
+Phase: KV
+Purpose: Pydantic settings; .env locally, Azure App Configuration in prod (DEC-021).
+Documented in: docs/deployment/configuration.md
+"""
+
 from pydantic_settings import BaseSettings
 
 

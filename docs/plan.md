@@ -1,7 +1,176 @@
 # MAIVE Core Services — Project Plan
 
 > **Public mirror** of the working session plan. Source of truth for committee, advisors, and contributors.
-> Last updated: 2026-04-28
+> Last updated: 2026-04-29
+>
+> **Plan template:** All phases added on or after 2026-04-29 follow
+> [`plan-template.md`](plan-template.md) (Pillar / Goal / Owner agent / Status
+> header + tasks table + Verification + DECs + Out-of-scope). Restructures of
+> this file are logged in [`plan-history.md`](plan-history.md). Pre-template
+> phases are preserved below the `--- Pre-template phases ---` divider for
+> historical fidelity and will be migrated lazily.
+
+## Phase R — RAI Bot Pipeline (DEC-019)
+
+**Pillar:** Stable Core
+**Goal:** Every `/api/bot/ask` call traverses 6 RAI guardrail stages and writes one immutable `bot_audit` row.
+**Owner agent:** @maive-rai
+**Status:** ✅ Done (2026-04-29)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **R1** | `BotAudit` entity + `BotAuditRepository` interface (append-only) | ✅ Done (2026-04-29) |
+| **R2** | 6 guardrail modules + `errors.py` under `src/backend/app/infrastructure/rai/` | ✅ Done (2026-04-29) |
+| **R3** | `BotPipelineUseCase` orchestrator | ✅ Done (2026-04-29) |
+| **R4** | `CosmosBotAuditRepository` + DI wiring | ✅ Done (2026-04-29) |
+| **R5** | `bot_audit` container in `infra/modules/cosmos.bicep` (PK `/session_id`) | ✅ Done (2026-04-29) |
+| **R6** | `routes/bot.py` AI + static paths use the pipeline / write audit | ✅ Done (2026-04-29) |
+| **R7** | [`docs/rai-policy.md`](rai-policy.md) + [`docs/threat-model.md`](threat-model.md) | ✅ Done (2026-04-29) |
+| **R8** | `qa_audit rai-check` upgraded (modules + container + wiring) | ✅ Done (2026-04-29) |
+| **R9** | `tests/rai/` — 42 tests covering each stage + integration | ✅ Done (2026-04-29) |
+| **R10** | DEC-019 added to [`docs/decisions.md`](decisions.md) | ✅ Done (2026-04-29) |
+
+**Verification:** `cd src/backend && uv run pytest tests/rai/ -q` → 42/42; `qa_audit rai-check` → 16/16.
+**Decisions referenced:** DEC-012, DEC-013, DEC-019.
+
+## Phase W — Granular sub-agent surface (DEC-020)
+
+**Pillar:** Stable Core
+**Goal:** Split monolithic agent surface into a top-level dispatcher + 4 owner sub-agents (rai/deploy/frontend/research) so each turn has a smaller blast radius.
+**Owner agent:** @maive-lead
+**Status:** ✅ Done (2026-04-29)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **W1** | Top-level dispatcher [`.github/copilot-instructions.md`](../.github/copilot-instructions.md) | ✅ Done (2026-04-29) |
+| **W2** | `@maive-rai` agent + [`rai.instructions.md`](../.github/instructions/rai.instructions.md) | ✅ Done (2026-04-29) |
+| **W3** | `@maive-deploy` agent + [`deploy.instructions.md`](../.github/instructions/deploy.instructions.md) | ✅ Done (2026-04-29) |
+| **W4** | `@maive-frontend` agent | ✅ Done (2026-04-29) |
+| **W5** | `@maive-research` agent | ✅ Done (2026-04-29) |
+| **W6** | Dispatcher delegation map | ✅ Done (2026-04-29) |
+| **W7** | DEC-020 added to [`docs/decisions.md`](decisions.md) | ✅ Done (2026-04-29) |
+
+**Verification:** All 5 agent files present under `.github/agents/`; dispatcher delegation map covers all 6 sub-agents.
+**Decisions referenced:** DEC-020.
+
+## Phase S — Help_content seed sample data
+
+**Pillar:** Scenario Pack
+**Goal:** Bootstrap the non-adaptive control arm with curated EN+ES help content for the Mars sample scenario.
+**Owner agent:** @maive-lead
+**Status:** ✅ Done (2026-04-29) — operator step S3 pending
+
+| ID | Artifact | Status |
+|---|---|---|
+| **S1** | `data/help_content/mars/atmosphere.json` (3 EN + 3 ES) | ✅ Done (2026-04-29) |
+| **S2** | `data/help_content/README.md` | ✅ Done (2026-04-29) |
+| **S3** | Run `seed_help_content` against live Cosmos | ⏸ Operator step |
+
+**Verification:** Pydantic validation of sample JSON returns `OK: 6 records validated`.
+
+## Phase P4 — Narrow exception handling
+
+**Pillar:** Stable Core
+**Goal:** Replace `except Exception` with typed exceptions everywhere except the audit-write blocks sanctioned by DEC-019.
+**Owner agent:** @maive-qa
+**Status:** ✅ Done (2026-04-29)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **P4** | `health.py` + 3 cosmos repos use specific exceptions; audit-write broad-catch sanctioned by DEC-019 | ✅ Done (2026-04-29) |
+
+**Verification:** `qa_audit if-else-scan` reports 0 bare `except Exception` outside the two sanctioned files.
+
+## Phase V — Verification
+
+**Pillar:** Stable Core
+**Goal:** Confirm Phases O / P1 / Q / R are green via lint, RAI tests, qa_audit, and Bicep compile.
+**Owner agent:** @maive-qa
+**Status:** ✅ Done (2026-04-29) — operator steps V5/V6 pending
+
+| ID | Artifact | Status |
+|---|---|---|
+| **V1** | Bicep compile passes | ✅ Done (2026-04-29) |
+| **V2** | RAI test suite green (42/42) | ✅ Done (2026-04-29) |
+| **V3** | `qa_audit all` green except pre-existing UP042 in domain entity | ✅ Done (2026-04-29) |
+| **V4** | [`docs/deployment/verification-2026-04-29.md`](deployment/verification-2026-04-29.md) | ✅ Done (2026-04-29) |
+| **V5** | `docker compose up` smoke | ⏸ Operator step |
+| **V6** | `azd provision --preview` | ⏸ Operator step |
+
+**Verification:** [`docs/deployment/verification-2026-04-29.md`](deployment/verification-2026-04-29.md) records the gate.
+
+---
+
+## Pre-template phases
+
+> Phases below this divider were authored before [`plan-template.md`](plan-template.md)
+> existed. They are kept verbatim for historical fidelity. New work or status
+> changes inside these phases get a row in [`plan-history.md`](plan-history.md).
+
+## Phase Q — Run-locally + Container deployment
+
+**Pillar:** Stable Core
+**Goal:** Stand up local-run + Azure container deployment topology (App Service frontend + Container Apps backend).
+**Owner agent:** @maive-deploy
+**Status:** ✅ Done (2026-04-28) — Key Vault portion superseded by Phase KV (DEC-021)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **Q1** | [`docs/RUNLOCAL.md`](RUNLOCAL.md) — Path A (`.venv`) + Path B (Docker Compose) | ✅ Done (2026-04-28) |
+| **Q2** | [`src/backend/Dockerfile`](../src/backend/Dockerfile) + [`.dockerignore`](../src/backend/.dockerignore) (multi-stage, non-root, healthcheck) | ✅ Done (2026-04-28) |
+| **Q3** | [`src/frontend/Dockerfile`](../src/frontend/Dockerfile) + [`nginx.conf.template`](../src/frontend/nginx.conf.template) + [`.dockerignore`](../src/frontend/.dockerignore) | ✅ Done (2026-04-28) |
+| **Q4** | [`docker-compose.yml`](../docker-compose.yml) (backend + frontend + Cosmos emulator) | ✅ Done (2026-04-28) |
+| **Q5** | [`src/edge-protector/`](../src/edge-protector/) (token + IP-allowlisted Ollama shim) | ✅ Done (2026-04-28) |
+| **Q6** | [`azure.yaml`](../azure.yaml) + [`infra/main.bicep`](../infra/main.bicep) + [`infra/modules/*.bicep`](../infra/modules/) (monitoring, keyvault, cosmos, ai_foundry, containerapp, appservice) | ✅ Done (2026-04-28) |
+| **Q7** | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) + [`deploy.yml`](../.github/workflows/deploy.yml) | ✅ Done (2026-04-28) |
+| **Q8** | DEC-017 (LLM split) + DEC-018 (topology) | ✅ Done (2026-04-28) |
+| **Q9** | [`docs/deployment/architecture.md`](deployment/architecture.md) + [`runbook.md`](deployment/runbook.md) + [`secrets.md`](deployment/secrets.md) | ✅ Done (2026-04-28) |
+
+**Verification:** `docker compose up` boots the full local stack. `azd up`
+provisions+deploys to a sandbox subscription (manual; not automated until
+post-defence). CI runs lint + typecheck + build on every PR.
+
+**Out of scope (intentionally):** VS Code Dev Containers, prod subscription
+automation, Front Door / WAF, Entra ID auth, multi-region. Tracked in
+[deployment/architecture.md](deployment/architecture.md) § "What is NOT here yet".
+
+---
+
+## Phase P — Factory / Registry refactor
+
+| ID | Artifact | Status |
+|---|---|---|
+| **P1** | [`LLMProviderRegistry`](../src/backend/app/infrastructure/ai/registry.py) closes the if/elif provider switch in `dependencies.py` + `health.py`; `LLMProvider.model_name` added | ✅ Done (2026-04-28) |
+| **P2** | `AgentRegistry` | 🚫 Deferred — no if/elif present (single `CoordinationAgent` entry); revisit when adding a 5th agent |
+| **P3** | `CosmosRepoRegistry` | 🚫 Deferred — `_get_repo(cls)` already a class-keyed registry with no branching |
+| **P5** | DEC-016 | ✅ Done (2026-04-28) |
+
+**Verification:** `qa_audit if-else-scan` reports 0 provider hits + 0
+`datetime.utcnow` hits. Remaining `except Exception` (3 cosmos repos + 3
+health-route handlers) carry `# noqa: BLE001` and are intentional surface
+broad-error catchers — narrow per-call when each repo gains typed exceptions.
+
+---
+
+## Phase O — MAIVE QA Agent (read-only audit + safe auto-fix)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **O1** | [`.github/agents/maive-qa.agent.md`](../.github/agents/maive-qa.agent.md) | ✅ Done (2026-04-28) |
+| **O2** | [`.github/instructions/maive-qa.instructions.md`](../.github/instructions/maive-qa.instructions.md) | ✅ Done (2026-04-28) |
+| **O3** | [`docs/qa/qa-checklist.md`](qa/qa-checklist.md) — 5-rubric checklist | ✅ Done (2026-04-28) |
+| **O4** | [`src/backend/app/cli/qa_audit.py`](../src/backend/app/cli/qa_audit.py) | ✅ Done (2026-04-28) |
+| **O5** | `qa_audit.py --fix` (ruff/prettier auto-fixers) | ✅ Done (2026-04-28) |
+| **O6** | DEC-015 + VS Code task wiring | 🟡 DEC-015 done; tasks deferred |
+
+**Run it:** `cd src/backend && uv run python -m app.cli.qa_audit all`.
+
+**Phase P preview** (next): close the if/elif provider switches surfaced by
+`qa_audit if-else-scan` via `LLMProviderRegistry`, `AgentRegistry`, and
+`CosmosRepoRegistry`. See DEC-016 (planned).
+
+---
+
 
 ## TL;DR
 

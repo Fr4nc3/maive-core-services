@@ -3,6 +3,11 @@ User Modeling Agent.
 
 Analyzes session telemetry to produce a learner profile with engagement metrics,
 knowledge gaps, and an initial action recommendation.
+
+Pillar: Configuration Layer
+Phase: R
+Purpose: Multi-agent layer; system prompts and decision logic.
+Documented in: docs/paper/maive-systems-engineering-extended.md
 """
 
 import json

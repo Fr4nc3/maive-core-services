@@ -1,3 +1,11 @@
+"""Module under MAIVE Clean Architecture.
+
+Pillar: Stable Core
+Phase: B
+Purpose: Module under MAIVE Clean Architecture.
+Documented in: plan/architecture.md
+"""
+
 from app.domain.entities.knowledge_document import KnowledgeDocument
 from app.domain.interfaces.knowledge_document_repository import (
     KnowledgeDocumentRepository,
