@@ -15,6 +15,7 @@
 | RAI guardrails, bot pipeline, prompt injection, audit rows, `bot.py`, `infrastructure/rai/` | `@maive-rai` |
 | Deploy, `azd`, Bicep, Docker, Container Apps, App Service, Key Vault, RBAC, MI | `@maive-deploy` |
 | Frontend, React, TSX, i18n, Vite, nginx config, `api/client.ts` | `@maive-frontend` |
+| Unity serious game, `src/unity`, Spatial.io closing/sunset, migration off Spatial.io, single-player Unity, character controller, SDK selection, `MaiveClient.cs`, Unity telemetry | `@maive-unity` |
 | Research methodology, RQ1/RQ2/RQ3, hypotheses, ARCS, concept inventory, stats | `@maive-research` |
 | Cross-cutting feature planning, phase mapping, paper updates | `@maive-lead` |
 
