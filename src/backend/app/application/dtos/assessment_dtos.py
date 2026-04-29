@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 
 class CreateAssessmentDTO(BaseModel):
-    student_id: str
+    user_id: str
     session_id: str | None = None
     assessment_type: str = ""
     score: float = 0.0
@@ -21,7 +21,7 @@ class CreateAssessmentDTO(BaseModel):
 
 class AssessmentResponseDTO(BaseModel):
     id: str
-    student_id: str
+    user_id: str
     session_id: str | None
     assessment_type: str
     score: float

@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateAgentActionDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     action_type: str = ""
     agent_role: str = ""
     bot_type: str = ""
@@ -25,13 +25,13 @@ class CreateAgentActionDTO(BaseModel):
     confidence: float = 0.0
     description: str = ""
     parameters: dict = {}
-    student_response: str | None = None
+    user_response: str | None = None
 
 
 class AgentActionResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     action_type: str
     agent_role: str
     bot_type: str
@@ -45,5 +45,5 @@ class AgentActionResponseDTO(BaseModel):
     confidence: float
     description: str
     parameters: dict
-    student_response: str | None
+    user_response: str | None
     triggered_at: str

@@ -197,8 +197,8 @@ The MAIVE experience and service must respect a learner's preferred language (`e
 
 **Resolution order (effective language for any bot/help call):**
 1. `BotAskRequest.language` (per-request override)
-2. `Session.language` (per-session override of student default)
-3. `Student.preferred_language` (set on `POST /api/students/identify`)
+2. `Session.language` (per-session override of user default)
+3. `User.preferred_language` (set on `POST /api/users/identify`)
 4. Default: `"en"`
 
 **Translation discipline:**
@@ -227,7 +227,7 @@ The MAIVE experience and service must respect a learner's preferred language (`e
 
 A new Cosmos container `bot_audit` (partition `/session_id`) will record every bot interaction and every guardrail verdict, providing both (a) reproducible thesis evidence for RQ1/RQ2/RQ3 and (b) forensic trail for security/RAI audits.
 
-**Schema (draft):** `id, session_id, student_id, timestamp, request_payload, response_payload, guardrail_verdicts[{stage, verdict, score, rule_hit}], provider, model, prompt_tokens, completion_tokens, latency_ms, condition`.
+**Schema (draft):** `id, session_id, user_id, timestamp, request_payload, response_payload, guardrail_verdicts[{stage, verdict, score, rule_hit}], provider, model, prompt_tokens, completion_tokens, latency_ms, condition`.
 
 **Linkage rule:** the existing `telemetry_events` `bot_request` event stores `audit_id` only; the audit row is canonical (no duplicate payload storage).
 
@@ -253,7 +253,7 @@ The bot enforces astronomy-only, safe responses through a **multi-layered** guar
 
 **Why multi-layered:** no single technique is robust; the embedding gate is cheap and deterministic, prompt-injection heuristics catch a different failure mode, and the output validator catches drift. Single-layer was rejected.
 
-**Abuse / overuse controls** layered on top: per-session call cap, per-student daily quota, token budget per session, repeated-question detector. Each control has an explicit threshold, counter location (in `bot_audit`), and refusal message.
+**Abuse / overuse controls** layered on top: per-session call cap, per-user daily quota, token budget per session, repeated-question detector. Each control has an explicit threshold, counter location (in `bot_audit`), and refusal message.
 
 **To finalise (Phase I):** threshold τ, regex set, control thresholds, refusal text — see [docs/security/rai-policy.md](security/rai-policy.md) (planned) and `docs/paper/figures/rai-pipeline.md` (planned).
 
@@ -302,18 +302,18 @@ In addition, an **extended systems-engineering paper** ([docs/paper/maive-system
 All clients (web, Unity, Spatial.io, VRChat) share the same backend API. Each client identifies its user with a `(platform, platform_user_id)` natural key on first contact via a new endpoint:
 
 ```
-POST /api/students/identify
+POST /api/users/identify
 { "platform": "web" | "unity" | "spatial.io" | "vrchat" | "sinespace",
   "platform_user_id": "<provider-issued ID>",
   "display_name": "<optional>" }
 ```
 
-The endpoint is **idempotent** — repeated calls with the same `(platform, platform_user_id)` return the same internal `student.id` (UUID). No PII (no email, no real name).
+The endpoint is **idempotent** — repeated calls with the same `(platform, platform_user_id)` return the same internal `user.id` (UUID). No PII (no email, no real name).
 
 **Why:**
 - Unity, Spatial.io, VRChat, and the flat web client cannot share a single auth scheme; the natural-key approach decouples identity from any specific platform's auth.
 - Aligns with the multi-platform research design — same telemetry pipeline regardless of how the participant accesses MAIVE.
-- The `Student` entity drops the legacy `spatial_id` field and the redundant `group` field (experimental condition is already on `Session.condition`).
+- The `User` entity drops the legacy `spatial_id` field and the redundant `group` field (experimental condition is already on `Session.condition`).
 
 **Pre-deployment hardening (out of scope for the thesis):** add a `X-Maive-Platform-Token` header check before any public release.
 

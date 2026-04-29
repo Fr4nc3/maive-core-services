@@ -34,12 +34,12 @@ class CosmosARCSSurveyRepository(BaseCosmosRepository, ARCSSurveyRepository):
         )
         return [ARCSSurveyResponse(**item) for item in items]
 
-    async def list_by_student(self, student_id: str) -> list[ARCSSurveyResponse]:
+    async def list_by_user(self, user_id: str) -> list[ARCSSurveyResponse]:
         query = (
-            "SELECT * FROM c WHERE c.student_id = @sid"
+            "SELECT * FROM c WHERE c.user_id = @sid"
             " ORDER BY c.submitted_at ASC"
         )
-        parameters = [{"name": "@sid", "value": student_id}]
+        parameters = [{"name": "@sid", "value": user_id}]
         items = list(
             self._container.query_items(
                 query=query,

@@ -16,7 +16,7 @@ class Session(BaseModel):
     """Domain entity representing a VR learning session."""
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    student_id: str
+    user_id: str
     platform: str = ""  # "spatial.io" | "vrchat" | "sinespace" | "web"
     condition: str = ""  # "maive" | "non-adaptive-vr"
     module_id: str = ""

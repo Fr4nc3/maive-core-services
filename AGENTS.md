@@ -48,7 +48,7 @@ Every API call from a VR or web client carries:
 - `platform ∈ {"spatial.io", "vrchat", "sinespace", "unity", "web"}`
 - `platform_user_id` — the user identifier on that platform
 
-The backend issues a stable internal `student.id` (UUID) on first contact via `POST /api/students/identify` and reuses it on every subsequent call.
+The backend issues a stable internal `user.id` (UUID) on first contact via `POST /api/users/identify` and reuses it on every subsequent call.
 
 ## Unified bot rule
 
@@ -92,7 +92,7 @@ Agents never import a provider class directly.
 6. **Run `cd src/backend && uv run ruff check .`** before declaring backend work complete. Must exit 0.
 7. **Never create new repository implementations without inheriting from `BaseCosmosRepository`** (see `app/infrastructure/persistence/cosmos_db/base_repository.py`).
 8. **Never create client-specific endpoints** — all VR/web clients hit the same routes with `platform` discriminator.
-9. **No PII** — students are identified only by `(platform, platform_user_id)` and an internal UUID. No email, no real name (use optional `display_name` only).
+9. **No PII** — users are identified only by `(platform, platform_user_id)` and an internal UUID. No email, no real name (use optional `display_name` only).
 10. **Treat the thesis document as authoritative** for research questions, hypotheses, and statistical decision rules — do not invent new ones.
 
 ## Common commands

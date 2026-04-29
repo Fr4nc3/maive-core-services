@@ -17,7 +17,7 @@ class ARCSSurveyResponse(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     module_id: str = ""
     attention_score: float = 0.0
     relevance_score: float = 0.0

@@ -60,7 +60,7 @@ class TelemetryEvent(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     event_type: str = ""  # value from TelemetryEventType
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     duration_ms: int | None = None

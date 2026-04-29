@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateTelemetryDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     event_type: str = ""
     duration_ms: int | None = None
     planet: str = ""
@@ -25,7 +25,7 @@ class CreateTelemetryDTO(BaseModel):
 class TelemetryResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     event_type: str
     timestamp: str
     duration_ms: int | None

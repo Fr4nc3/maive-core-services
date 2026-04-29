@@ -9,7 +9,7 @@ description: "MAIVE frontend rules. Use when editing any TypeScript or TSX file 
 
 The flat web client serves **two distinct audiences** in this codebase:
 
-1. **Researcher dashboard** (`/students`, `/sessions`, `/assessments`, `/dashboard`) — admin views for the PhD investigator.
+1. **Researcher dashboard** (`/users`, `/sessions`, `/assessments`, `/dashboard`) — admin views for the PhD investigator.
 2. **Learner experience** (`/learn` — Phase C1) — the **reference implementation** of how every VR client (Unity, Spatial.io, VRChat) must talk to the backend.
 
 When building or editing the learner experience, treat it as if it were a Unity scene rendered in 2D. Same payloads, same telemetry events, same identity flow. **Other VR clients will mirror this code.**
@@ -18,15 +18,15 @@ When building or editing the learner experience, treat it as if it were a Unity 
 
 - All backend calls go through `src/api/client.ts`. Never use `fetch(...)` or `axios` directly inside a component.
 - The base URL is read from `import.meta.env.VITE_API_BASE` (default `http://localhost:8000`).
-- Always send `(platform, platform_user_id)` on first interaction via `identifyStudent({ platform: 'web', platform_user_id })`.
-- Persist the returned `student.id` in `localStorage` under the key `maive.student.id` for the duration of the session.
+- Always send `(platform, platform_user_id)` on first interaction via `identifyUser({ platform: 'web', platform_user_id })`.
+- Persist the returned `user.id` in `localStorage` under the key `maive.user.id` for the duration of the session.
 
 ## Identity flow (web client)
 
 1. On mount, check `localStorage` for `maive.platform_user_id`. If missing, generate `crypto.randomUUID()` and persist it.
-2. Call `identifyStudent({ platform: 'web', platform_user_id })`.
-3. Store the returned `student.id` in component state and `localStorage`.
-4. All subsequent calls (`startSession`, `logTelemetry`, `askBot`) include the student's UUID.
+2. Call `identifyUser({ platform: 'web', platform_user_id })`.
+3. Store the returned `user.id` in component state and `localStorage`.
+4. All subsequent calls (`startSession`, `logTelemetry`, `askBot`) include the user's UUID.
 
 ## Telemetry rule
 

@@ -23,7 +23,7 @@ from app.infrastructure.rai.errors import BotPipelineError
 @dataclass
 class BotPipelineRequest:
     session_id: str
-    student_id: str
+    user_id: str
     query: str
     language: str = "en"
     bot_path: str = "ai"  # "ai" | "static"
@@ -66,7 +66,7 @@ class BotPipelineUseCase:
     async def execute(self, req: BotPipelineRequest) -> BotPipelineResult:
         draft = AuditDraft(
             session_id=req.session_id,
-            student_id=req.student_id,
+            user_id=req.user_id,
             language=req.language,
             bot_path=req.bot_path,
             client_platform=req.client_platform,

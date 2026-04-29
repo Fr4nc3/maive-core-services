@@ -56,9 +56,9 @@ This document defines the architecture for the **backend API** and **frontend da
 
 | Entity               | Container              | Partition Key   | Description |
 |----------------------|------------------------|-----------------|-------------|
-| Student              | `students`             | `/id`           | Learner profile, group assignment |
-| Session              | `sessions`             | `/student_id`   | VR learning session with platform, condition, difficulty |
-| Assessment           | `assessments`          | `/student_id`   | Pre/post test scores, normalized gain |
+| User              | `users`             | `/id`           | Learner profile, group assignment |
+| Session              | `sessions`             | `/user_id`   | VR learning session with platform, condition, difficulty |
+| Assessment           | `assessments`          | `/user_id`   | Pre/post test scores, normalized gain |
 | TelemetryEvent       | `telemetry`            | `/session_id`   | VR behavioral data (22 event types) |
 | AgentAction          | `agent_actions`        | `/session_id`   | AI agent decisions and scaffolding |
 | TaskAttempt          | `task_attempts`        | `/session_id`   | Open-ended challenge attempts (RQ3) |
@@ -99,9 +99,9 @@ All agents use the `LLMProvider` interface (chat + embed). Switching is config-o
 ### Data Collection
 | Method | Path                              | Description |
 |--------|-----------------------------------|-------------|
-| POST   | `/api/students`                   | Create student |
-| GET    | `/api/students/{id}`              | Get student |
-| GET    | `/api/students`                   | List students |
+| POST   | `/api/users`                   | Create user |
+| GET    | `/api/users/{id}`              | Get user |
+| GET    | `/api/users`                   | List users |
 | POST   | `/api/sessions`                   | Start VR session |
 | PATCH  | `/api/sessions/{id}`              | Update/end session |
 | GET    | `/api/sessions/{id}`              | Get session details |
@@ -136,7 +136,7 @@ All agents use the `LLMProvider` interface (chat + embed). Switching is config-o
 ## Frontend Structure
 
 Single-page React dashboard for researchers and instructors:
-- Student management
+- User management
 - Session monitoring
 - Assessment results visualization
 - Telemetry analytics

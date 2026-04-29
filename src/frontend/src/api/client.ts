@@ -12,16 +12,16 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  // Students
-  listStudents: () => request<Student[]>("/api/students"),
-  getStudent: (id: string) => request<Student>(`/api/students/${id}`),
-  createStudent: (data: CreateStudentPayload) =>
-    request<Student>("/api/students", {
+  // Users
+  listUsers: () => request<User[]>("/api/users"),
+  getUser: (id: string) => request<User>(`/api/users/${id}`),
+  createUser: (data: CreateUserPayload) =>
+    request<User>("/api/users", {
       method: "POST",
       body: JSON.stringify(data),
     }),
-  identifyStudent: (data: IdentifyStudentPayload) =>
-    request<Student>("/api/students/identify", {
+  identifyUser: (data: IdentifyUserPayload) =>
+    request<User>("/api/users/identify", {
       method: "POST",
       body: JSON.stringify(data),
     }),
@@ -69,18 +69,18 @@ export const api = {
 };
 
 // ---- Types ----
-export interface Student {
+export interface User {
   id: string;
   platform: string;
   platform_user_id: string;
   display_name: string;
-  // DEC-014: stable per-student language preference ("en" | "es").
+  // DEC-014: stable per-user language preference ("en" | "es").
   preferred_language: string;
   created_at: string;
   metadata: Record<string, unknown>;
 }
 
-export interface CreateStudentPayload {
+export interface CreateUserPayload {
   platform: string;
   platform_user_id: string;
   display_name?: string;
@@ -89,7 +89,7 @@ export interface CreateStudentPayload {
 
 export interface Session {
   id: string;
-  student_id: string;
+  user_id: string;
   condition: string;
   // DEC-014: per-session effective language ("en" | "es").
   language: string;
@@ -100,16 +100,16 @@ export interface Session {
 }
 
 export interface CreateSessionPayload {
-  student_id: string;
+  user_id: string;
   condition?: string;
   // DEC-014: optional per-session override; if omitted backend falls back to
-  // student.preferred_language, then "en".
+  // user.preferred_language, then "en".
   language?: string;
 }
 
 export interface Assessment {
   id: string;
-  student_id: string;
+  user_id: string;
   session_id: string | null;
   assessment_type: string;
   score: number;
@@ -120,7 +120,7 @@ export interface Assessment {
 }
 
 export interface CreateAssessmentPayload {
-  student_id: string;
+  user_id: string;
   session_id?: string;
   assessment_type?: string;
   score?: number;
@@ -130,7 +130,7 @@ export interface CreateAssessmentPayload {
 export interface TelemetryEvent {
   id: string;
   session_id: string;
-  student_id: string;
+  user_id: string;
   event_type: string;
   timestamp: string;
   duration_ms: number | null;
@@ -141,18 +141,18 @@ export interface TelemetryEvent {
   payload: Record<string, unknown>;
 }
 
-export interface IdentifyStudentPayload {
+export interface IdentifyUserPayload {
   platform: string;
   platform_user_id: string;
   display_name?: string;
   condition?: string;
-  // DEC-014: passed on first contact so the student row stores the chosen UI language.
+  // DEC-014: passed on first contact so the user row stores the chosen UI language.
   preferred_language?: string;
 }
 
 export interface LogTelemetryPayload {
   session_id: string;
-  student_id: string;
+  user_id: string;
   event_type: string;
   section?: string;
   content?: string;
@@ -164,12 +164,12 @@ export interface LogTelemetryPayload {
 
 export interface AskBotPayload {
   session_id: string;
-  student_id: string;
+  user_id: string;
   planet: string;
   section?: string;
   question: string;
   // DEC-014: optional per-call override; backend resolves
-  // body.language → session.language → student.preferred_language → "en".
+  // body.language → session.language → user.preferred_language → "en".
   language?: string;
 }
 

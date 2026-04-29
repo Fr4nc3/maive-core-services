@@ -23,7 +23,7 @@ from app.dependencies import (
     get_coordination_agent,
     get_help_content_repository,
     get_session_repository,
-    get_student_repository,
+    get_user_repository,
 )
 
 router = APIRouter()
@@ -37,7 +37,7 @@ class BotAskRequest(BaseModel):
     session_id: str
     planet: str
     section: str = ""
-    query: str = ""  # free-text question from the student
+    query: str = ""  # free-text question from the user
     content_topic: str = ""
     difficulty_level: str = ""
     help_type: str = "explanation"  # "hint" | "explanation" | "scaffold" | "encouragement"
@@ -88,16 +88,16 @@ async def bot_ask(body: BotAskRequest):
 async def _resolve_language(body: BotAskRequest, session) -> str:
     """Effective-language resolution per DEC-014.
 
-    Order: request override → session.language → student.preferred_language → "en".
+    Order: request override → session.language → user.preferred_language → "en".
     """
     if body.language:
         return body.language
     if getattr(session, "language", None):
         return session.language
-    student_repo = get_student_repository()
-    student = await student_repo.get_by_id(session.student_id)
-    if student is not None and getattr(student, "preferred_language", None):
-        return student.preferred_language
+    user_repo = get_user_repository()
+    user = await user_repo.get_by_id(session.user_id)
+    if user is not None and getattr(user, "preferred_language", None):
+        return user.preferred_language
     return "en"
 
 

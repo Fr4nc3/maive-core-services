@@ -21,6 +21,6 @@ class AssessmentRepository(ABC):
     async def get_by_id(self, assessment_id: str) -> Assessment | None: ...
 
     @abstractmethod
-    async def list_by_student(
-        self, student_id: str, limit: int = 50
+    async def list_by_user(
+        self, user_id: str, limit: int = 50
     ) -> list[Assessment]: ...

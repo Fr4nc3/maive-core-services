@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateQualitativeFeedbackDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     prompt: str = ""
     arcs_dimension: str | None = None
     response_text: str = ""
@@ -20,7 +20,7 @@ class CreateQualitativeFeedbackDTO(BaseModel):
 class QualitativeFeedbackResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     prompt: str
     arcs_dimension: str | None
     response_text: str

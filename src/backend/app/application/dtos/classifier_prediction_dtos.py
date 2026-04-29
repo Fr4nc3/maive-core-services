@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateClassifierPredictionDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     model_version: str = ""
     features_used: dict = {}
     predicted_probability: float = 0.0
@@ -24,7 +24,7 @@ class CreateClassifierPredictionDTO(BaseModel):
 class ClassifierPredictionResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     model_version: str
     features_used: dict
     predicted_probability: float

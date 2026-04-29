@@ -10,11 +10,11 @@ from pydantic import BaseModel
 
 
 class CreateSessionDTO(BaseModel):
-    student_id: str
+    user_id: str
     platform: str = ""
     condition: str = ""
     difficulty_level: str = ""
-    # "en" | "es" — if None, falls back to student.preferred_language (DEC-014)
+    # "en" | "es" — if None, falls back to user.preferred_language (DEC-014)
     language: str | None = None
     metadata: dict = {}
 
@@ -28,7 +28,7 @@ class UpdateSessionDTO(BaseModel):
 
 class SessionResponseDTO(BaseModel):
     id: str
-    student_id: str
+    user_id: str
     platform: str
     condition: str
     difficulty_level: str

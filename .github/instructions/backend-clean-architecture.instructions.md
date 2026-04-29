@@ -61,7 +61,7 @@ API (FastAPI routes) → Application (DTOs, Use Cases) → Domain (Entities, Int
 ## Identity rule
 
 - Every API call from a VR/web client must carry `(platform, platform_user_id)`.
-- The student's internal `id` (UUID) is issued **only** by `POST /api/students/identify` and reused on every subsequent call.
+- The user's internal `id` (UUID) is issued **only** by `POST /api/users/identify` and reused on every subsequent call.
 - No PII. No email, no real name. Optional `display_name` only.
 
 ## Lint rule
@@ -72,7 +72,7 @@ API (FastAPI routes) → Application (DTOs, Use Cases) → Domain (Entities, Int
 ## Anti-patterns to reject
 
 - ❌ Domain entity importing from `azure.cosmos`, `httpx`, `openai`, or `app.application.*`
-- ❌ Use case constructing a repository class directly (`CosmosStudentRepository(...)`) instead of accepting it via `__init__`
+- ❌ Use case constructing a repository class directly (`CosmosUserRepository(...)`) instead of accepting it via `__init__`
 - ❌ Cosmos repo with its own `__init__(self, client, db)` (duplicates `BaseCosmosRepository`)
 - ❌ f-string in a Cosmos SQL query for `limit`, `offset`, or any user input
 - ❌ Route handler that performs business logic instead of delegating to a use case

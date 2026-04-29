@@ -45,7 +45,7 @@ class InMemoryAuditRepo(BotAuditRepository):
 def _req(query="What is Mars's gravity?"):
     return BotPipelineRequest(
         session_id="s1",
-        student_id="u1",
+        user_id="u1",
         query=query,
         language="en",
         bot_path="ai",

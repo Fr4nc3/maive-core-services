@@ -21,7 +21,7 @@ class CreateAgentActionUseCase:
     async def execute(self, dto: CreateAgentActionDTO) -> AgentActionResponseDTO:
         action = AgentAction(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             action_type=dto.action_type,
             agent_role=dto.agent_role,
             bot_type=dto.bot_type,
@@ -35,7 +35,7 @@ class CreateAgentActionUseCase:
             confidence=dto.confidence,
             description=dto.description,
             parameters=dto.parameters,
-            student_response=dto.student_response,
+            user_response=dto.user_response,
         )
         created = await self._repo.create(action)
         return _to_response(created)
@@ -56,7 +56,7 @@ def _to_response(a: AgentAction) -> AgentActionResponseDTO:
     return AgentActionResponseDTO(
         id=a.id,
         session_id=a.session_id,
-        student_id=a.student_id,
+        user_id=a.user_id,
         action_type=a.action_type,
         agent_role=a.agent_role,
         bot_type=a.bot_type,
@@ -70,6 +70,6 @@ def _to_response(a: AgentAction) -> AgentActionResponseDTO:
         confidence=a.confidence,
         description=a.description,
         parameters=a.parameters,
-        student_response=a.student_response,
+        user_response=a.user_response,
         triggered_at=a.triggered_at.isoformat(),
     )

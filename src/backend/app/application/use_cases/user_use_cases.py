@@ -6,81 +6,81 @@ Purpose: Use case orchestrating domain + repository ports.
 Documented in: plan/architecture.md
 """
 
-from app.application.dtos.student_dtos import (
-    CreateStudentDTO,
-    IdentifyStudentDTO,
-    StudentResponseDTO,
+from app.application.dtos.user_dtos import (
+    CreateUserDTO,
+    IdentifyUserDTO,
+    UserResponseDTO,
 )
-from app.domain.entities.student import Student
-from app.domain.interfaces.student_repository import StudentRepository
+from app.domain.entities.user import User
+from app.domain.interfaces.user_repository import UserRepository
 
 
-class IdentifyOrCreateStudentUseCase:
-    """Idempotent: returns the existing student for ``(platform, platform_user_id)``
+class IdentifyOrCreateUserUseCase:
+    """Idempotent: returns the existing user for ``(platform, platform_user_id)``
     or creates one if absent. This is the entry point every VR/web client calls
     on first interaction.
     """
 
-    def __init__(self, repository: StudentRepository) -> None:
+    def __init__(self, repository: UserRepository) -> None:
         self._repo = repository
 
-    async def execute(self, dto: IdentifyStudentDTO) -> StudentResponseDTO:
+    async def execute(self, dto: IdentifyUserDTO) -> UserResponseDTO:
         existing = await self._repo.get_by_platform_identity(
             dto.platform, dto.platform_user_id
         )
         if existing is not None:
             return _to_response(existing)
-        student = Student(
+        user = User(
             platform=dto.platform,
             platform_user_id=dto.platform_user_id,
             display_name=dto.display_name,
             preferred_language=dto.preferred_language,
             metadata=dto.metadata,
         )
-        created = await self._repo.create(student)
+        created = await self._repo.create(user)
         return _to_response(created)
 
 
-class CreateStudentUseCase:
-    def __init__(self, repository: StudentRepository) -> None:
+class CreateUserUseCase:
+    def __init__(self, repository: UserRepository) -> None:
         self._repo = repository
 
-    async def execute(self, dto: CreateStudentDTO) -> StudentResponseDTO:
-        student = Student(
+    async def execute(self, dto: CreateUserDTO) -> UserResponseDTO:
+        user = User(
             platform=dto.platform,
             platform_user_id=dto.platform_user_id,
             display_name=dto.display_name,
             preferred_language=dto.preferred_language,
             metadata=dto.metadata,
         )
-        created = await self._repo.create(student)
+        created = await self._repo.create(user)
         return _to_response(created)
 
 
-class GetStudentUseCase:
-    def __init__(self, repository: StudentRepository) -> None:
+class GetUserUseCase:
+    def __init__(self, repository: UserRepository) -> None:
         self._repo = repository
 
-    async def execute(self, student_id: str) -> StudentResponseDTO | None:
-        student = await self._repo.get_by_id(student_id)
-        if not student:
+    async def execute(self, user_id: str) -> UserResponseDTO | None:
+        user = await self._repo.get_by_id(user_id)
+        if not user:
             return None
-        return _to_response(student)
+        return _to_response(user)
 
 
-class ListStudentsUseCase:
-    def __init__(self, repository: StudentRepository) -> None:
+class ListUsersUseCase:
+    def __init__(self, repository: UserRepository) -> None:
         self._repo = repository
 
     async def execute(
         self, limit: int = 50, offset: int = 0
-    ) -> list[StudentResponseDTO]:
-        students = await self._repo.list_all(limit=limit, offset=offset)
-        return [_to_response(s) for s in students]
+    ) -> list[UserResponseDTO]:
+        users = await self._repo.list_all(limit=limit, offset=offset)
+        return [_to_response(s) for s in users]
 
 
-def _to_response(s: Student) -> StudentResponseDTO:
-    return StudentResponseDTO(
+def _to_response(s: User) -> UserResponseDTO:
+    return UserResponseDTO(
         id=s.id,
         platform=s.platform,
         platform_user_id=s.platform_user_id,

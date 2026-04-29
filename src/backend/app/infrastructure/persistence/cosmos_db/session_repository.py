@@ -37,21 +37,21 @@ class CosmosSessionRepository(BaseCosmosRepository, SessionRepository):
             return None
         return Session(**items[0])
 
-    async def list_by_student(
-        self, student_id: str, limit: int = 50
+    async def list_by_user(
+        self, user_id: str, limit: int = 50
     ) -> list[Session]:
         query = (
             "SELECT TOP @limit * FROM c"
-            " WHERE c.student_id = @sid"
+            " WHERE c.user_id = @sid"
             " ORDER BY c.started_at DESC"
         )
         parameters = [
-            {"name": "@sid", "value": student_id},
+            {"name": "@sid", "value": user_id},
             {"name": "@limit", "value": limit},
         ]
         items = list(
             self._container.query_items(
-                query=query, parameters=parameters, partition_key=student_id
+                query=query, parameters=parameters, partition_key=user_id
             )
         )
         return [Session(**item) for item in items]

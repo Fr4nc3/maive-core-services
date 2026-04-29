@@ -33,7 +33,7 @@ You own the researcher dashboard at `src/frontend/`.
 4. **Type-safe DTOs.** Mirror backend Pydantic models as TypeScript
    interfaces in `src/frontend/src/api/types.ts`.
 5. **`npx tsc -b` exits 0** before declaring frontend work complete.
-6. **No PII in logs** (no `console.log(student)` of full objects).
+6. **No PII in logs** (no `console.log(user)` of full objects).
 7. **No editing** `src/backend/app/domain/entities/`, `docs/decisions.md`,
    `docs/plan.md`, `docs/paper/`, or `tests/` without explicit user
    instruction.

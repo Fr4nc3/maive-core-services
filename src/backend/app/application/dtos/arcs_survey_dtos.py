@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateARCSSurveyDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     module_id: str = ""
     attention_score: float = 0.0
     relevance_score: float = 0.0
@@ -24,7 +24,7 @@ class CreateARCSSurveyDTO(BaseModel):
 class ARCSSurveyResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     module_id: str
     attention_score: float
     relevance_score: float

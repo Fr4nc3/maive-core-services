@@ -14,17 +14,17 @@
 
 | # | Threat | Category | Mitigation | Status |
 |---|---|---|---|---|
-| 1 | Anonymous client impersonates a student | **Spoofing** | No auth in MVP. IRB-controlled access; classroom-supervised. Documented limitation. | Accepted (DEC-005) |
+| 1 | Anonymous client impersonates a user | **Spoofing** | No auth in MVP. IRB-controlled access; classroom-supervised. Documented limitation. | Accepted (DEC-005) |
 | 2 | Audit row tampered to hide a bad response | **Tampering** | `BotAuditRepository` is append-only by interface; no `update`/`delete` method. Cosmos RBAC: backend MI has `Data Contributor` only. | Mitigated |
-| 3 | Researcher disputes that a student saw a particular response | **Repudiation** | Audit row links `(session_id, student_id, request_ts, response_ts, system_prompt_id, llm_provider+model, query_hash, output_validator flags)`. Replayable. | Mitigated |
-| 4 | LLM output leaks PII the student typed earlier | **Information Disclosure** | `output_validator` blocks email/phone/IP/URL patterns + instruction-leak phrases; raw output never returned on failure (HTTP 502 `output_blocked`). | Mitigated |
+| 3 | Researcher disputes that a user saw a particular response | **Repudiation** | Audit row links `(session_id, user_id, request_ts, response_ts, system_prompt_id, llm_provider+model, query_hash, output_validator flags)`. Replayable. | Mitigated |
+| 4 | LLM output leaks PII the user typed earlier | **Information Disclosure** | `output_validator` blocks email/phone/IP/URL patterns + instruction-leak phrases; raw output never returned on failure (HTTP 502 `output_blocked`). | Mitigated |
 | 5 | Logs/audit accidentally store the raw user query | **Information Disclosure** | Hard rule: only `sha256` hash + length stored. Encoded in [rai.instructions.md](../.github/instructions/rai.instructions.md) and enforced by `qa_audit rai-check`. | Mitigated |
 | 6 | Attacker exhausts LLM quota with high-volume requests | **Denial of Service** | `input_validator` length cap (≤2000 chars). Per-session rate limit deferred to Phase X. | Partial |
 | 7 | Off-topic queries waste budget / produce unsafe content | **DoS / Info Disclosure** | `topic_gate` short-circuits before LLM hop. Threshold tunable. | Mitigated |
 | 8 | Prompt injection bypasses topic gate by mentioning astronomy | **Tampering / Elevation** | `prompt_injection` runs after `topic_gate` with weighted-pattern matcher (Lakera/garak-inspired). Threshold 0.5; combined patterns escalate the score. | Mitigated |
 | 9 | Attacker exfiltrates the system prompt | **Information Disclosure** | `output_validator` blocks "system prompt" / "my instructions" / "I was told to" leak patterns. System prompt itself is not in the response context returned to the client. | Mitigated |
 | 10 | Bot path bypasses RAI by importing `CoordinationAgent` directly | **Elevation** | `bot.py` route MUST call `BotPipelineUseCase.execute(...)`. Enforced by `qa_audit rai-check` + the `@maive-rai` instructions. | Mitigated |
-| 11 | Cross-tenant query: one student sees another's audit | **Information Disclosure** | `bot_audit` partition key is `/session_id`; queries always include partition key. Read endpoint not yet exposed. | Mitigated |
+| 11 | Cross-tenant query: one user sees another's audit | **Information Disclosure** | `bot_audit` partition key is `/session_id`; queries always include partition key. Read endpoint not yet exposed. | Mitigated |
 | 12 | Time-of-check / time-of-use: session deleted between auth + audit | **Race condition** | Pipeline reads `session` once at request entry; audit is best-effort and never blocks the response. | Accepted |
 | 13 | Audit write fails → silent loss of evidence | **Logging integrity** | Future: route audit failure to App Insights critical alert. Today: swallowed (the request itself is unaffected). | Known gap |
 | 14 | Provider key leaked from environment | **Info Disclosure** | All secrets via Key Vault + system-assigned MI (DEC-018). No `--query keys` in workflows. | Mitigated |

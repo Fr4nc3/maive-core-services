@@ -27,7 +27,7 @@ input_validator → topic_gate → prompt_injection → system_prompt
   No I/O.
 
 ## `BotAudit` row (immutable)
-Required fields: `id`, `session_id`, `student_id`, `request_ts`,
+Required fields: `id`, `session_id`, `user_id`, `request_ts`,
 `response_ts`, `query_hash` (sha256, **not raw text**), `query_length`,
 `language`, `topic_gate_pass`, `prompt_injection_score`,
 `system_prompt_id`, `output_validator_pass`, `output_validator_reasons`

@@ -9,12 +9,12 @@ from app.api.routes.health import router as health_router
 from app.api.routes.help_content import router as help_content_router
 from app.api.routes.qualitative_feedback import router as qualitative_feedback_router
 from app.api.routes.sessions import router as sessions_router
-from app.api.routes.students import router as students_router
 from app.api.routes.task_attempts import router as task_attempts_router
 from app.api.routes.telemetry import router as telemetry_router
+from app.api.routes.users import router as users_router
 
 router = APIRouter()
-router.include_router(students_router, prefix="/students", tags=["Students"])
+router.include_router(users_router, prefix="/users", tags=["Users"])
 router.include_router(sessions_router, prefix="/sessions", tags=["Sessions"])
 router.include_router(assessments_router, prefix="/assessments", tags=["Assessments"])
 router.include_router(telemetry_router, prefix="/telemetry", tags=["Telemetry"])

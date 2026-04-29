@@ -9,7 +9,7 @@ Documented in: plan/architecture.md
 from pydantic import BaseModel
 
 
-class IdentifyStudentDTO(BaseModel):
+class IdentifyUserDTO(BaseModel):
     """Idempotent identity payload sent by every client on first interaction."""
 
     platform: str  # "spatial.io" | "vrchat" | "sinespace" | "unity" | "web"
@@ -19,7 +19,7 @@ class IdentifyStudentDTO(BaseModel):
     metadata: dict = {}
 
 
-class CreateStudentDTO(BaseModel):
+class CreateUserDTO(BaseModel):
     platform: str
     platform_user_id: str
     display_name: str = ""
@@ -27,13 +27,13 @@ class CreateStudentDTO(BaseModel):
     metadata: dict = {}
 
 
-class UpdateStudentDTO(BaseModel):
+class UpdateUserDTO(BaseModel):
     display_name: str | None = None
     preferred_language: str | None = None
     metadata: dict | None = None
 
 
-class StudentResponseDTO(BaseModel):
+class UserResponseDTO(BaseModel):
     id: str
     platform: str
     platform_user_id: str

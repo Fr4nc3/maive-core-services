@@ -22,7 +22,7 @@ class CreateTaskAttemptUseCase:
     async def execute(self, dto: CreateTaskAttemptDTO) -> TaskAttemptResponseDTO:
         attempt = TaskAttempt(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             task_id=dto.task_id,
             task_name=dto.task_name,
             task_type=dto.task_type,
@@ -65,7 +65,7 @@ def _to_response(a: TaskAttempt) -> TaskAttemptResponseDTO:
     return TaskAttemptResponseDTO(
         id=a.id,
         session_id=a.session_id,
-        student_id=a.student_id,
+        user_id=a.user_id,
         task_id=a.task_id,
         task_name=a.task_name,
         task_type=a.task_type,

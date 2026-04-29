@@ -102,7 +102,7 @@ is for the audit row, `public_detail` is what the client sees.
 
 ## Retention
 - `bot_audit` rows kept for the thesis duration + 1 year, then anonymised
-  (drop `student_id`) per IRB protocol. (DEC-013)
+  (drop `user_id`) per IRB protocol. (DEC-013)
 
 ## Out of scope (future phases)
 - Real-time content safety service (Azure Content Safety)

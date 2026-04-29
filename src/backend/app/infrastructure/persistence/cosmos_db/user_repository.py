@@ -8,30 +8,30 @@ Documented in: plan/architecture.md
 
 from azure.cosmos.exceptions import CosmosResourceNotFoundError
 
-from app.domain.entities.student import Student
-from app.domain.interfaces.student_repository import StudentRepository
+from app.domain.entities.user import User
+from app.domain.interfaces.user_repository import UserRepository
 from app.infrastructure.persistence.cosmos_db.base_repository import (
     BaseCosmosRepository,
 )
 
 
-class CosmosStudentRepository(BaseCosmosRepository, StudentRepository):
-    CONTAINER_NAME = "students"
+class CosmosUserRepository(BaseCosmosRepository, UserRepository):
+    CONTAINER_NAME = "users"
 
-    async def create(self, student: Student) -> Student:
-        self._container.create_item(body=student.model_dump())
-        return student
+    async def create(self, user: User) -> User:
+        self._container.create_item(body=user.model_dump())
+        return user
 
-    async def get_by_id(self, student_id: str) -> Student | None:
+    async def get_by_id(self, user_id: str) -> User | None:
         try:
-            item = self._container.read_item(item=student_id, partition_key=student_id)
-            return Student(**self._strip_cosmos_meta(item))
+            item = self._container.read_item(item=user_id, partition_key=user_id)
+            return User(**self._strip_cosmos_meta(item))
         except CosmosResourceNotFoundError:
             return None
 
     async def get_by_platform_identity(
         self, platform: str, platform_user_id: str
-    ) -> Student | None:
+    ) -> User | None:
         query = (
             "SELECT TOP 1 * FROM c WHERE c.platform = @p AND c.platform_user_id = @uid"
         )
@@ -48,9 +48,9 @@ class CosmosStudentRepository(BaseCosmosRepository, StudentRepository):
         )
         if not items:
             return None
-        return Student(**self._strip_cosmos_meta(items[0]))
+        return User(**self._strip_cosmos_meta(items[0]))
 
-    async def list_all(self, limit: int = 50, offset: int = 0) -> list[Student]:
+    async def list_all(self, limit: int = 50, offset: int = 0) -> list[User]:
         query = "SELECT * FROM c ORDER BY c.created_at DESC OFFSET @offset LIMIT @limit"
         parameters = [
             {"name": "@offset", "value": offset},
@@ -63,15 +63,15 @@ class CosmosStudentRepository(BaseCosmosRepository, StudentRepository):
                 enable_cross_partition_query=True,
             )
         )
-        return [Student(**item) for item in items]
+        return [User(**item) for item in items]
 
-    async def update(self, student: Student) -> Student:
-        self._container.upsert_item(body=student.model_dump())
-        return student
+    async def update(self, user: User) -> User:
+        self._container.upsert_item(body=user.model_dump())
+        return user
 
-    async def delete(self, student_id: str) -> bool:
+    async def delete(self, user_id: str) -> bool:
         try:
-            self._container.delete_item(item=student_id, partition_key=student_id)
+            self._container.delete_item(item=user_id, partition_key=user_id)
             return True
         except CosmosResourceNotFoundError:
             return False

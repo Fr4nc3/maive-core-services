@@ -49,8 +49,8 @@ server-side per `condition`.
 #### Identity & session lifecycle
 | Method | Path | Purpose |
 |---|---|---|
-| POST | `/api/students/identify` | Idempotent identify by `(platform, platform_user_id)` |
-| POST · GET | `/api/students` · `/api/students/{id}` | Create / fetch / list |
+| POST | `/api/users/identify` | Idempotent identify by `(platform, platform_user_id)` |
+| POST · GET | `/api/users` · `/api/users/{id}` | Create / fetch / list |
 | POST · GET · PATCH | `/api/sessions` · `/api/sessions/{id}` | Start / read / mutate |
 
 #### Unified bot (the experimental contrast)
@@ -102,13 +102,13 @@ schema in [`plan/telemetry-model.md`](../plan/telemetry-model.md).
 
 | RQ slice | Source endpoint | Source entity / container | Cosmos PK | Analysis target |
 |---|---|---|---|---|
-| RQ1 normalized gain | `/api/assessments` (`pre`, `post`) | `Assessment` | `/student_id` | Paired t-test by `condition` |
+| RQ1 normalized gain | `/api/assessments` (`pre`, `post`) | `Assessment` | `/user_id` | Paired t-test by `condition` |
 | RQ1 agent effectiveness | `/api/agents/adapt` + `/api/telemetry?event=AGENT_PROMPT_*` | `AgentAction` + `TelemetryEvent` | `/session_id` | Logistic on follow-rate by `agent_role` |
 | RQ2 ARCS scores | `/api/arcs_surveys` | `ARCSSurveyResponse` | `/session_id` | MANOVA by `condition` |
 | RQ2 behavioral engagement | `/api/telemetry` (`IDLE_DETECTED`, `RETRY_ATTEMPTED`, `SECTION_*`) | `TelemetryEvent` | `/session_id` | Idle %, time-on-task by `condition` |
 | RQ2 qualitative | `/api/qualitative_feedback` | `QualitativeFeedback` | `/session_id` | Thematic coding |
 | RQ3 problem-solving | `/api/task_attempts` + telemetry rollups | `TaskAttempt` | `/session_id` | Step time, hint freq, retries |
-| RQ3 transfer | `/api/assessments?type=transfer` | `Assessment` | `/student_id` | Group comparison + rater-IRR (κ) |
+| RQ3 transfer | `/api/assessments?type=transfer` | `Assessment` | `/user_id` | Group comparison + rater-IRR (κ) |
 | RQ3 classifier | `/api/classifier_predictions` | `ClassifierPrediction` | `/session_id` | AUC / calibration |
 | Cross-cutting (RAI) | every `/api/bot/ask` | `BotAudit` (DEC-013/019) | `/session_id` | RAI compliance + per-stage audit |
 

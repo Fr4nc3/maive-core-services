@@ -21,7 +21,7 @@ class IngestTelemetryUseCase:
     async def execute(self, dto: CreateTelemetryDTO) -> TelemetryResponseDTO:
         event = TelemetryEvent(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             event_type=dto.event_type,
             duration_ms=dto.duration_ms,
             planet=dto.planet,
@@ -50,7 +50,7 @@ def _to_response(e: TelemetryEvent) -> TelemetryResponseDTO:
     return TelemetryResponseDTO(
         id=e.id,
         session_id=e.session_id,
-        student_id=e.student_id,
+        user_id=e.user_id,
         event_type=e.event_type,
         timestamp=e.timestamp.isoformat(),
         duration_ms=e.duration_ms,

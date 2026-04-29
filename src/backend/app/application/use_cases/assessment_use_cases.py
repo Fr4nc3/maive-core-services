@@ -20,7 +20,7 @@ class CreateAssessmentUseCase:
 
     async def execute(self, dto: CreateAssessmentDTO) -> AssessmentResponseDTO:
         assessment = Assessment(
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             session_id=dto.session_id,
             assessment_type=dto.assessment_type,
             score=dto.score,
@@ -46,7 +46,7 @@ class GetAssessmentUseCase:
 def _to_response(a: Assessment) -> AssessmentResponseDTO:
     return AssessmentResponseDTO(
         id=a.id,
-        student_id=a.student_id,
+        user_id=a.user_id,
         session_id=a.session_id,
         assessment_type=a.assessment_type,
         score=a.score,

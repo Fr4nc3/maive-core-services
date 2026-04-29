@@ -32,14 +32,14 @@ from app.infrastructure.persistence.cosmos_db.qualitative_feedback_repository im
 from app.infrastructure.persistence.cosmos_db.session_repository import (
     CosmosSessionRepository,
 )
-from app.infrastructure.persistence.cosmos_db.student_repository import (
-    CosmosStudentRepository,
-)
 from app.infrastructure.persistence.cosmos_db.task_attempt_repository import (
     CosmosTaskAttemptRepository,
 )
 from app.infrastructure.persistence.cosmos_db.telemetry_repository import (
     CosmosTelemetryRepository,
+)
+from app.infrastructure.persistence.cosmos_db.user_repository import (
+    CosmosUserRepository,
 )
 
 # ── Singletons ───────────────────────────────────────────────────────────
@@ -92,8 +92,8 @@ def get_llm_provider():
 
 # ── Repository accessors ─────────────────────────────────────────────────
 
-def get_student_repository():
-    return _get_repo(CosmosStudentRepository)
+def get_user_repository():
+    return _get_repo(CosmosUserRepository)
 
 
 def get_session_repository():

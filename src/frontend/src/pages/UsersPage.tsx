@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import { api, type Student } from "../api/client";
+import { api, type User } from "../api/client";
 import { useLanguage } from "../i18n/LanguageContext";
 
-function StudentsPage() {
-  const [students, setStudents] = useState<Student[]>([]);
+function UsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
     api
-      .listStudents()
-      .then(setStudents)
+      .listUsers()
+      .then(setUsers)
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>{t("students.loading")}</p>;
+  if (loading) return <p>{t("users.loading")}</p>;
   if (error)
     return (
       <p style={{ color: "red" }}>
@@ -26,7 +26,7 @@ function StudentsPage() {
 
   return (
     <div>
-      <h1>{t("students.title")}</h1>
+      <h1>{t("users.title")}</h1>
       <table
         style={{
           width: "100%",
@@ -36,15 +36,15 @@ function StudentsPage() {
       >
         <thead>
           <tr style={{ borderBottom: "2px solid #e2e8f0", textAlign: "left" }}>
-            <th style={{ padding: "0.5rem" }}>{t("students.col.platform")}</th>
-            <th style={{ padding: "0.5rem" }}>{t("students.col.platformUserId")}</th>
-            <th style={{ padding: "0.5rem" }}>{t("students.col.displayName")}</th>
-            <th style={{ padding: "0.5rem" }}>{t("students.col.language")}</th>
-            <th style={{ padding: "0.5rem" }}>{t("students.col.created")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("users.col.platform")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("users.col.platformUserId")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("users.col.displayName")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("users.col.language")}</th>
+            <th style={{ padding: "0.5rem" }}>{t("users.col.created")}</th>
           </tr>
         </thead>
         <tbody>
-          {students.map((s) => (
+          {users.map((s) => (
             <tr key={s.id} style={{ borderBottom: "1px solid #e2e8f0" }}>
               <td style={{ padding: "0.5rem" }}>{s.platform}</td>
               <td style={{ padding: "0.5rem" }}>{s.platform_user_id}</td>
@@ -55,10 +55,10 @@ function StudentsPage() {
               </td>
             </tr>
           ))}
-          {students.length === 0 && (
+          {users.length === 0 && (
             <tr>
               <td colSpan={5} style={{ padding: "1rem", color: "#94a3b8" }}>
-                {t("students.empty")}
+                {t("users.empty")}
               </td>
             </tr>
           )}
@@ -68,4 +68,4 @@ function StudentsPage() {
   );
 }
 
-export default StudentsPage;
+export default UsersPage;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { api, type Student, type Session, type BotResponse } from "../api/client";
+import { api, type User, type Session, type BotResponse } from "../api/client";
 import { useLanguage } from "../i18n/LanguageContext";
 import { LANGS, LANG_LABEL, type Lang } from "../i18n/messages";
 import StellaAstra, { type StellaState } from "../components/StellaAstra";
@@ -14,7 +14,7 @@ function LearnerPage() {
   const [platformUserId, setPlatformUserId] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [condition, setCondition] = useState<"control" | "treatment">("treatment");
-  const [student, setStudent] = useState<Student | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
   // Bot
@@ -44,17 +44,17 @@ function LearnerPage() {
     setBusy(true);
     try {
       // DEC-014: thread the chosen UI language through identify + create-session
-      // so the backend stores it on Student and resolves it on Session.
-      const s = await api.identifyStudent({
+      // so the backend stores it on User and resolves it on Session.
+      const s = await api.identifyUser({
         platform: "web",
         platform_user_id: platformUserId,
         display_name: displayName || platformUserId,
         condition,
         preferred_language: lang,
       });
-      setStudent(s);
+      setUser(s);
       const sess = await api.createSession({
-        student_id: s.id,
+        user_id: s.id,
         condition,
         language: lang,
       });
@@ -67,14 +67,14 @@ function LearnerPage() {
   }
 
   async function handleAsk() {
-    if (!session || !student) return;
+    if (!session || !user) return;
     setError(null);
     setBusy(true);
     try {
       // Log the help-request telemetry first.
       await api.logTelemetry({
         session_id: session.id,
-        student_id: student.id,
+        user_id: user.id,
         event_type: "help_request",
         section,
         content: planet,
@@ -83,7 +83,7 @@ function LearnerPage() {
       });
       const reply = await api.askBot({
         session_id: session.id,
-        student_id: student.id,
+        user_id: user.id,
         planet,
         section,
         question,
@@ -154,7 +154,7 @@ function LearnerPage() {
         <section style={card}>
           <h2>{t("learner.ask.title")}</h2>
           <p>
-            <strong>{student?.display_name}</strong> ({student?.platform_user_id}) —{" "}
+            <strong>{user?.display_name}</strong> ({user?.platform_user_id}) —{" "}
             <strong>{session.condition}</strong> —{" "}
             <code>{session.id.slice(0, 8)}…</code> —{" "}
             <strong>{t("learner.ask.languageEcho")}:</strong> {session.language}

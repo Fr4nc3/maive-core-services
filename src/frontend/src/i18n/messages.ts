@@ -17,21 +17,21 @@ type Dict = Record<string, string>;
 const en: Dict = {
   // Layout
   "nav.dashboard": "Dashboard",
-  "nav.students": "Students",
+  "nav.users": "Users",
   "nav.sessions": "Sessions",
   "nav.assessments": "Assessments",
   "nav.learner": "Learner (web)",
   "nav.language": "Language",
 
-  // Students page
-  "students.title": "Students",
-  "students.col.platform": "Platform",
-  "students.col.platformUserId": "Platform User ID",
-  "students.col.displayName": "Display Name",
-  "students.col.language": "Language",
-  "students.col.created": "Created",
-  "students.empty": "No students found.",
-  "students.loading": "Loading students...",
+  // Users page
+  "users.title": "Users",
+  "users.col.platform": "Platform",
+  "users.col.platformUserId": "Platform User ID",
+  "users.col.displayName": "Display Name",
+  "users.col.language": "Language",
+  "users.col.created": "Created",
+  "users.empty": "No users found.",
+  "users.loading": "Loading users...",
   "common.error": "Error",
 
   // Sessions page
@@ -75,21 +75,21 @@ const en: Dict = {
 const es: Dict = {
   // Layout
   "nav.dashboard": "Panel",
-  "nav.students": "Estudiantes",
+  "nav.users": "Usuarios",
   "nav.sessions": "Sesiones",
   "nav.assessments": "Evaluaciones",
   "nav.learner": "Estudiante (web)",
   "nav.language": "Idioma",
 
-  // Students page
-  "students.title": "Estudiantes",
-  "students.col.platform": "Plataforma",
-  "students.col.platformUserId": "ID de usuario en la plataforma",
-  "students.col.displayName": "Nombre para mostrar",
-  "students.col.language": "Idioma",
-  "students.col.created": "Creado",
-  "students.empty": "No se encontraron estudiantes.",
-  "students.loading": "Cargando estudiantes...",
+  // Users page
+  "users.title": "Usuarios",
+  "users.col.platform": "Plataforma",
+  "users.col.platformUserId": "ID de usuario en la plataforma",
+  "users.col.displayName": "Nombre para mostrar",
+  "users.col.language": "Idioma",
+  "users.col.created": "Creado",
+  "users.empty": "No se encontraron usuarios.",
+  "users.loading": "Cargando usuarios...",
   "common.error": "Error",
 
   // Sessions page

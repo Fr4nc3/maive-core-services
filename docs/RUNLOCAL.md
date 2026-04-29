@@ -74,14 +74,14 @@ npm run dev                # Vite dev server, default http://localhost:5173
 ### 5. Smoke test
 ```pwsh
 # Identify a learner
-curl -X POST http://localhost:8000/api/students/identify `
+curl -X POST http://localhost:8000/api/users/identify `
   -H "Content-Type: application/json" `
   -d '{\"platform\":\"web\",\"platform_user_id\":\"smoke-test-1\",\"display_name\":\"Smoke Tester\",\"preferred_language\":\"en\"}'
 
 # Create a session
 curl -X POST http://localhost:8000/api/sessions `
   -H "Content-Type: application/json" `
-  -d '{\"student_id\":\"<id-from-step-1>\",\"condition\":\"control\",\"difficulty_level\":\"easy\"}'
+  -d '{\"user_id\":\"<id-from-step-1>\",\"condition\":\"control\",\"difficulty_level\":\"easy\"}'
 
 # Ask the bot
 curl -X POST http://localhost:8000/api/sessions/<session-id>/ask `

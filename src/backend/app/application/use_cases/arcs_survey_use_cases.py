@@ -27,7 +27,7 @@ class SubmitARCSSurveyUseCase:
         ) / 4.0
         response = ARCSSurveyResponse(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             module_id=dto.module_id,
             attention_score=dto.attention_score,
             relevance_score=dto.relevance_score,
@@ -54,7 +54,7 @@ def _to_response(s: ARCSSurveyResponse) -> ARCSSurveyResponseDTO:
     return ARCSSurveyResponseDTO(
         id=s.id,
         session_id=s.session_id,
-        student_id=s.student_id,
+        user_id=s.user_id,
         module_id=s.module_id,
         attention_score=s.attention_score,
         relevance_score=s.relevance_score,

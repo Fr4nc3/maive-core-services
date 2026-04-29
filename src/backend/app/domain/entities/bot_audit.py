@@ -21,7 +21,7 @@ class BotAudit(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     request_ts: datetime = Field(default_factory=lambda: datetime.now(UTC))
     response_ts: datetime | None = None
 

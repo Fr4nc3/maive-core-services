@@ -17,7 +17,7 @@ class QualitativeFeedback(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     prompt: str = ""
     arcs_dimension: str | None = None  # "attention" | "relevance" | "confidence" | "satisfaction"
     response_text: str = ""

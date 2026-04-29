@@ -52,7 +52,7 @@ If asked "what's the status?" or "what should I work on next?", **summarise** th
 
 ## When asked to integrate a new client (Spatial.io, VRChat, Unity)
 
-1. Confirm the client uses `POST /api/students/identify` first with the right `platform` string.
+1. Confirm the client uses `POST /api/users/identify` first with the right `platform` string.
 2. Confirm all bot calls go through `POST /api/bot/ask` with the same payload shape.
 3. Confirm telemetry uses event types from `plan/telemetry-model.md`.
 4. Document client-specific quirks (e.g., VRChat UDON GET-only) in `docs/decisions.md` as a new DEC entry.
@@ -69,7 +69,7 @@ If asked "what's the status?" or "what should I work on next?", **summarise** th
 - ❌ Do not generate research statistics, p-values, or effect sizes from prototype data — they come from the actual user study only.
 - ❌ Do not modify the publishable paper before data collection completes.
 - ❌ Do not bypass `/api/bot/ask` to invent a client-specific bot endpoint.
-- ❌ Do not add PII fields (email, real name) to `Student`.
+- ❌ Do not add PII fields (email, real name) to `User`.
 - ❌ Do not introduce a third LLM provider without a `DEC-NNN` entry first.
 - ❌ Do not add a Cosmos repository that does not inherit from `BaseCosmosRepository`.
 - ❌ Do not commit code without running `uv run ruff check .` and confirming exit 0.

@@ -1,7 +1,7 @@
 """
 Assessment Agent.
 
-Evaluates whether the current difficulty level is appropriate for the student
+Evaluates whether the current difficulty level is appropriate for the user
 and recommends adjustments using Zone of Proximal Development principles.
 
 Pillar: Configuration Layer

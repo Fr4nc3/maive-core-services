@@ -28,7 +28,7 @@ rows above.
    Inner layers never import outer layers.
 2. **Unified bot endpoint** — every VR/web client hits `POST /api/bot/ask`
    with the same payload. Never create client-specific endpoints.
-3. **No PII** — students identified by `(platform, platform_user_id)` +
+3. **No PII** — users identified by `(platform, platform_user_id)` +
    internal UUID. Optional `display_name` only. No email, no real name.
 4. **No hard-coded provider switches** — use registries
    (`LLMProviderRegistry`, future `AgentRegistry`, `CosmosRepoRegistry`).

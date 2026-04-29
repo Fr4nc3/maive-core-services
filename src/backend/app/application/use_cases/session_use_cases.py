@@ -15,32 +15,32 @@ from app.application.dtos.session_dtos import (
 )
 from app.domain.entities.session import Session
 from app.domain.interfaces.session_repository import SessionRepository
-from app.domain.interfaces.student_repository import StudentRepository
+from app.domain.interfaces.user_repository import UserRepository
 
 
 class CreateSessionUseCase:
     def __init__(
         self,
         repository: SessionRepository,
-        student_repository: StudentRepository | None = None,
+        user_repository: UserRepository | None = None,
     ) -> None:
         self._repo = repository
-        self._student_repo = student_repository
+        self._user_repo = user_repository
 
     async def execute(self, dto: CreateSessionDTO) -> SessionResponseDTO:
         # Resolve language: explicit dto.language wins, else fall back to
-        # student.preferred_language (when student repo is wired), else "en".
+        # user.preferred_language (when user repo is wired), else "en".
         # See DEC-014.
         language = dto.language
-        if language is None and self._student_repo is not None:
-            student = await self._student_repo.get_by_id(dto.student_id)
-            if student is not None:
-                language = student.preferred_language
+        if language is None and self._user_repo is not None:
+            user = await self._user_repo.get_by_id(dto.user_id)
+            if user is not None:
+                language = user.preferred_language
         if not language:
             language = "en"
 
         session = Session(
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             platform=dto.platform,
             condition=dto.condition,
             difficulty_level=dto.difficulty_level,
@@ -89,7 +89,7 @@ class UpdateSessionUseCase:
 def _to_response(s: Session) -> SessionResponseDTO:
     return SessionResponseDTO(
         id=s.id,
-        student_id=s.student_id,
+        user_id=s.user_id,
         platform=s.platform,
         condition=s.condition,
         difficulty_level=s.difficulty_level,

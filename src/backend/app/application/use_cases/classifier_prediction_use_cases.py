@@ -25,7 +25,7 @@ class CreateClassifierPredictionUseCase:
     ) -> ClassifierPredictionResponseDTO:
         prediction = ClassifierPrediction(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             model_version=dto.model_version,
             features_used=dto.features_used,
             predicted_probability=dto.predicted_probability,
@@ -53,7 +53,7 @@ def _to_response(p: ClassifierPrediction) -> ClassifierPredictionResponseDTO:
     return ClassifierPredictionResponseDTO(
         id=p.id,
         session_id=p.session_id,
-        student_id=p.student_id,
+        user_id=p.user_id,
         model_version=p.model_version,
         features_used=p.features_used,
         predicted_probability=p.predicted_probability,

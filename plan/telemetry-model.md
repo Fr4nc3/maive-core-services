@@ -26,7 +26,7 @@ This document defines the telemetry data model for the MAIVE platform, derived f
 
 ### 2.1 Existing Entities (minor expansions)
 
-#### Student
+#### User
 Identifies users only by `id` (internal UUID) and the natural key `(platform, platform_user_id)` per DEC-009. No email or real name is collected; an optional free-form `display_name` may be set by the client. The `platform` field accepts: `spatial.io | vrchat | sinespace | unity | web` (DEC-007).
 
 #### Session
@@ -56,11 +56,11 @@ Add fields to track which agent type acted, bot type, and learning context:
 |-------|------|-------------|
 | `agent_role` | `str` | `"conceptual"` or `"procedural"` (Mentor-Agent roles) |
 | `bot_type` | `str` | `"hardcoded"` (static data bot) or `"ai"` (AI-optimized bot) |
-| `task_id` | `str \| None` | Links to the task the student was on |
+| `task_id` | `str \| None` | Links to the task the user was on |
 | `section` | `str` | Planet or area where the action occurred |
 | `content` | `str` | Content topic the action relates to |
 | `trigger_reason` | `str` | What behavioral threshold triggered this action |
-| `student_response` | `str | None` | How the student reacted to the agent prompt |
+| `user_response` | `str | None` | How the user reacted to the agent prompt |
 
 ---
 
@@ -82,29 +82,29 @@ SECTION_ENTERED          # User entered a planet/section
 SECTION_EXITED           # User left a planet/section
 
 # ── Task Interaction ──
-TASK_STARTED             # Student begins a task/challenge
-TASK_STEP_COMPLETED      # Student completes one step within a task
-TASK_COMPLETED           # Student finishes entire task
-TASK_ABANDONED           # Student leaves task before completion
+TASK_STARTED             # User begins a task/challenge
+TASK_STEP_COMPLETED      # User completes one step within a task
+TASK_COMPLETED           # User finishes entire task
+TASK_ABANDONED           # User leaves task before completion
 
 # ── Errors & Retries ──
-ERROR_COMMITTED          # Student made an incorrect action
-RETRY_ATTEMPTED          # Student retried after an error
+ERROR_COMMITTED          # User made an incorrect action
+RETRY_ATTEMPTED          # User retried after an error
 
 # ── Assessment ──
 QUIZ_ANSWER_SUBMITTED    # In-VR quiz answer recorded
 SURVEY_COMPLETED         # ARCS survey completed (links to ARCSSurveyResponse)
 
 # ── Agent Interaction ──
-AGENT_PROMPT_DISPLAYED   # Agent showed a prompt to the student
-AGENT_PROMPT_DISMISSED   # Student closed an agent prompt
-AGENT_PROMPT_FOLLOWED    # Student acted on an agent prompt
+AGENT_PROMPT_DISPLAYED   # Agent showed a prompt to the user
+AGENT_PROMPT_DISMISSED   # User closed an agent prompt
+AGENT_PROMPT_FOLLOWED    # User acted on an agent prompt
 
 # ── Session Lifecycle ──
-SESSION_PAUSED           # Student paused VR session
-SESSION_RESUMED          # Student resumed VR session
-MODULE_ENTERED           # Student entered a new learning module
-MODULE_EXITED            # Student exited a learning module
+SESSION_PAUSED           # User paused VR session
+SESSION_RESUMED          # User resumed VR session
+MODULE_ENTERED           # User entered a new learning module
+MODULE_EXITED            # User exited a learning module
 
 # ── Idle Detection ──
 IDLE_DETECTED            # No user interaction for a threshold period (e.g. >60s)
@@ -155,13 +155,13 @@ Users are assigned one of two bot types:
 
 ### 2.3 New Entity: TaskAttempt
 
-Tracks a student's full attempt at an open-ended challenge (RQ3). Aggregates step-level data from `TelemetryEvent` into a single record per attempt.
+Tracks a user's full attempt at an open-ended challenge (RQ3). Aggregates step-level data from `TelemetryEvent` into a single record per attempt.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | `str` | UUID |
 | `session_id` | `str` | FK to Session |
-| `student_id` | `str` | FK to Student |
+| `user_id` | `str` | FK to User |
 | `task_id` | `str` | Identifier of the challenge template |
 | `task_name` | `str` | Display name |
 | `task_type` | `str` | `"orbital_trajectory"`, `"stellar_classification"`, `"gravitational_sim"` |
@@ -173,9 +173,9 @@ Tracks a student's full attempt at an open-ended challenge (RQ3). Aggregates ste
 | `total_time_ms` | `int` | Wall-clock time on this attempt |
 | `total_errors` | `int` | Error count |
 | `total_retries` | `int` | Retry count |
-| `total_hints_requested` | `int` | Hints the student asked for |
+| `total_hints_requested` | `int` | Hints the user asked for |
 | `total_hints_delivered` | `int` | Hints the agent proactively gave |
-| `trajectory_revisions` | `int` | Times student revised their approach (RQ3) |
+| `trajectory_revisions` | `int` | Times user revised their approach (RQ3) |
 | `score` | `float | None` | Rubric score if graded |
 | `success` | `bool | None` | Binary label (rubric ≥ threshold) |
 | `rater_scores` | `list[dict]` | `[{rater_id, score}]` for inter-rater reliability |
@@ -194,7 +194,7 @@ Captures the four ARCS motivational dimensions per session (RQ2).
 |-------|------|-------------|
 | `id` | `str` | UUID |
 | `session_id` | `str` | FK to Session |
-| `student_id` | `str` | FK to Student |
+| `user_id` | `str` | FK to User |
 | `module_id` | `str` | Which module the survey follows |
 | `attention_score` | `float` | ARCS – Attention (1-5 Likert avg) |
 | `relevance_score` | `float` | ARCS – Relevance |
@@ -218,10 +218,10 @@ Stores open-ended text reflections collected after ARCS surveys (RQ2 Task 2.3).
 |-------|------|-------------|
 | `id` | `str` | UUID |
 | `session_id` | `str` | FK to Session |
-| `student_id` | `str` | FK to Student |
+| `user_id` | `str` | FK to User |
 | `prompt` | `str` | The question asked |
 | `arcs_dimension` | `str | None` | Which ARCS dimension this targets |
-| `response_text` | `str` | Student's free-text answer |
+| `response_text` | `str` | User's free-text answer |
 | `submitted_at` | `datetime` | |
 | `theme_codes` | `list[str]` | Thematic codes assigned during analysis |
 | `metadata` | `dict` | |
@@ -238,7 +238,7 @@ Stores the output of the Random Forest classifier for each session (RQ3 Task 3.3
 |-------|------|-------------|
 | `id` | `str` | UUID |
 | `session_id` | `str` | FK to Session |
-| `student_id` | `str` | FK to Student |
+| `user_id` | `str` | FK to User |
 | `model_version` | `str` | Identifier of the classifier model used |
 | `features_used` | `dict` | The input feature vector: `{time_on_task, hint_frequency, error_count, ...}` |
 | `predicted_probability` | `float` | Probability of successful problem-solving (0-1) |
@@ -308,9 +308,9 @@ Target label: `success = 1 if rubric_score >= threshold else 0`
 
 | Container | Partition Key | Entities Stored | Throughput |
 |-----------|--------------|-----------------|------------|
-| `students` | `/id` | Student | 400 RU/s |
-| `sessions` | `/student_id` | Session | 400 RU/s |
-| `assessments` | `/student_id` | Assessment | 400 RU/s |
+| `users` | `/id` | User | 400 RU/s |
+| `sessions` | `/user_id` | Session | 400 RU/s |
+| `assessments` | `/user_id` | Assessment | 400 RU/s |
 | `telemetry` | `/session_id` | TelemetryEvent | 1000 RU/s (high volume) |
 | `agent_actions` | `/session_id` | AgentAction | 400 RU/s |
 | `task_attempts` | `/session_id` | TaskAttempt | 400 RU/s |
@@ -362,7 +362,7 @@ The Unity client sends telemetry via REST API:
 POST /api/telemetry/events
 {
     "session_id": "...",
-    "student_id": "...",
+    "user_id": "...",
     "event_type": "HELP_REQUESTED",
     "section": "mars",
     "content": "orbital-mechanics",
@@ -378,7 +378,7 @@ POST /api/telemetry/events
 POST /api/telemetry/events
 {
     "session_id": "...",
-    "student_id": "...",
+    "user_id": "...",
     "event_type": "HELP_DELIVERED",
     "section": "mars",
     "content": "orbital-mechanics",
@@ -394,7 +394,7 @@ POST /api/telemetry/events
 POST /api/telemetry/task-attempts
 {
     "session_id": "...",
-    "student_id": "...",
+    "user_id": "...",
     "task_id": "orbital-trajectory-01",
     "task_name": "Design an Orbital Trajectory",
     "task_type": "orbital_trajectory",
@@ -404,7 +404,7 @@ POST /api/telemetry/task-attempts
 POST /api/telemetry/arcs-surveys
 {
     "session_id": "...",
-    "student_id": "...",
+    "user_id": "...",
     "module_id": "stellar-evolution",
     "attention_score": 4.2,
     "relevance_score": 3.8,

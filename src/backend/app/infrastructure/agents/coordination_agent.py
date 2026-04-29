@@ -2,7 +2,7 @@
 Coordination Agent.
 
 Orchestrates User Modeling, Content Curation, and Assessment agents to produce
-a single cohesive action for the student's current VR session.
+a single cohesive action for the user's current VR session.
 Records the decision as an AgentAction entity in the database.
 
 Pillar: Configuration Layer
@@ -77,7 +77,7 @@ class CoordinationAgent:
             }
 
         session_data = {
-            "student_id": session.student_id,
+            "user_id": session.user_id,
             "platform": session.platform,
             "difficulty_level": session.difficulty_level,
             "total_duration_ms": session.total_duration_ms,
@@ -140,7 +140,7 @@ class CoordinationAgent:
                 "content": content_result,
                 "session": {
                     "session_id": session_id,
-                    "student_id": session.student_id,
+                    "user_id": session.user_id,
                     "platform": session.platform,
                     "planet": profile.get("current_planet", ""),
                     "section": profile.get("current_section", ""),
@@ -178,7 +178,7 @@ class CoordinationAgent:
         if action.get("action_type") != "no_action":
             record = AgentAction(
                 session_id=session_id,
-                student_id=session.student_id,
+                user_id=session.user_id,
                 action_type=action.get("action_type", ""),
                 agent_role=action.get("agent_role", ""),
                 bot_type="ai",

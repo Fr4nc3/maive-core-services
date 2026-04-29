@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class CreateTaskAttemptDTO(BaseModel):
     session_id: str
-    student_id: str
+    user_id: str
     task_id: str
     task_name: str = ""
     task_type: str = ""
@@ -39,7 +39,7 @@ class UpdateTaskAttemptDTO(BaseModel):
 class TaskAttemptResponseDTO(BaseModel):
     id: str
     session_id: str
-    student_id: str
+    user_id: str
     task_id: str
     task_name: str
     task_type: str

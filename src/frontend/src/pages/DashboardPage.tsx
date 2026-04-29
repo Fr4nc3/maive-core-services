@@ -4,7 +4,7 @@ function DashboardPage() {
       <h1>MAIVE Dashboard</h1>
       <p style={{ marginTop: "1rem", color: "#64748b" }}>
         Welcome to the MAIVE Core Services dashboard. Use the sidebar to
-        navigate to Students, Sessions, or Assessments.
+        navigate to Users, Sessions, or Assessments.
       </p>
       <div
         style={{
@@ -14,7 +14,7 @@ function DashboardPage() {
           marginTop: "2rem",
         }}
       >
-        <StatCard label="Students" value="—" />
+        <StatCard label="Users" value="—" />
         <StatCard label="Active Sessions" value="—" />
         <StatCard label="Assessments" value="—" />
         <StatCard label="Telemetry Events" value="—" />

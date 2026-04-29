@@ -25,7 +25,7 @@ class SubmitQualitativeFeedbackUseCase:
     ) -> QualitativeFeedbackResponseDTO:
         feedback = QualitativeFeedback(
             session_id=dto.session_id,
-            student_id=dto.student_id,
+            user_id=dto.user_id,
             prompt=dto.prompt,
             arcs_dimension=dto.arcs_dimension,
             response_text=dto.response_text,
@@ -49,7 +49,7 @@ def _to_response(f: QualitativeFeedback) -> QualitativeFeedbackResponseDTO:
     return QualitativeFeedbackResponseDTO(
         id=f.id,
         session_id=f.session_id,
-        student_id=f.student_id,
+        user_id=f.user_id,
         prompt=f.prompt,
         arcs_dimension=f.arcs_dimension,
         response_text=f.response_text,

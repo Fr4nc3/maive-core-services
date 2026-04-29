@@ -2,7 +2,7 @@
 Content Curation Agent.
 
 Queries the RAG knowledge base for relevant NASA content and uses the LLM
-to craft a context-appropriate help response for the student.
+to craft a context-appropriate help response for the user.
 
 Pillar: Configuration Layer
 Phase: R

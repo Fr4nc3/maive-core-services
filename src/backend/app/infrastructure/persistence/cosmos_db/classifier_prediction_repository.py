@@ -38,12 +38,12 @@ class CosmosClassifierPredictionRepository(
         )
         return ClassifierPrediction(**items[0]) if items else None
 
-    async def list_by_student(self, student_id: str) -> list[ClassifierPrediction]:
+    async def list_by_user(self, user_id: str) -> list[ClassifierPrediction]:
         query = (
-            "SELECT * FROM c WHERE c.student_id = @sid"
+            "SELECT * FROM c WHERE c.user_id = @sid"
             " ORDER BY c.created_at DESC"
         )
-        parameters = [{"name": "@sid", "value": student_id}]
+        parameters = [{"name": "@sid", "value": user_id}]
         items = list(
             self._container.query_items(
                 query=query,

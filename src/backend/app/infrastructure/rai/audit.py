@@ -20,7 +20,7 @@ def query_hash(query: str) -> str:
 @dataclass
 class AuditDraft:
     session_id: str
-    student_id: str
+    user_id: str
     language: str = "en"
     bot_path: str = "ai"  # "ai" | "static"
     client_platform: str = ""
@@ -50,7 +50,7 @@ class AuditDraft:
     def to_audit(self) -> BotAudit:
         return BotAudit(
             session_id=self.session_id,
-            student_id=self.student_id,
+            user_id=self.user_id,
             request_ts=self.request_ts,
             response_ts=datetime.now(UTC),
             query_hash=self.query_hash,

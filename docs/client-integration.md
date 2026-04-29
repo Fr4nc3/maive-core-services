@@ -11,7 +11,7 @@ Every learner client follows the same three-step lifecycle:
 ### 1. Identify the user
 
 ```
-POST /api/students/identify
+POST /api/users/identify
 {
   "platform": "spatial.io" | "vrchat" | "sinespace" | "web",
   "platform_user_id": "<stable id from the host platform>",
@@ -20,14 +20,14 @@ POST /api/students/identify
 }
 ```
 
-Idempotent — returns the existing student if the
+Idempotent — returns the existing user if the
 `(platform, platform_user_id)` pair is already known. See **DEC-009**.
 
 ### 2. Open a session
 
 ```
 POST /api/sessions
-{ "student_id": "<uuid>", "condition": "control" | "treatment" }
+{ "user_id": "<uuid>", "condition": "control" | "treatment" }
 ```
 
 ### 3. Stream telemetry + ask the bot

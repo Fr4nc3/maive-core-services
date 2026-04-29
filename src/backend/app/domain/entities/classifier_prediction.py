@@ -17,7 +17,7 @@ class ClassifierPrediction(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     model_version: str = ""
     features_used: dict = Field(default_factory=dict)
     predicted_probability: float = 0.0

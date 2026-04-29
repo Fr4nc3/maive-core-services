@@ -13,11 +13,11 @@ from pydantic import BaseModel, Field
 
 
 class TaskAttempt(BaseModel):
-    """Domain entity tracking a student's attempt at an open-ended VR challenge (RQ3)."""
+    """Domain entity tracking a user's attempt at an open-ended VR challenge (RQ3)."""
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str
-    student_id: str
+    user_id: str
     task_id: str
     task_name: str = ""
     task_type: str = ""  # "orbital_trajectory" | "stellar_classification" | "gravitational_sim"

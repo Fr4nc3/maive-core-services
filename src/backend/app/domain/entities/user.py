@@ -1,9 +1,9 @@
 # Documented in: docs/paper/maive-systems-engineering-extended.md#81-identity-model
-"""Student entity; (platform, platform_user_id) + UUID, no PII (DEC-009).
+"""User entity; (platform, platform_user_id) + UUID, no PII (DEC-009, DEC-024).
 
 Pillar: Stable Core
 Phase: B
-Purpose: Student entity; (platform, platform_user_id) + UUID, no PII (DEC-009).
+Purpose: User entity; (platform, platform_user_id) + UUID, no PII.
 Documented in: plan/architecture.md
 """
 
@@ -13,8 +13,8 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
-class Student(BaseModel):
-    """Domain entity representing a learner in the MAIVE platform.
+class User(BaseModel):
+    """Domain entity representing a learner / user in the MAIVE platform.
 
     Identity natural key: ``(platform, platform_user_id)``.
     Internal stable id: ``id`` (UUID), issued by the backend on first contact.

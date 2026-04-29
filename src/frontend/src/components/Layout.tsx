@@ -23,8 +23,8 @@ function Layout() {
             </Link>
           </li>
           <li style={{ marginBottom: "0.75rem" }}>
-            <Link to="/students" style={{ color: "#cbd5e1" }}>
-              {t("nav.students")}
+            <Link to="/users" style={{ color: "#cbd5e1" }}>
+              {t("nav.users")}
             </Link>
           </li>
           <li style={{ marginBottom: "0.75rem" }}>

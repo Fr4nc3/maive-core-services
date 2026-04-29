@@ -39,7 +39,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 | A2 | maive-lead.agent.md | ✅ Done (2026-04-28) |
 | A3 | backend Clean Architecture instructions | ✅ Done (2026-04-28) |
 | A4 | frontend React instructions | ✅ Done (2026-04-28) |
-| B1–B4 | Identity model (Student `(platform, platform_user_id)`) | ✅ Done (2026-04-28) |
+| B1–B4 | Identity model (User `(platform, platform_user_id)`) | ✅ Done (2026-04-28) |
 | C1 | Flat web `/learner` reference client | ✅ Done (2026-04-28) |
 | C2 | Unity SDK adapter spec | ✅ Done (2026-04-28) — see `docs/client-integration.md` |
 | C3 | Spatial.io research notes (research-blocked) | ✅ Done (2026-04-28) — see `docs/client-integration.md` |
@@ -64,7 +64,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 | **J1–J4** | `bot_audit` container schema, audit policy, telemetry linkage, DEC-013 | ⬜ Not started (DEC-013 placeholder seeded) |
 | **K1–K5** | V&V test catalog (security + RAI), V-Model right-arm trace, paper §3 update | ⬜ Not started |
 | **L1–L4** | Cross-link headers in source files; status/plan reconciliation | 🟡 L3+L4 done; L1+L2 not started |
-| **N1–N3** | Bilingual data model: `Student.preferred_language`, `Session.language`, `BotAskRequest.language` + resolution | ⬜ Not started |
+| **N1–N3** | Bilingual data model: `User.preferred_language`, `Session.language`, `BotAskRequest.language` + resolution | ⬜ Not started |
 | **N4–N6** | Agent prompts EN/ES split, static help language field, RAG language tagging + fallback | ⬜ Not started |
 | **N7–N8** | Frontend i18n (selector, `en.json`/`es.json`, `<html lang>`); researcher `language` column | ⬜ Not started |
 | **N9–N10** | Telemetry/audit `language` field; backfill defaults | ⬜ Not started |
@@ -79,7 +79,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 ### 2026-04-28
 - **Phase A1 complete** — `AGENTS.md` created at workspace root with project brief, identity rule, unified bot rule, LLM provider rule, and rules of engagement
 - **Phase A2/A3/A4 complete** — `maive-lead.agent.md` + backend & frontend instruction files
-- **Phase B complete** — Student identity now `(platform, platform_user_id)` with `display_name` + `condition`; new `POST /api/students/identify` is idempotent; frontend updated
+- **Phase B complete** — User identity now `(platform, platform_user_id)` with `display_name` + `condition`; new `POST /api/users/identify` is idempotent; frontend updated
 - **Phase C1 complete** — `LearnerPage.tsx` is the canonical reference client (identify → session → telemetry → unified bot)
 - **Phase C2/C3/C4 complete** — `docs/client-integration.md` documents Unity, Spatial.io, and VRChat patterns against the shared API contract
 - **Phase D1 complete** — `app/cli/seed_help_content.py` + sample `data/help_content/mars/crater_lab.json`
@@ -89,7 +89,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 - **Phase F3 complete** — DEC-008 (Spatial.io API), DEC-009 (unified identity), DEC-010 (documentation discipline)
 - **Phase F4/F7 complete** — extended SE paper skeleton + paper README workflow guide
 - **Phases G–L planned** — V-Model + secure-system validation pack (doc-only) recorded in `docs/plan.md`; DEC-011/012/013 placeholders seeded in `docs/decisions.md`; status table extended with G–L rows; A–F rows reconciled
-- **Phase N planned** — Bilingual (English / Spanish) end-to-end recorded in `docs/plan.md`: `preferred_language` on Student, `language` on Session, `language` on `BotAskRequest`, resolution order `request → session → student → "en"`, EN/ES split for agent prompts, static help, and NASA RAG, frontend i18n, telemetry/audit `language` field. DEC-014 placeholder seeded in `docs/decisions.md`.
+- **Phase N planned** — Bilingual (English / Spanish) end-to-end recorded in `docs/plan.md`: `preferred_language` on User, `language` on Session, `language` on `BotAskRequest`, resolution order `request → session → user → "en"`, EN/ES split for agent prompts, static help, and NASA RAG, frontend i18n, telemetry/audit `language` field. DEC-014 placeholder seeded in `docs/decisions.md`.
 
 ### Earlier (April 2026)
 - **DEC-007** Platform identifiers standardised to `spatial.io | vrchat | sinespace | web`
@@ -112,7 +112,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 6. **J1** — `bot_audit` schema in `plan/architecture.md` (depends on I2)
 7. **K1–K4** — V&V test catalog (depends on G2 + H4 + I4 + J1)
 8. **L1 + L2** — source-file cross-link headers (last)
-9. **N1 + N2** — bilingual data model: `Student.preferred_language` + `Session.language` (parallel track)
+9. **N1 + N2** — bilingual data model: `User.preferred_language` + `Session.language` (parallel track)
 10. **N3** — `BotAskRequest.language` + resolution order in `bot.py`
 11. **N4 + N5 + N6** — agent prompts EN/ES split, static help language field, RAG language tagging
 12. **N7 + N8** — frontend language selector + i18n + dynamic `<html lang>`
