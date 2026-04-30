@@ -27,7 +27,7 @@ All authenticated calls are logged to stdout (no PII).
 cd src\edge-protector
 uv sync
 $env:EDGE_PROTECTOR_TOKEN     = "your-strong-random-token-here"
-$env:EDGE_PROTECTOR_ALLOWLIST = "203.0.113.5"
+$env:EDGE_PROTECTOR_ALLOWLIST = ""
 $env:OLLAMA_BASE_URL          = "http://localhost:11434"
 uv run uvicorn app:app --host 0.0.0.0 --port 8088
 ```
