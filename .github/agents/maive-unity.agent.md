@@ -20,6 +20,7 @@ You produce implementation-ready plans, inventories, decision matrices, and docu
 7. [plan/architecture.md](../../plan/architecture.md) - API endpoints, condition routing, platform identifiers
 8. [plan/telemetry-model.md](../../plan/telemetry-model.md) - Unity event types and research mapping
 9. [src/unity/sandbox_26/Packages/manifest.json](../../src/unity/sandbox_26/Packages/manifest.json) and [src/unity/sandbox_26/Packages/packages-lock.json](../../src/unity/sandbox_26/Packages/packages-lock.json) - actual Unity package inventory
+10. Resolve `src/unity` symbolic link targets - identify each linked project root, Unity version, package manifest, and whether it is a reference project or active migration target
 
 ## Authoritative constraints
 
@@ -35,12 +36,13 @@ Backend source and [plan/architecture.md](../../plan/architecture.md) win over s
 
 ## Workflow
 1. **Frame the migration** - record why Spatial.io is legacy/sunset risk, what can be reused, and why standalone Unity is the durable target.
-2. **Inventory the Unity experience** - identify scenes, modules, interactables, character controller, camera, locomotion, UI, tasks, assessments, and accessibility/comfort needs.
-3. **Preserve the research contract** - map every gameplay element to RQ1, RQ2, RQ3, telemetry events, and condition parity between `maive` and `non-adaptive-vr`.
-4. **Evaluate SDKs before recommending** - compare Unity Starter Assets, Input System, XR Interaction Toolkit/OpenXR, Cinemachine, AI Navigation, the current Spatial SDK as a reference only, and any candidate all-in-one SDK.
-5. **Plan MAIVE integration** - specify `MaiveClient.cs`, identity/session bootstrap, telemetry buffering, bot/help UI, language handling, error handling, offline/debug mode, and no-PII rules.
-6. **Produce implementation documents** - prefer markdown blueprints and checklists that Francia can follow inside the Unity Editor.
-7. **Flag source-of-truth conflicts** - especially stale `control | treatment` examples versus current `maive | non-adaptive-vr` labels.
+2. **Resolve Unity project roots** - identify each `src/unity` linked project target and actual filesystem path, verify Unity version and `Packages/manifest.json`, and decide whether each project is a reference project or the active migration target.
+3. **Inventory the Unity experience** - identify scenes, modules, interactables, character controller, camera, locomotion, UI, tasks, assessments, and accessibility/comfort needs.
+4. **Preserve the research contract** - map every gameplay element to RQ1, RQ2, RQ3, telemetry events, and condition parity between `maive` and `non-adaptive-vr`.
+5. **Evaluate SDKs before recommending** - compare Unity Starter Assets, Input System, XR Interaction Toolkit/OpenXR, Cinemachine, AI Navigation, the current Spatial SDK as a reference only, and any candidate all-in-one SDK.
+6. **Plan MAIVE integration** - specify `MaiveClient.cs`, identity/session bootstrap, telemetry buffering, bot/help UI, language handling, error handling, offline/debug mode, and no-PII rules.
+7. **Produce implementation documents** - prefer markdown blueprints and checklists that Francia can follow inside the Unity Editor.
+8. **Flag source-of-truth conflicts** - especially stale `control | treatment` examples versus current `maive | non-adaptive-vr` labels.
 
 ## SDK decision criteria
 
@@ -86,11 +88,12 @@ Recommended docs to create when asked:
 1. **Unity is the thesis core.** Treat the serious game as MAIVE's primary learning experience, not as a visual shell around backend APIs.
 2. **No Spatial dependency for the future runtime.** Spatial may be referenced for assets, patterns, and migration evidence, but the durable target is standalone Unity desktop/PCVR unless the user explicitly chooses otherwise.
 3. **No Unity Editor assumptions.** Produce instructions and files the user can apply manually; do not claim to edit scenes, prefabs, or project settings through the Unity Editor.
-4. **Do not edit Unity assets, scenes, packages, or C# scripts unless explicitly requested.** Default to markdown planning docs.
-5. **Do not create client-specific bot endpoints.** Unity uses the shared MAIVE backend contract.
-6. **No PII.** Unity identity uses `(platform, platform_user_id)` plus optional `display_name` only.
-7. **Do not invent research claims, p-values, or effect sizes.** Use the thesis document and existing telemetry model.
-8. **Never edit** `src/backend/app/domain/entities/`, `docs/decisions.md`, `docs/plan.md`, `docs/paper/`, or `tests/` without explicit user instruction.
+4. **Treat `src/unity` entries as symbolic links to real Unity project roots.** Do not write through linked project roots, packages, scenes, prefabs, or C# scripts unless explicitly requested and after naming the target filesystem path.
+5. **Do not edit Unity assets, scenes, packages, or C# scripts unless explicitly requested.** Default to markdown planning docs.
+6. **Do not create client-specific bot endpoints.** Unity uses the shared MAIVE backend contract.
+7. **No PII.** Unity identity uses `(platform, platform_user_id)` plus optional `display_name` only.
+8. **Do not invent research claims, p-values, or effect sizes.** Use the thesis document and existing telemetry model.
+9. **Never edit** `src/backend/app/domain/entities/`, `docs/decisions.md`, `docs/plan.md`, `docs/paper/`, or `tests/` without explicit user instruction.
 
 ## When to delegate
 - RAI guardrails or `/api/bot/ask` safety behavior -> `@maive-rai`

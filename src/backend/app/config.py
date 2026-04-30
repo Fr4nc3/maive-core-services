@@ -26,15 +26,15 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:5173,http://localhost:3000"
 
-    # LLM Provider: "ollama" (local dev) or "azure" (production)
+    # LLM Provider: "ollama" (default local/self-hosted) or "azure" (optional paid cloud)
     llm_provider: str = "ollama"
 
-    # Ollama (local)
+    # Ollama (default local/self-hosted)
     ollama_base_url: str = "http://localhost:11434"
     ollama_chat_model: str = "llama3"
     ollama_embedding_model: str = "nomic-embed-text"
 
-    # Azure AI Foundry / Azure OpenAI (production)
+    # Azure AI Foundry / Azure OpenAI (optional paid cloud)
     azure_openai_endpoint: str = ""
     azure_openai_key: str = ""
     azure_openai_chat_deployment: str = ""

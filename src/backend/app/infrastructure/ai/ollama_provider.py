@@ -1,12 +1,12 @@
 """
-Ollama LLM Provider — for local development and testing.
+Ollama LLM Provider - default local/self-hosted runtime.
 
 Uses the Ollama REST API (default: http://localhost:11434).
 Requires Ollama running locally with models pulled (e.g., llama3, nomic-embed-text).
 
 Pillar: Stable Core
 Phase: E
-Purpose: Local Ollama implementation of LLMProvider (Phase OL static-IP).
+Purpose: Local/self-hosted Ollama implementation of LLMProvider (Phase OL static-IP).
 Documented in: docs/deployment/ollama-network.md
 """
 

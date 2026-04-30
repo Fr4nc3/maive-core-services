@@ -1,8 +1,9 @@
 # MAIVE Ollama Edge Protector
 
-> **Off by default.** Only used when a deployed component must reach a
-> researcher's local Ollama for ad-hoc debugging. Production runtime
-> always uses Azure AI Foundry (DEC-017).
+> **Off by default.** Only used when a deployed or remote component must reach
+> the researcher's local Ollama through a temporary protected tunnel. MAIVE's
+> default no-budget runtime is direct local/self-hosted Ollama; Azure AI Foundry
+> remains optional for paid cloud runs.
 
 ## What it does
 
@@ -57,5 +58,6 @@ curl -H "Authorization: Bearer wrong" http://localhost:8088/healthz
 ## Hard rules
 
 - **Never** check the token into git or `.env.example`.
-- **Never** point production traffic at this proxy. Production: Azure AI Foundry.
+- **Never** expose this proxy without a deliberate short-lived tunnel and token.
+- Prefer direct local Ollama for local/self-hosted runtime; use Azure AI Foundry only when choosing paid cloud resources.
 - Tear the tunnel down when debugging is finished.

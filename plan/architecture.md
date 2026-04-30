@@ -11,8 +11,8 @@ This document defines the architecture for the **backend API** and **frontend da
 |-------------|-----------------------------------------|
 | Backend     | Python 3.12, FastAPI, UV                |
 | Agent       | Agent Framework + LLM Provider abstraction |
-| LLM (dev)   | Ollama (llama3 + nomic-embed-text)      |
-| LLM (prod)  | Azure AI Foundry (OpenAI SDK)           |
+| LLM (default local/self-hosted) | Ollama (llama3 + nomic-embed-text) |
+| LLM (optional paid cloud)       | Azure AI Foundry (OpenAI SDK)      |
 | Database    | Azure Cosmos DB (NoSQL + DiskANN vector)|
 | Frontend    | React 18 + TypeScript + Vite            |
 | Cloud       | Azure (App Service, Functions, Monitor) |
@@ -89,10 +89,10 @@ POST /api/bot/ask  ←── unified endpoint, same request for both conditions
 
 ### LLM Provider Abstraction
 
-All agents use the `LLMProvider` interface (chat + embed). Switching is config-only:
+All agents use the `LLMProvider` interface (chat + embed). Switching is config-only. Ollama is the default no-budget runtime on local hardware; Azure AI Foundry is optional when paid cloud resources are available:
 
-- `LLM_PROVIDER=ollama` — local dev (httpx → Ollama REST API)
-- `LLM_PROVIDER=azure` — production (openai SDK → Azure AI Foundry)
+- `LLM_PROVIDER=ollama` - default local/self-hosted runtime (httpx -> Ollama REST API)
+- `LLM_PROVIDER=azure` - optional paid cloud runtime (openai SDK -> Azure AI Foundry)
 
 ## API Endpoints
 

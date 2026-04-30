@@ -1,5 +1,5 @@
 """
-Azure AI Foundry LLM Provider — for production and cloud testing.
+Azure AI Foundry LLM Provider - optional paid cloud runtime.
 
 Uses Azure OpenAI endpoints via the openai SDK with Azure-specific auth.
 Requires: azure_openai_endpoint, azure_openai_key, deployment names in config.

@@ -2,8 +2,9 @@
 LLM Provider abstraction layer.
 
 Defines the interface that all LLM backends must implement.
-This allows switching between Ollama (local dev), Azure AI Foundry (production),
-or any other provider via configuration — without changing agent code.
+This allows switching between Ollama (default local/self-hosted), Azure AI
+Foundry (optional paid cloud), or any other provider via configuration without
+changing agent code.
 
 Pillar: Stable Core
 Phase: E

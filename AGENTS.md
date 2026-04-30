@@ -18,7 +18,7 @@ PhD owner: Francia F. Riesco. Thesis source-of-truth: [docs/PhD-Astronomy World 
 |---|---|
 | Backend | Python 3.12 · FastAPI · UV · pydantic-settings |
 | Database | Azure Cosmos DB (NoSQL) + DiskANN vector index |
-| AI | Multi-agent (4 agents) · LLM Provider abstraction (Ollama dev / Azure AI Foundry prod) |
+| AI | Multi-agent (4 agents) · LLM Provider abstraction (Ollama default local/self-hosted, Azure AI Foundry optional) |
 | Frontend | React 18 · TypeScript · Vite · react-router-dom |
 | VR Clients | Spatial.io · VRChat · Unity single-player · Web (flat) |
 | Cloud | Azure (App Service, Functions, Monitor) |
@@ -61,10 +61,10 @@ All clients call **`POST /api/bot/ask`** with the same payload. The backend insp
 
 ## LLM provider rule
 
-All agent code uses the abstract `LLMProvider` interface. Switching is **config-only** via `LLM_PROVIDER` env var:
+All agent code uses the abstract `LLMProvider` interface. Switching is **config-only** via `LLM_PROVIDER` env var. Ollama is the default budget-conscious runtime for local and production-development use on the researcher's own hardware; Azure AI Foundry is an optional paid cloud provider when budget is available.
 
-- `ollama` → local dev (httpx → Ollama REST API)
-- `azure` → production (openai SDK → Azure AI Foundry)
+- `ollama` -> default local/self-hosted runtime (httpx -> Ollama REST API)
+- `azure` -> optional paid cloud runtime (openai SDK -> Azure AI Foundry)
 
 Agents never import a provider class directly.
 
@@ -111,7 +111,7 @@ npm install
 npm run dev
 npm run build
 
-# NASA RAG ingestion (Ollama dev)
+# NASA RAG ingestion (Ollama default)
 cd src/backend
 uv run python -m app.cli.ingest_knowledge --provider ollama
 

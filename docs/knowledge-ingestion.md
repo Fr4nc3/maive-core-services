@@ -4,22 +4,22 @@ This document describes how to populate the MAIVE backend with the two
 content layers used by the bot:
 
 1. **Static help content** (HelpContent container) — deterministic
-   answers tied to a planet/section. Used by the static bot path
-   (`condition = control`).
+  answers tied to a planet/section. Used by the static bot path
+  (`condition = non-adaptive-vr`).
 2. **NASA RAG knowledge** (KnowledgeDocument container) — semantically
-   chunked documents with vector embeddings. Used by the AI multi-agent
-   path (`condition = treatment`) for retrieval-augmented answers.
+  chunked documents with vector embeddings. Used by the AI multi-agent
+  path (`condition = maive`) for retrieval-augmented answers.
 
 ## Prerequisites
 
 - Cosmos DB account reachable (env: `COSMOS_ENDPOINT`, `COSMOS_KEY`,
   `COSMOS_DATABASE`).
 - One LLM provider configured:
-  - **Ollama** (local dev): set `LLM_PROVIDER=ollama` and run
+  - **Ollama** (default local/self-hosted): set `LLM_PROVIDER=ollama` and run
     `ollama pull nomic-embed-text` and your chat model
     (`OLLAMA_CHAT_MODEL`, `OLLAMA_EMBEDDING_MODEL`).
-  - **Azure AI Foundry** (prod): set `LLM_PROVIDER=azure` and
-    `AZURE_OPENAI_*` variables.
+  - **Azure AI Foundry** (optional paid cloud): set `LLM_PROVIDER=azure` and
+    `AZURE_OPENAI_*` variables when budget is available.
 
 ## 1. Seed static help content
 
