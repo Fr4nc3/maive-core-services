@@ -93,7 +93,8 @@ Agents never import a provider class directly.
 7. **Never create new repository implementations without inheriting from `BaseCosmosRepository`** (see `app/infrastructure/persistence/cosmos_db/base_repository.py`).
 8. **Never create client-specific endpoints** — all VR/web clients hit the same routes with `platform` discriminator.
 9. **No PII** — users are identified only by `(platform, platform_user_id)` and an internal UUID. No email, no real name (use optional `display_name` only).
-10. **Treat the thesis document as authoritative** for research questions, hypotheses, and statistical decision rules — do not invent new ones.
+10. **No Azure service keys** — never add API keys, tokens, credentials, or Azure service key fields to code/config. Use `Settings` for non-secret configuration and Azure credentials/RBAC for Cosmos DB and Azure AI Foundry auth.
+11. **Treat the thesis document as authoritative** for research questions, hypotheses, and statistical decision rules — do not invent new ones.
 
 ## Common commands
 

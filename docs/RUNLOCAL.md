@@ -23,17 +23,17 @@ ollama pull nomic-embed-text
 ```
 
 ### `.env` setup
-Copy `src/backend/.env.example` (or root `.env.example` once Q6 lands) to `src/backend/.env`. Minimum for local:
+Copy `src/backend/.env.example` (or root `.env.example` once Q6 lands) to `src/backend/.env`. Sign in with `az login` or `azd auth login` so the backend can use Azure credentials for Cosmos DB. Minimum for local:
 ```dotenv
+APP_ENV=development
 LLM_PROVIDER=ollama
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_CHAT_MODEL=llama3
 OLLAMA_EMBEDDING_MODEL=nomic-embed-text
-COSMOS_ENDPOINT=https://localhost:8081/
-COSMOS_KEY=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==
+COSMOS_ENDPOINT=https://<your-account>.documents.azure.com:443/
 COSMOS_DATABASE=maive
 ```
-The Cosmos key above is the **public emulator default key** (safe to commit; not a secret).
+The default local path uses Azure credential/RBAC auth. The Cosmos emulator key-based path is off-default and should only be used with an explicit local-emulator exception.
 
 ---
 

@@ -31,6 +31,17 @@ services:
       context: .
 
 hooks:
+  preprovision:
+    windows:
+      shell: pwsh
+      run: |
+        python infra/scripts/validate_bicep_params.py --dir infra --strict --no-color
+        az bicep build --file infra/main.bicep
+    posix:
+      shell: sh
+      run: |
+        python3 infra/scripts/validate_bicep_params.py --dir infra --strict --no-color
+        az bicep build --file infra/main.bicep
   postprovision:
     windows:
       shell: pwsh

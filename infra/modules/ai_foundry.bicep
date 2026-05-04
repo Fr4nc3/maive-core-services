@@ -23,7 +23,7 @@ resource account 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   properties: {
     customSubDomainName: 'aif-maive-${resourceToken}'
     publicNetworkAccess: 'Enabled'
-    disableLocalAuth: false
+    disableLocalAuth: true
   }
 }
 

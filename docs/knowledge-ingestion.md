@@ -12,14 +12,15 @@ content layers used by the bot:
 
 ## Prerequisites
 
-- Cosmos DB account reachable (env: `COSMOS_ENDPOINT`, `COSMOS_KEY`,
-  `COSMOS_DATABASE`).
+- Cosmos DB account reachable (env: `COSMOS_ENDPOINT`, `COSMOS_DATABASE`) with
+  Azure credential access to the database.
 - One LLM provider configured:
   - **Ollama** (default local/self-hosted): set `LLM_PROVIDER=ollama` and run
     `ollama pull nomic-embed-text` and your chat model
     (`OLLAMA_CHAT_MODEL`, `OLLAMA_EMBEDDING_MODEL`).
   - **Azure AI Foundry** (optional paid cloud): set `LLM_PROVIDER=azure` and
-    `AZURE_OPENAI_*` variables when budget is available.
+    the non-secret `AZURE_OPENAI_*` endpoint/deployment variables when budget
+    is available. Auth uses Azure credentials/RBAC, not API keys.
 
 ## 1. Seed static help content
 

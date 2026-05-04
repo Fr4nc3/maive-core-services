@@ -15,6 +15,7 @@ import logging
 import httpx
 
 from app.infrastructure.ai.llm_provider import ChatMessage, LLMProvider, LLMResponse
+from app.infrastructure.ai.registry import LLMProviderRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -81,3 +82,12 @@ class OllamaProvider(LLMProvider):
             resp.raise_for_status()
             data = resp.json()
         return data["embeddings"]
+
+
+@LLMProviderRegistry.register("ollama")
+def _build_ollama_provider(settings):
+    return OllamaProvider(
+        base_url=settings.ollama_base_url,
+        chat_model=settings.ollama_chat_model,
+        embedding_model=settings.ollama_embedding_model,
+    )

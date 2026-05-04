@@ -7,6 +7,7 @@ Documented in: plan/architecture.md
 """
 
 from app.config import settings
+from app.infrastructure.ai.registry import LLMProviderRegistry
 from app.infrastructure.persistence.cosmos_db.agent_action_repository import (
     CosmosAgentActionRepository,
 )
@@ -58,28 +59,7 @@ def _get_repo(cls):
 
 def build_llm_provider():
     """Build a new LLM provider from config (no caching)."""
-    if settings.llm_provider == "ollama":
-        from app.infrastructure.ai.ollama_provider import OllamaProvider
-
-        return OllamaProvider(
-            base_url=settings.ollama_base_url,
-            chat_model=settings.ollama_chat_model,
-            embedding_model=settings.ollama_embedding_model,
-        )
-    elif settings.llm_provider == "azure":
-        from app.infrastructure.ai.azure_foundry_provider import (
-            AzureFoundryProvider,
-        )
-
-        return AzureFoundryProvider(
-            endpoint=settings.azure_openai_endpoint,
-            api_key=settings.azure_openai_key,
-            chat_deployment=settings.azure_openai_chat_deployment,
-            embedding_deployment=settings.azure_openai_embedding_deployment,
-            api_version=settings.azure_openai_api_version,
-        )
-    else:
-        raise ValueError(f"Unknown LLM provider: {settings.llm_provider}")
+    return LLMProviderRegistry.build(settings.llm_provider, settings)
 
 
 def get_llm_provider():

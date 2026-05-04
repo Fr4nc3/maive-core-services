@@ -2,7 +2,7 @@
 Azure AI Foundry LLM Provider - optional paid cloud runtime.
 
 Uses Azure OpenAI endpoints via the openai SDK with Azure-specific auth.
-Requires: azure_openai_endpoint, azure_openai_key, deployment names in config.
+Requires: azure_openai_endpoint and deployment names in config.
 
 Pillar: Stable Core
 Phase: E
@@ -12,9 +12,12 @@ Documented in: docs/decisions.md
 
 import logging
 
+from azure.identity import get_bearer_token_provider
 from openai import AsyncAzureOpenAI
 
 from app.infrastructure.ai.llm_provider import ChatMessage, LLMProvider, LLMResponse
+from app.infrastructure.ai.registry import LLMProviderRegistry
+from app.infrastructure.azure.credentials import get_azure_credential
 
 logger = logging.getLogger(__name__)
 
@@ -25,14 +28,17 @@ class AzureFoundryProvider(LLMProvider):
     def __init__(
         self,
         endpoint: str,
-        api_key: str,
         chat_deployment: str,
         embedding_deployment: str,
         api_version: str = "2024-12-01-preview",
     ) -> None:
+        token_provider = get_bearer_token_provider(
+            get_azure_credential(),
+            "https://cognitiveservices.azure.com/.default",
+        )
         self._client = AsyncAzureOpenAI(
             azure_endpoint=endpoint,
-            api_key=api_key,
+            azure_ad_token_provider=token_provider,
             api_version=api_version,
         )
         self._chat_deployment = chat_deployment
@@ -75,3 +81,13 @@ class AzureFoundryProvider(LLMProvider):
             input=texts,
         )
         return [item.embedding for item in resp.data]
+
+
+@LLMProviderRegistry.register("azure")
+def _build_azure_foundry_provider(settings):
+    return AzureFoundryProvider(
+        endpoint=settings.azure_openai_endpoint,
+        chat_deployment=settings.azure_openai_chat_deployment,
+        embedding_deployment=settings.azure_openai_embedding_deployment,
+        api_version=settings.azure_openai_api_version,
+    )

@@ -386,6 +386,25 @@ _BANNED_IMPORTS: list[tuple[str, str, list[str]]] = [
 # guardrail design references published threat-model literature (DEC-013).
 _CITATION_TOKENS = ("Lakera", "garak", "OWASP", "Keller", "NIST", "MITRE")
 
+_KEYLESS_AUTH_TARGETS = [
+    BACKEND_ROOT / "app",
+    BACKEND_ROOT / ".env.example",
+    REPO_ROOT / "infra",
+    REPO_ROOT / "azure.yaml",
+    REPO_ROOT / "docs" / "RUNLOCAL.md",
+    REPO_ROOT / "docs" / "knowledge-ingestion.md",
+    REPO_ROOT / "docs" / "deployment",
+]
+_KEYLESS_AUTH_PATTERNS = [
+    ("cosmos_key setting or usage", r"\bcosmos_key\b"),
+    ("azure_openai_key setting or usage", r"\bazure_openai_key\b"),
+    ("COSMOS_KEY environment variable", r"\bCOSMOS_KEY\b"),
+    ("AZURE_OPENAI_KEY environment variable", r"\bAZURE_OPENAI_KEY\b"),
+    ("Cosmos credential from settings key", r"credential\s*=\s*settings\.cosmos_key"),
+    ("Azure OpenAI API key from settings", r"api_key\s*=\s*settings\.azure_openai_key"),
+]
+_TEXT_SUFFIXES = {".bicep", ".json", ".md", ".py", ".toml", ".yaml", ".yml"}
+
 
 def _radon_cc(report: Report) -> None:
     code, out = _run(
@@ -503,6 +522,62 @@ def _registry_pattern(report: Report) -> None:
     )
 
 
+def _iter_keyless_auth_files() -> list[Path]:
+    files: list[Path] = []
+    for target in _KEYLESS_AUTH_TARGETS:
+        if not target.exists():
+            continue
+        if target.is_file():
+            files.append(target)
+            continue
+        for path in target.rglob("*"):
+            if path.is_file() and path.suffix in _TEXT_SUFFIXES:
+                files.append(path)
+    return files
+
+
+def _keyless_azure_auth(report: Report) -> None:
+    import re
+
+    violations: list[str] = []
+    compiled = [(label, re.compile(pattern)) for label, pattern in _KEYLESS_AUTH_PATTERNS]
+    for path in _iter_keyless_auth_files():
+        rel = path.relative_to(REPO_ROOT).as_posix()
+        if rel == "src/backend/app/cli/qa_audit.py":
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for i, line in enumerate(text.splitlines(), 1):
+            for label, pattern in compiled:
+                if pattern.search(line):
+                    violations.append(f"{rel}:{i}: {label}: {line.strip()}")
+                    break
+            if len(violations) >= 50:
+                break
+        if len(violations) >= 50:
+            break
+    report.add(
+        "phd-check: Azure service auth is keyless",
+        not violations,
+        "\n".join(violations),
+    )
+
+    required_local_auth_disabled = [
+        REPO_ROOT / "infra" / "modules" / "cosmos.bicep",
+        REPO_ROOT / "infra" / "modules" / "ai_foundry.bicep",
+    ]
+    missing_disable_local_auth = [
+        path.relative_to(REPO_ROOT).as_posix()
+        for path in required_local_auth_disabled
+        if not path.exists()
+        or "disableLocalAuth: true" not in path.read_text(encoding="utf-8", errors="replace")
+    ]
+    report.add(
+        "phd-check: Azure local auth disabled in IaC",
+        not missing_disable_local_auth,
+        "\n".join(missing_disable_local_auth),
+    )
+
+
 def cmd_phd_check(report: Report, fix: bool) -> None:  # noqa: ARG001
     """Rubric 7: PhD-bar code quality (radon, mypy strict, coverage, citations, registry)."""
     _radon_cc(report)
@@ -512,6 +587,7 @@ def cmd_phd_check(report: Report, fix: bool) -> None:  # noqa: ARG001
     _banned_imports(report)
     _citations(report)
     _registry_pattern(report)
+    _keyless_azure_auth(report)
 
 
 def cmd_all(report: Report, fix: bool) -> None:

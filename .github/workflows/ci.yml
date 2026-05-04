@@ -17,6 +17,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  infra:
+    name: Infra (Bicep validation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bicep parameter validation
+        run: python infra/scripts/validate_bicep_params.py --dir infra --strict --no-color
+
+      - name: Bicep build
+        uses: azure/cli@v2
+        with:
+          inlineScript: az bicep build --file infra/main.bicep
+
   backend:
     name: Backend (lint + tests + QA audit)
     runs-on: ubuntu-latest

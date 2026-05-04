@@ -11,6 +11,8 @@ from __future__ import annotations
 import time
 from typing import Any
 
+import httpx
+from azure.core.exceptions import AzureError
 from fastapi import APIRouter
 
 from app.config import settings
@@ -28,7 +30,7 @@ async def _check_cosmos() -> dict[str, Any]:
         # Listing databases is a cheap account-level call.
         list(client.list_databases())
         return {"ok": True}
-    except Exception as exc:  # noqa: BLE001 — surface any failure to caller
+    except (AzureError, ValueError) as exc:
         return {"ok": False, "error": str(exc)}
 
 
@@ -49,7 +51,7 @@ async def _check_llm() -> dict[str, Any]:
             "latency_ms": latency_ms,
             "sample": reply.content[:80],
         }
-    except Exception as exc:  # noqa: BLE001
+    except (AzureError, httpx.HTTPError, ValueError) as exc:
         latency_ms = int((time.perf_counter() - started) * 1000)
         return {
             "ok": False,
@@ -61,11 +63,10 @@ async def _check_llm() -> dict[str, Any]:
 
 
 def _current_model() -> str:
-    if settings.llm_provider == "ollama":
-        return settings.ollama_chat_model
-    if settings.llm_provider == "azure":
-        return settings.azure_openai_chat_deployment
-    return "unknown"
+    return {
+        "ollama": settings.ollama_chat_model,
+        "azure": settings.azure_openai_chat_deployment,
+    }.get(settings.llm_provider, "unknown")
 
 
 @router.get("")

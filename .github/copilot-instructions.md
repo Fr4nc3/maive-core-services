@@ -47,6 +47,11 @@ rows above.
    managed identity (DEC-018). Never `az ... --query keys`.
 9. **RAI on `/api/bot/ask`** — every AI-path call must traverse
    the 6-stage pipeline (DEC-012/013/019) and write a `bot_audit` row.
+10. **No Azure service keys** — never add API keys, tokens, credentials, or Azure
+   service key fields to code/config. No `cosmos_key`, `azure_openai_key`,
+   `COSMOS_KEY`, or `AZURE_OPENAI_KEY`. Use `Settings`
+   (`src/backend/app/config.py`) for non-secret configuration and Azure
+   credentials/RBAC for Cosmos DB and Azure AI Foundry auth.
 
 ## Out of scope (decline politely)
 Production deployment automation against the *real* subscription, Entra ID

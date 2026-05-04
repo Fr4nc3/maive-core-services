@@ -38,6 +38,18 @@ azd up
 3. **Deploy** — push to ACR, update Container App revision, push to App Service.
 4. **Hooks** — `azure.yaml` `postprovision` prints the FQDNs.
 
+Before provision, the `azure.yaml` `preprovision` hook runs the static
+infrastructure gate:
+
+```pwsh
+python infra/scripts/validate_bicep_params.py --dir infra --strict --no-color
+az bicep build --file infra/main.bicep
+```
+
+The same static gate runs in CI. This catches stale parameters, malformed azd
+placeholders, casing mistakes, and Bicep compile errors before Azure resources
+are created.
+
 ## Update existing deployment
 
 ```pwsh

@@ -28,7 +28,7 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2024-08-15' = {
       { name: 'EnableServerless' }
       { name: 'EnableNoSQLVectorSearch' }
     ]
-    disableLocalAuth: false
+    disableLocalAuth: true
     publicNetworkAccess: 'Enabled'
   }
 }

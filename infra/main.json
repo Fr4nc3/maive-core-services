@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.37.4.10188",
-      "templateHash": "1528954098388135144"
+      "templateHash": "5164112853711274008"
     }
   },
   "parameters": {
@@ -275,7 +275,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.37.4.10188",
-              "templateHash": "4580565003359038122"
+              "templateHash": "16926363340559602126"
             }
           },
           "parameters": {
@@ -320,7 +320,7 @@
                     "name": "EnableNoSQLVectorSearch"
                   }
                 ],
-                "disableLocalAuth": false,
+                "disableLocalAuth": true,
                 "publicNetworkAccess": "Enabled"
               }
             },
@@ -423,7 +423,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.37.4.10188",
-              "templateHash": "2545215864084087698"
+              "templateHash": "5953622226519450026"
             }
           },
           "parameters": {
@@ -479,7 +479,7 @@
               "properties": {
                 "customSubDomainName": "[format('aif-maive-{0}', parameters('resourceToken'))]",
                 "publicNetworkAccess": "Enabled",
-                "disableLocalAuth": false
+                "disableLocalAuth": true
               }
             },
             {
@@ -602,7 +602,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.37.4.10188",
-              "templateHash": "7075828452597529872"
+              "templateHash": "17850764803172460202"
             }
           },
           "parameters": {
@@ -719,6 +719,10 @@
                         "memory": "1.0Gi"
                       },
                       "env": [
+                        {
+                          "name": "APP_ENV",
+                          "value": "production"
+                        },
                         {
                           "name": "LLM_PROVIDER",
                           "value": "azure"
@@ -853,6 +857,10 @@
             "backendName": {
               "type": "string",
               "value": "[format('ca-maive-backend-{0}', parameters('resourceToken'))]"
+            },
+            "backendPrincipalId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.App/containerApps', format('ca-maive-backend-{0}', parameters('resourceToken'))), '2024-03-01', 'full').identity.principalId]"
             },
             "backendIdentityPrincipalId": {
               "type": "string",
@@ -1019,6 +1027,10 @@
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmos'), '2022-09-01').outputs.endpoint.value]"
     },
+    "COSMOS_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmos'), '2022-09-01').outputs.accountName.value]"
+    },
     "COSMOS_DATABASE": {
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmos'), '2022-09-01').outputs.databaseName.value]"
@@ -1030,6 +1042,18 @@
     "AI_FOUNDRY_ENDPOINT": {
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'aifoundry'), '2022-09-01').outputs.endpoint.value]"
+    },
+    "AI_FOUNDRY_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'aifoundry'), '2022-09-01').outputs.accountName.value]"
+    },
+    "AI_FOUNDRY_RESOURCE_ID": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'aifoundry'), '2022-09-01').outputs.id.value]"
+    },
+    "BACKEND_PRINCIPAL_ID": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-maive-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'containerapp'), '2022-09-01').outputs.backendPrincipalId.value]"
     }
   }
 }

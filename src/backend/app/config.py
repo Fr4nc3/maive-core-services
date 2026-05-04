@@ -1,9 +1,9 @@
-"""Pydantic settings; .env locally, Azure App Configuration in prod (DEC-021).
+"""Pydantic settings; .env locally, managed identity in Azure (DEC-021).
 
 Pillar: Stable Core
 Phase: KV
-Purpose: Pydantic settings; .env locally, Azure App Configuration in prod (DEC-021).
-Documented in: docs/deployment/configuration.md
+Purpose: Pydantic settings; .env locally, managed identity in Azure (DEC-021).
+Documented in: docs/deployment/runbook.md
 """
 
 from pydantic_settings import BaseSettings
@@ -18,9 +18,11 @@ class Settings(BaseSettings):
     app_host: str = "0.0.0.0"
     app_port: int = 8000
 
+    # Azure identity (non-secret; empty uses system-assigned managed identity in Azure)
+    azure_client_id: str = ""
+
     # Azure Cosmos DB
     cosmos_endpoint: str = ""
-    cosmos_key: str = ""
     cosmos_database: str = "maive"
 
     # CORS
@@ -36,7 +38,6 @@ class Settings(BaseSettings):
 
     # Azure AI Foundry / Azure OpenAI (optional paid cloud)
     azure_openai_endpoint: str = ""
-    azure_openai_key: str = ""
     azure_openai_chat_deployment: str = ""
     azure_openai_embedding_deployment: str = ""
     azure_openai_api_version: str = "2024-12-01-preview"
@@ -44,7 +45,11 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "ignore",
+    }
 
     @property
     def cors_origin_list(self) -> list[str]:

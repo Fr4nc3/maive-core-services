@@ -88,6 +88,7 @@ resource backend 'Microsoft.App/containerApps@2024-03-01' = {
             memory: '1.0Gi'
           }
           env: [
+            { name: 'APP_ENV', value: 'production' }
             { name: 'LLM_PROVIDER', value: 'azure' }
             { name: 'COSMOS_ENDPOINT', value: cosmosEndpoint }
             { name: 'COSMOS_DATABASE', value: cosmosDatabase }
@@ -178,4 +179,5 @@ output fqdn string = backend.properties.configuration.ingress.fqdn
 output registryLoginServer string = registry.properties.loginServer
 output registryName string = registry.name
 output backendName string = backend.name
+output backendPrincipalId string = backend.identity.principalId
 output backendIdentityPrincipalId string = backend.identity.principalId
