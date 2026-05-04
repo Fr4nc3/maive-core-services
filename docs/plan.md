@@ -1,7 +1,7 @@
 # MAIVE Core Services — Project Plan
 
 > **Public mirror** of the working session plan. Source of truth for committee, advisors, and contributors.
-> Last updated: 2026-04-29
+> Last updated: 2026-05-04
 >
 > **Plan template:** All phases added on or after 2026-04-29 follow
 > [`plan-template.md`](plan-template.md) (Pillar / Goal / Owner agent / Status
@@ -9,6 +9,28 @@
 > this file are logged in [`plan-history.md`](plan-history.md). Pre-template
 > phases are preserved below the `--- Pre-template phases ---` divider for
 > historical fidelity and will be migrated lazily.
+
+## Phase QA-MAIVE — Backend sample-code review + main merge gate
+
+**Pillar:** Stable Core
+**Goal:** Keep MAIVE Core Services backend a well-defined, quality-assured API service by permanently reviewing `data/sample_code` patterns as a reference benchmark, validating code quality/reliability, modularity, API/developer ease of use, scalable growth, ease of modification, and safe growth, and removing non-MAIVE implementation code before merge to `main`.
+**Owner agent:** @maive-qa
+**Status:** 🟡 In progress (2026-05-04)
+
+| ID | Artifact | Status |
+|---|---|---|
+| **QAM1** | Permanent review plan in [`docs/qa/backend-sample-code-review-plan.md`](qa/backend-sample-code-review-plan.md) | ✅ Done (2026-05-04) |
+| **QAM2** | Baseline `qa_audit all` findings recorded in the review plan | ✅ Done (2026-05-04) |
+| **QAM3** | Link from [`docs/qa/qa-checklist.md`](qa/qa-checklist.md) to the permanent review plan | ✅ Done (2026-05-04) |
+| **QAM4** | Quality attribute checklist in the permanent review plan | ✅ Done (2026-05-04) |
+| **QAM5** | Classify backend implementation changes as MAIVE Core Services, temporary reference code, or reject | 🟡 In progress |
+| **QAM6** | Maintain findings register during implementation | 🟡 In progress |
+| **QAM7** | Before merge to `main`, remove code that is not part of approved MAIVE Core Services implementation | ⬜ Not started |
+| **QAM8** | Merge-readiness gate: `qa_audit all`, RAI tests, lint, and targeted architecture searches | ⬜ Not started |
+
+**Verification:** Backend API/service quality checks from [`docs/qa/backend-sample-code-review-plan.md`](qa/backend-sample-code-review-plan.md) + `cd src/backend && uv run python -m app.cli.qa_audit all`; `cd src/backend && uv run ruff check .`; `cd src/backend && uv run pytest tests/rai/ -v`; targeted Clean Architecture `rg` checks.
+**Decisions referenced:** DEC-015, DEC-019, DEC-020.
+**Out of scope:** Copying `data/sample_code` into the product, adding new runtime architecture solely because a sample project uses it, or retaining temporary/reference code at the `main` merge gate.
 
 ## Phase R — RAI Bot Pipeline (DEC-019)
 

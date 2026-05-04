@@ -1,20 +1,23 @@
 # MAIVE — Project Status
 
 > **Running status board.** Updated whenever meaningful work merges. Read this *first* in any new session.
-> Last updated: **2026-04-29**
+> Last updated: **2026-05-04**
 
 ## Current sprint focus
 
 **Sprint goal:** Phase R (RAI Bot Pipeline) shipped 2026-04-29 — `/api/bot/ask`
 now traverses 6 guardrail stages with an immutable `bot_audit` row. Granular
 sub-agent surface (Phase W) live. Sample help_content seeded for the
-non-adaptive control arm. Next: Phase X (rate limiting + Content Safety
+non-adaptive control arm. Phase QA-MAIVE now adds the permanent backend
+sample-code review and main merge gate for MAIVE Core Services implementation.
+Next: Phase X (rate limiting + Content Safety
 integration) and execute the operator-side V steps (`docker compose up`,
 `azd provision --preview`).
 
-**Active phases:** ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model — base done; expand per-feature) · ⏳ I (RAI policy — base done; expand) · ⏳ J (audit & evidence — base done) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline) · ⏳ N (bilingual EN/ES) · ⏳ X (per-session rate limit + Content Safety)
+**Active phases:** ⏳ QA-MAIVE (backend sample-code review + main merge gate) · ⏳ G (V-Model + traceability) · ⏳ H (STRIDE threat model — base done; expand per-feature) · ⏳ I (RAI policy — base done; expand) · ⏳ J (audit & evidence — base done) · ⏳ K (V&V test catalog) · ⏳ L (cross-link discipline) · ⏳ N (bilingual EN/ES) · ⏳ X (per-session rate limit + Content Safety)
 
 ## What changed this week
+- **2026-05-04** — Phase QA-MAIVE added to [`docs/plan.md`](plan.md): permanent backend sample-code review + main merge gate validating well-defined API/service quality attributes (code quality/reliability, modularity, developer ease of use, scalable growth, ease of modification, safe growth). Detailed checklist and baseline findings live in [`docs/qa/backend-sample-code-review-plan.md`](qa/backend-sample-code-review-plan.md), which now treats `data/sample_code` as a reference-quality benchmark; before merging to `main`, code not part of approved MAIVE implementation must be removed.
 - **2026-04-29** — System review snapshot authored: [`docs/system-review-2026-04-29.md`](system-review-2026-04-29.md) (services, plan, infra, status, API surface, telemetry → RQ traceability, gap audit, fitness-to-research scorecard).
 - **2026-04-29** — Phase R shipped: 6-stage RAI bot pipeline (`input_validator → topic_gate → prompt_injection → system_prompt → CoordinationAgent → output_validator → audit`), `BotAudit` entity + Cosmos repo + explicit `bot_audit` container in Bicep, `BotPipelineUseCase` orchestrator, both AI and static `/api/bot/ask` paths now write audit rows. 42/42 RAI tests passing. DEC-019 + DEC-020 added. [`docs/rai-policy.md`](rai-policy.md) and [`docs/threat-model.md`](threat-model.md) authored. `qa_audit rai-check` upgraded to verify modules + container + wiring (15+ checks). Phase W shipped: `@maive-deploy`, `@maive-frontend`, `@maive-research` sub-agents + `deploy.instructions.md` + top-level dispatcher [`.github/copilot-instructions.md`](../.github/copilot-instructions.md). Phase P4 shipped: narrowed `except Exception` in `health.py` (httpx/OpenAIError/CosmosHttpResponseError) and 3 cosmos repos (CosmosResourceNotFoundError); audit-write blocks remain broad by design (DEC-019). Phase S sample seeded: `data/help_content/mars/atmosphere.json` (3 EN + 3 ES across `fact`/`hint`/`explanation`).
 - **2026-04-28** — Phase Q shipped: [`RUNLOCAL.md`](RUNLOCAL.md) (Path A `.venv` + Path B Docker Compose), backend + frontend Dockerfiles + nginx template, `docker-compose.yml`, Edge Protector ([`src/edge-protector/`](../src/edge-protector/)), full `infra/` Bicep (App Service B1 frontend + Container Apps backend + Cosmos serverless + AI Foundry + Key Vault + ACR + Log Analytics + App Insights), `azure.yaml`, CI + deploy workflows, [`docs/deployment/`](deployment/) trio (architecture / runbook / secrets). DEC-017 + DEC-018 added.
@@ -58,6 +61,7 @@ integration) and execute the operator-side V steps (`docker compose up`,
 | F6 | docs/paper/figures (Mermaid) | 🟡 In progress (Phase G) |
 | F7 | docs/paper/README.md (workflow guide) | ✅ Done (2026-04-28) |
 | F8 | Source-file cross-link discipline | 🟡 In progress (Phase L) |
+| **QA-MAIVE** | Backend sample-code review + main merge gate | 🟡 In progress (2026-05-04) |
 | **G1–G5** | V-Model + traceability + components + DFD + deployment figures | ⬜ Not started |
 | **H1–H5** | STRIDE threat model, trust boundaries, secrets inventory, mitigations, DEC-011 | ⬜ Not started (DEC-011 placeholder seeded) |
 | **I1–I5** | Responsible AI policy, pipeline figure, centroid spec, abuse controls, DEC-012 | ⬜ Not started (DEC-012 placeholder seeded) |

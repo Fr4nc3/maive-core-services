@@ -4,6 +4,8 @@
 > [`maive-qa.instructions.md`](../../.github/instructions/maive-qa.instructions.md).
 > Run via [`qa_audit.py`](../../src/backend/app/cli/qa_audit.py).
 
+Related permanent review plan: [Backend Sample-Code Review Plan](backend-sample-code-review-plan.md).
+
 ## Modes
 - **audit-only** (default) — read-only; reports findings.
 - **suggest-diffs** — agent proposes patches; user approves each one.
